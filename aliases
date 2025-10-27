@@ -1,0 +1,50 @@
+# Unix
+alias ls="gls --color=auto"
+alias ll="ls -al"
+alias ln="ln -v"
+alias mkdir="mkdir -p"
+alias e="$EDITOR"
+alias v="$VISUAL"
+
+# Bundler
+alias b="bundle"
+
+# Rails
+alias migrate="bin/rails db:migrate db:rollback && bin/rails db:migrate db:test:prepare"
+alias s="rspec"
+
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
+
+# find aliases containing word
+alias alias?='alias | grep'
+
+# Easier navigation: ..., ...., ....., and -
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias -- -="cd -"
+
+# Include custom aliases
+if [[ -f ~/.aliases.local ]]; then
+  source ~/.aliases.local
+fi
+
+# change directory to git root
+alias cdr='cd "$(git rev-parse --show-toplevel)"'
+
+# eternal
+alias eternal='et --terminal-path /opt/homebrew/bin/etterminal'
+
+# docker
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
+
+# yrouter
+alias c1='ANTHROPIC_BASE_URL="https://yrouter.drkmttr.dev" ANTHROPIC_API_KEY="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" ANTHROPIC_AUTH_TOKEN=$ANTHROPIC_API_KEY ANTHROPIC_CUSTOM_HEADERS="x-api-key: $ANTHROPIC_API_KEY" ANTHROPIC_MODEL="openai/gpt-5" ANTHROPIC_SMALL_FAST_MODEL="openai/gpt-5-nano" claude'
+
+alias chromeproxy='open  -a "Google Chrome Canary" --args --proxy-server=http://brd.superproxy.io:33335 --proxy-auth=brd-customer-hl_98d82783-zone-isp_proxy2-ip-185.81.174.66:7gysc1ewowwh --host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE brd.superproxy.io"'
+
+# alias sops='HOME=/var/empty SOPS_AGE_KEY_FILE=/Users/coopermaruyama/.config/sops/age/keys.txt sops'
+#
+alias curs='cursor editor'

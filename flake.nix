@@ -4,7 +4,8 @@
   # Flake inputs
   inputs = {
     # Stable Nixpkgs (use 0.1 for unstable)
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/0.1.26.tar.gz";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.811770.tar.gz";
     # Stable nix-darwin (use 0.1 for unstable)
     nix-darwin = {
       url = "https://flakehub.com/f/nix-darwin/nix-darwin/0";
@@ -15,18 +16,23 @@
       url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # home-manager
+    # home-manager = {
+    #   url = "https://flakehub.com/f/nix-community/home-manager/0.26.1.tar.gz";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   # Flake outputs
   outputs =
-    { self, ... }@inputs:
+    { self, fh, ... }@inputs:
     let
       # The values for `username` and `system` supplied here are used to construct the hostname
       # for your system, of the form `${username}-${system}`. Set these values to what you'd like
       # the output of `scutil --get LocalHostName` to be.
 
       # Your system username
-      username = "just-me-123";
+      username = "coopermaruyama";
 
       # Your system type (Apple Silicon here)
       # Change this to `x86_64-darwin` for Intel macOS
@@ -34,7 +40,7 @@
     in
     {
       # nix-darwin configuration output
-      darwinConfigurations."${username}-${system}" = inputs.nix-darwin.lib.darwinSystem {
+      darwinConfigurations."MacBook-Pro" = inputs.nix-darwin.lib.darwinSystem {
         inherit system;
         modules = [
           # Add the determinate nix-darwin module
@@ -43,7 +49,19 @@
           self.darwinModules.base
           self.darwinModules.nixConfig
           # Apply any other imported modules here
-
+          ./modules/packages.nix
+          ./modules/git.nix
+          ./modules/tmux.nix
+          ./modules/zsh.nix
+          ./modules/macos-defaults.nix
+          ./modules/fonts.nix
+          # home-manager integration
+          # home-manager.darwinModules.home-manager
+          # {
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.users.coopermaruyama = import ./home.nix;
+          # }
           # In addition to adding modules in the style above, you can also
           # add modules inline like this. Delete this if unnecessary.
           (
@@ -140,7 +158,30 @@
             self.formatter.${system}
           ];
         };
+      # Packages and apps to support `nix run .`
+      packages.${system} =
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+        in {
+          reload-nix-darwin-configuration = pkgs.writeShellApplication {
+            name = "reload-nix-darwin-configuration";
+            runtimeInputs = [
+              inputs.nix-darwin.packages.${system}.darwin-rebuild
+            ];
+            text = ''
+              echo "> Applying nix-darwin configuration..."
+              sudo darwin-rebuild switch --flake .
+            '';
+          };
 
+          # Make this the default package
+          default = self.packages.${system}.reload-nix-darwin-configuration;
+        };
+
+      apps.${system}.default = {
+        type = "app";
+        program = "${self.packages.${system}.reload-nix-darwin-configuration}/bin/reload-nix-darwin-configuration";
+      };
       # Nix formatter
 
       # This applies the formatter that follows RFC 166, which defines a standard format:
