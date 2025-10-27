@@ -52,7 +52,7 @@
     # '';
 
     # Create .cache directory with pnpm subdirectory
-    ".cache".source = pkgs.runCommand "cache-dir" {} ''
+    ".cache".source = pkgs.runCommand "cache-dir" { } ''
       mkdir -p $out/pnpm
       # Set permissions to allow read/write for the user
       chmod 755 $out
@@ -67,6 +67,7 @@
     PNPM_CACHE_DIR = "${config.home.homeDirectory}/.cache/pnpm";
     # Alternative: you can also use XDG_CACHE_HOME which pnpm respects
     XDG_CACHE_HOME = "${config.home.homeDirectory}/.cache";
+    HELLO = "world";
   };
 
   # Let Home Manager install and manage itself.

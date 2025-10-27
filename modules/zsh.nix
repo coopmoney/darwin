@@ -5,39 +5,8 @@
   programs.zsh = {
     enable = true;
 
-    # Shell aliases from ~/dotfiles/aliases
-    shellAliases = {
-      # Unix
-      ls = "gls --color=auto";
-      ll = "ls -al";
-      ln = "ln -v";
-      mkdir = "mkdir -p";
-      e = "$EDITOR";
-      v = "$VISUAL";
-
-      # Easier navigation
-      ".." = "cd ..";
-      # "..." = "cd ../..";
-      # "...." = "cd ../../..";
-      # "....." = "cd ../../../..";
-      "-" = "cd -";
-
-      # Pretty print the path
-      path = "echo $PATH | tr -s ':' '\\n'";
-
-      # Find aliases containing word
-      "alias?" = "alias | grep";
-
-      # Change directory to git root
-      cdr = "cd \"$(git rev-parse --show-toplevel)\"";
-
-      # Docker
-      dcu = "docker compose up -d";
-      dcd = "docker compose down";
-    };
-
     # Zsh initialization (from zshrc)
-    initExtra = ''
+    interactiveShellInit = ''
       # Load custom executable functions
       if [ -d "$HOME/.zsh/functions" ]; then
         for function in ~/.zsh/functions/*; do
@@ -106,15 +75,46 @@
 
     # Suggestion plugins
     # enableAutosuggestions = true;
-    syntaxHighlighting.enable = true;
   };
 
   # Set zsh as default shell
   environment.shells = [ pkgs.zsh ];
 
+  # Global shell aliases (available in all shells)
+  environment.shellAliases = {
+    # Unix
+    ls = "gls --color=auto";
+    ll = "ls -al";
+    ln = "ln -v";
+    mkdir = "mkdir -p";
+    e = "$EDITOR";
+    v = "$VISUAL";
+
+    # Easier navigation
+    ".." = "cd ..";
+    # "..." = "cd ../..";
+    # "...." = "cd ../../..";
+    # "....." = "cd ../../../..";
+    "-" = "cd -";
+
+    # Pretty print the path
+    path = "echo $PATH | tr -s ':' '\\n'";
+
+    # Find aliases containing word
+    "alias?" = "alias | grep";
+
+    # Change directory to git root
+    cdr = "cd \"$(git rev-parse --show-toplevel)\"";
+
+    # Docker
+    dcu = "docker compose up -d";
+    dcd = "docker compose down";
+  };
+
   # Environment variables
   environment.variables = {
     EDITOR = "vim";
     VISUAL = "vim";
+    HELLO = "world";
   };
 }

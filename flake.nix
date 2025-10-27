@@ -21,11 +21,20 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flox = {
+      url = "github:flox/flox/latest";
+    };
   };
 
   # Flake outputs
   outputs =
-    { self, fh, ... }@inputs:
+    {
+      self,
+      home-manager,
+      flox,
+      fh,
+      ...
+    }@inputs:
     let
       # The values for `username` and `system` supplied here are used to construct the hostname
       # for your system, of the form `${username}-${system}`. Set these values to what you'd like
@@ -42,6 +51,7 @@
       # nix-darwin configuration output
       darwinConfigurations."Coopers-MacBook-Pro" = inputs.nix-darwin.lib.darwinSystem {
         inherit system;
+        specialArgs = { inherit flox; };
         modules = [
           # Add the determinate nix-darwin module
           inputs.determinate.darwinModules.default
@@ -58,7 +68,13 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username} = { imports = [ ./home.nix ./modules/git.nix ./modules/tmux.nix ]; };
+            home-manager.users.${username} = {
+              imports = [
+                ./home.nix
+                ./modules/git.nix
+                ./modules/tmux.nix
+              ];
+            };
           }
           # In addition to adding modules in the style above, you can also
           # add modules inline like this. Delete this if unnecessary.
@@ -90,6 +106,9 @@
             # Required for nix-darwin to work
             system.stateVersion = 1;
 
+            # Required by nix-darwin for user-affecting options
+            system.primaryUser = username;
+
             users.users.${username} = {
               name = username;
               # See the reference docs for more on user config:
@@ -111,6 +130,9 @@
           {
             # Let Determinate Nix handle your Nix configuration
             nix.enable = false;
+
+            # Necessary for using flakes on this system
+            # nix.settings.experimental-features = "nix-command flakes";
 
             # Custom Determinate Nix settings written to /etc/nix/nix.custom.conf
             determinate-nix.customSettings = {
@@ -160,7 +182,8 @@
       packages.${system} =
         let
           pkgs = import inputs.nixpkgs { inherit system; };
-        in {
+        in
+        {
           reload-nix-darwin-configuration = pkgs.writeShellApplication {
             name = "reload-nix-darwin-configuration";
             runtimeInputs = [
@@ -178,7 +201,9 @@
 
       apps.${system}.default = {
         type = "app";
-        program = "${self.packages.${system}.reload-nix-darwin-configuration}/bin/reload-nix-darwin-configuration";
+        program = "${
+          self.packages.${system}.reload-nix-darwin-configuration
+        }/bin/reload-nix-darwin-configuration";
       };
       # Nix formatter
 
