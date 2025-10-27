@@ -36,7 +36,7 @@ info() {
 
 # Get the directory where this script lives
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
+DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
 
 log "Starting bootstrap process..."
 info "Script directory: $SCRIPT_DIR"
@@ -58,12 +58,12 @@ if ! command -v nix &>/dev/null; then
   log "Installing Determinate Systems Nix..."
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
     sh -s -- install --no-confirm
-  
+
   # Source the nix daemon script to make nix available in current shell
   if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
     . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
   fi
-  
+
   success "Nix installed successfully"
 else
   success "Nix is already installed"
@@ -90,7 +90,7 @@ if ! grep -q "\"$HOSTNAME\"" "$SCRIPT_DIR/flake.nix"; then
   warn "No configuration found for hostname: $HOSTNAME"
   warn "Available configurations:"
   grep "darwinConfigurations\." "$SCRIPT_DIR/flake.nix" | grep -o '"[^"]*"'
-  
+
   read -p "Enter the configuration name to use (or press Enter to use default): " CONFIG_NAME
   if [ -z "$CONFIG_NAME" ]; then
     # Use the first available configuration
@@ -105,10 +105,10 @@ info "Using configuration: $CONFIG_NAME"
 # Step 5: Install nix-darwin if not present
 if ! command -v darwin-rebuild &>/dev/null; then
   log "Installing nix-darwin..."
-  
+
   # First, we need to build and activate nix-darwin
   nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake "$SCRIPT_DIR#$CONFIG_NAME"
-  
+
   success "nix-darwin installed successfully"
 else
   success "nix-darwin is already installed"
@@ -117,12 +117,12 @@ fi
 # Step 6: Sync darwin configuration to /etc/nix-darwin if it doesn't match
 if [ ! -d /etc/nix-darwin ] || [ "$(readlink -f /etc/nix-darwin)" != "$SCRIPT_DIR" ]; then
   log "Setting up /etc/nix-darwin link..."
-  
+
   if [ -d /etc/nix-darwin ]; then
     warn "Backing up existing /etc/nix-darwin to /etc/nix-darwin.backup"
     sudo mv /etc/nix-darwin /etc/nix-darwin.backup
   fi
-  
+
   sudo ln -sf "$SCRIPT_DIR" /etc/nix-darwin
   success "/etc/nix-darwin linked to $SCRIPT_DIR"
 else
@@ -166,7 +166,7 @@ for entry in "${DOTFILES_TO_LINK[@]}"; do
   IFS=':' read -r source target <<< "$entry"
   source_path="$DOTFILES_DIR/$source"
   target_path="$HOME/$target"
-  
+
   if [ -e "$source_path" ]; then
     if [ ! -e "$target_path" ]; then
       ln -s "$source_path" "$target_path"
