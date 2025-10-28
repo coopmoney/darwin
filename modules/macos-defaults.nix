@@ -15,7 +15,7 @@
       show-process-indicators = true;
       launchanim = false;
       expose-animation-duration = 0.1;
-      expose-group-by-app = false;
+      expose-group-apps = false;
       mru-spaces = false;
       mineffect = "scale";
       enable-spring-load-actions-on-all-items = true;

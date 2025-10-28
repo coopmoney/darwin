@@ -25,6 +25,7 @@
     kubectl
     biome
     aws-vault
+    terraform
 
     # Version control & utilities
     git

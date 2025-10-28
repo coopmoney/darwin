@@ -2,13 +2,19 @@
   description = "A flake template for nix-darwin and Determinate Nix";
 
   # Flake inputs
+    #  inputs = {
+    #          nixpkgs.url = "github:NixOS/nixpkgs/NIXPKGS-BRANCH";
+    #          nix-darwin.url = "github:nix-darwin/nix-darwin/NIX-DARWIN-BRANCH";
+    #          nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    #          # …
+    #        };
   inputs = {
     # Stable Nixpkgs (use 0.1 for unstable)
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/0.1.26.tar.gz";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.811770.tar.gz";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # Stable nix-darwin (use 0.1 for unstable)
     nix-darwin = {
-      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Determinate 3.* module
@@ -131,6 +137,9 @@
             # Let Determinate Nix handle your Nix configuration
             nix.enable = false;
 
+            # Allow unfree packages for this system
+            nixpkgs.config.allowUnfree = true;
+
             # Necessary for using flakes on this system
             # nix.settings.experimental-features = "nix-command flakes";
 
@@ -152,7 +161,10 @@
       # Development environment
       devShells.${system}.default =
         let
-          pkgs = import inputs.nixpkgs { inherit system; };
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            config = { allowUnfree = true; };
+          };
         in
         pkgs.mkShellNoCC {
           packages = with pkgs; [
@@ -181,7 +193,10 @@
       # Packages and apps to support `nix run .`
       packages.${system} =
         let
-          pkgs = import inputs.nixpkgs { inherit system; };
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            config = { allowUnfree = true; };
+          };
         in
         {
           reload-nix-darwin-configuration = pkgs.writeShellApplication {

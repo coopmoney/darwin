@@ -2,15 +2,17 @@
 
 {
   # Git configuration migrated from ~/dotfiles/gitconfig
-  programs.git = {
+  programs.git.settings = {
     enable = true;
 
     # These can be overridden in local.nix per-machine
-    userName = "Cooper Maruyama";
-    userEmail = "cooper@darkmatter.io";
+    user = {
+      email = "cooper@darkmatter.io";
+      name = "Cooper Maruyama";
+    };
 
     # Aliases from gitconfig
-    aliases = {
+    alias = {
       aa = "add --all";
       ap = "add --patch";
       branches = "for-each-ref --sort=-committerdate --format=\\\"%(color:blue)%(authordate:relative)\\t%(color:red)%(authorname)\\t%(color:white)%(color:bold)%(refname:short)\\\" refs/remotes";
