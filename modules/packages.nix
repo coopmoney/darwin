@@ -24,6 +24,7 @@
     # docker        # Handled as app/cask below
     kubectl
     biome
+    aws-vault
 
     # Version control & utilities
     git

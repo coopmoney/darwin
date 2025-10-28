@@ -31,6 +31,10 @@
     # ".zshrc".source = ./zsh/zshrc;
   };
 
+  # xdg.configFile = {
+
+  # };
+
   # User-level programs can be configured here
   # programs.neovim = {
   #   enable = true;

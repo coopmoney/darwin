@@ -4,6 +4,16 @@
   # Zsh configuration migrated from ~/dotfiles/zshrc and aliases
   programs.zsh = {
     enable = true;
+    # syntaxHighlighting.enable = true;
+
+    # Zplug configuration
+    # zplug = {
+    #   enable = true;
+    #   plugins = [
+    #     { name = "zsh-users/zsh-autosuggestions"; } # Simple plugin installation
+    #     { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+    #   ];
+    # };
 
     # Zsh initialization (from zshrc)
     interactiveShellInit = ''
@@ -58,6 +68,10 @@
 
       # Local config (machine-specific)
       [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+
+      # Auto-Warpify
+      printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
     '';
 
     # Environment variables (from zshenv)
@@ -90,18 +104,21 @@
     e = "$EDITOR";
     v = "$VISUAL";
 
+    # Nix
+    update = "sudo nixos-rebuild switch";
+
     # Easier navigation
     ".." = "cd ..";
     # "..." = "cd ../..";
     # "...." = "cd ../../..";
     # "....." = "cd ../../../..";
-    "-" = "cd -";
+    # "-" = "cd -";
 
     # Pretty print the path
     path = "echo $PATH | tr -s ':' '\\n'";
 
     # Find aliases containing word
-    "alias?" = "alias | grep";
+    "isalias" = "alias | grep";
 
     # Change directory to git root
     cdr = "cd \"$(git rev-parse --show-toplevel)\"";
@@ -109,12 +126,22 @@
     # Docker
     dcu = "docker compose up -d";
     dcd = "docker compose down";
+
+    # chamber
+    chamberr = "aws-vault exec dmadmin -- chamber read";
+    chamberw = "aws-vault exec dmadmin -- chamber write";
+    chamberl = "aws-vault exec dmadmin -- chamber list";
+
+    # cursor
+    curs = "cursor editor";
+
+    # eternal
+    eternal = "et --terminal-path /opt/homebrew/bin/etterminal";
   };
 
   # Environment variables
   environment.variables = {
     EDITOR = "vim";
     VISUAL = "vim";
-    HELLO = "world";
   };
 }

@@ -1,0 +1,1 @@
+/Users/coopermaruyama/dotfiles/config/sops/keys.txt
