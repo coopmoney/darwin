@@ -10,12 +10,13 @@
     tmux
 
     # CLI Tools from Brewfile
-    awscli # AWS CLI
+    awscli2 # AWS CLI
     # dotenvx       # TODO: Not in nixpkgs, needs custom derivation or use from npm
     # rcm           # rc manager - may not be needed with nix
     # mackup        # backup/restore osx settings - consider using home-manager instead
     # aircrack-ng   # Wireless testing
     # s5cmd         # TODO: Add if available or build from source
+    chamber
 
     # Development tools
     go # Golang

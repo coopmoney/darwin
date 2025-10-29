@@ -4,7 +4,7 @@
   # Zsh configuration migrated from ~/dotfiles/zshrc and aliases
   programs.zsh = {
     enable = true;
-    # syntaxHighlighting.enable = true;
+    enableFastSyntaxHighlighting = true;
 
     # Zplug configuration
     # zplug = {
@@ -74,6 +74,25 @@
       printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
     '';
 
+    # zprofile
+    # loginShellInit = ''
+    #   if [ -d "/opt/homebrew" ]; then
+    #     eval "$(/opt/homebrew/bin/brew shellenv)"
+    #   elif [ -d "$HOME/.linuxbrew" ]; then
+    #     eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
+    #   elif [ -d "/home/linuxbrew/.linuxbrew" ]; then
+    #     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    #   fi
+    # '';
+
+    # promptInit = ''
+    #   # Auto-Warpify
+    # '';
+
+    # shellInit = ''
+    #   # Auto-Warpify
+    # '';
+
     # Environment variables (from zshenv)
     # envExtra = ''
     #   # Editor
@@ -137,6 +156,9 @@
 
     # eternal
     eternal = "et --terminal-path /opt/homebrew/bin/etterminal";
+
+    # devops
+    dockercpu = "docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}'";
   };
 
   # Environment variables
