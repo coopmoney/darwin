@@ -1,4 +1,4 @@
-{ inputs, darwinModules, flox, ... }:
+{ inputs, darwinModules, ... }:
 
 {
   imports = [
@@ -44,6 +44,6 @@
 
   # Machine-specific packages
   environment.systemPackages = [
-    flox.packages.aarch64-darwin.default
+    # Add machine-specific packages here
   ];
 }

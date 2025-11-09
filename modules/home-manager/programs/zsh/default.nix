@@ -66,14 +66,26 @@
       curse = "cursor editor";
       eternal = "et --terminal-path /opt/homebrew/bin/etterminal";
 
-      # Git
-      g = "git";
+      # Git aliases (replacing oh-my-zsh git plugin)
       gst = "git status";
       ga = "git add";
+      gaa = "git add --all";
       gc = "git commit";
+      "gc!" = "git commit --amend";
       gco = "git checkout";
-      gp = "git push";
+      gcb = "git checkout -b";
+      gcp = "git cherry-pick";
+      gd = "git diff";
+      gf = "git fetch";
       gl = "git pull";
+      gp = "git push";
+      gr = "git remote";
+      grb = "git rebase";
+      grhh = "git reset HEAD --hard";
+      glog = "git log --oneline --decorate --graph";
+      gsb = "git status -sb";
+      gsh = "git show";
+      gss = "git status -s";
 
       # Utilities
       path = ''echo $PATH | tr -s ":" "\n"'';
@@ -95,7 +107,6 @@
         "colored-man-pages"
         "command-not-found"
         "fzf"
-        "zsh-autosuggestions"
       ];
       theme = "robbyrussell"; # Will be overridden by starship
     };
@@ -137,10 +148,12 @@
       # Load p10k config
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-      # Load custom functions
+      # Load custom functions (excluding disabled ones)
       if [ -d "$HOME/.zsh/functions" ]; then
         for function in ~/.zsh/functions/*; do
-          [ -f "$function" ] && source "$function"
+          if [[ -f "$function" && ! "$function" =~ \.disabled$ ]]; then
+            source "$function"
+          fi
         done
       fi
 
@@ -239,21 +252,7 @@
     '';
   };
 
-  # Install zsh completions
-  # TODO: Fix these paths - temporarily commented out
-  # home.file = {
-  #   ".zsh/completion/_ag".source = ../../../../zsh/completion/_ag;
-  #   ".zsh/completion/_bundler".source = ../../../../zsh/completion/_bundler;
-  #   ".zsh/completion/_g".source = ../../../../zsh/completion/_g;
-  #   ".zsh/completion/_neonctl".source = ../../../../zsh/completion/_neonctl;
-  #   ".zsh/completion/_tailscale".source = ../../../../zsh/completion/_tailscale;
-  # };
-
-  # Copy zsh functions
-  # TODO: Fix these paths - temporarily commented out
-  # home.file = {
-  #   ".zsh/functions/chamber".source = ../../../../zsh/functions/chamber;
-  #   ".zsh/functions/g".source = ../../../../zsh/functions/g;
-  #   ".zsh/functions/vscode".source = ../../../../zsh/functions/vscode;
-  # };
+  # Install zsh completions and functions
+  # TODO: Fix the relative path issue - for now, keep using existing files
+  # The functions and completions will continue to work from their existing locations
 }

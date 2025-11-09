@@ -30,4 +30,8 @@
     cat = "bat";
     catp = "bat -p"; # Plain output, no line numbers
   };
+
+  # Create empty bat directories to suppress warnings
+  xdg.configFile."bat/syntaxes/.keep".text = "";
+  xdg.configFile."bat/themes/.keep".text = "";
 }
