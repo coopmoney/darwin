@@ -1,51 +1,51 @@
-# Load custom executable functions
-if [ -d "$HOME/.zsh/functions" ]; then
-  for function in ~/.zsh/functions/*; do
-    [ -f "$function" ] && source "$function"
-  done
-fi
+# # Load custom executable functions
+# if [ -d "$HOME/.zsh/functions" ]; then
+#   for function in ~/.zsh/functions/*; do
+#     [ -f "$function" ] && source "$function"
+#   done
+# fi
 
-# Load custom configs
-_load_settings() {
-  _dir="$1"
-  if [ -d "$_dir" ]; then
-    # Pre configs
-    if [ -d "$_dir/pre" ]; then
-      for config in "$_dir"/pre/**/*~*.zwc(N-.); do
-        . $config
-      done
-    fi
+# # Load custom configs
+# _load_settings() {
+#   _dir="$1"
+#   if [ -d "$_dir" ]; then
+#     # Pre configs
+#     if [ -d "$_dir/pre" ]; then
+#       for config in "$_dir"/pre/**/*~*.zwc(N-.); do
+#         . $config
+#       done
+#     fi
 
-    # Main configs
-    for config in "$_dir"/**/*(N-.); do
-      case "$config" in
-        "$_dir"/(pre|post)/*|*.zwc)
-          :
-          ;;
-        *)
-          . $config
-          ;;
-      esac
-    done
+#     # Main configs
+#     for config in "$_dir"/**/*(N-.); do
+#       case "$config" in
+#         "$_dir"/(pre|post)/*|*.zwc)
+#           :
+#           ;;
+#         *)
+#           . $config
+#           ;;
+#       esac
+#     done
 
-    # Post configs
-    if [ -d "$_dir/post" ]; then
-      for config in "$_dir"/post/**/*~*.zwc(N-.); do
-        . $config
-      done
-    fi
-  fi
-}
+#     # Post configs
+#     if [ -d "$_dir/post" ]; then
+#       for config in "$_dir"/post/**/*~*.zwc(N-.); do
+#         . $config
+#       done
+#     fi
+#   fi
+# }
 
-_load_settings "$HOME/.zsh/configs"
+# _load_settings "$HOME/.zsh/configs"
 
-# Direnv hook
-if command -v direnv &>/dev/null; then
-  eval "$(direnv hook zsh)"
-fi
+# # Direnv hook
+# if command -v direnv &>/dev/null; then
+#   eval "$(direnv hook zsh)"
+# fi
 
-# Aliases
-[ -f ~/.aliases ] && source ~/.aliases
+# # Aliases
+# [ -f ~/.aliases ] && source ~/.aliases
 
-# Local config (machine-specific)
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+# # Local config (machine-specific)
+# [ -f ~/.zshrc.local ] && source ~/.zshrc.local
