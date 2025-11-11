@@ -1,258 +1,101 @@
-# Nix-Darwin Configuration
+# Darwin Nix Configuration
 
-This directory contains a declarative macOS system configuration using [nix-darwin](https://github.com/LnL7/nix-darwin) and [home-manager](https://github.com/nix-community/home-manager).
+This repository contains my personal nix-darwin and home-manager configurations for macOS, managed through Nix Flakes. The structure is inspired by [AlexNabokikh/nix-config](https://github.com/AlexNabokikh/nix-config) and designed to be modular and easily extensible.
 
-## What This Does
+## Structure
 
-This configuration replaces:
-- ✅ **Homebrew Brewfile** → Nix packages + selective Homebrew integration
-- ✅ **Git configuration** → Declarative git settings
-- ✅ **Tmux configuration** → Managed tmux setup
-- ✅ **Zsh configuration** → Shell aliases and environment
-- ✅ **macOS defaults** → System preferences as code
-- ✅ **Manual setup** → One command to bootstrap a new machine
+```
+.
+├── flake.nix                 # Main flake configuration
+├── flake.lock               # Lock file for reproducible builds
+├── hosts/                   # Machine-specific configurations
+│   └── macbook-pro/        # Configuration for MacBook Pro
+├── home/                    # User-specific home-manager configs
+│   └── coopermaruyama/
+│       └── macbook-pro/    # User config for specific machine
+├── modules/                 # Reusable modules
+│   ├── darwin/             # Darwin (macOS) system modules
+│   │   └── common/         # Common system configuration
+│   └── home-manager/       # Home-manager modules
+│       ├── common/         # Common home configuration
+│       ├── misc/           # Miscellaneous configs (XDG, themes)
+│       ├── programs/       # Application configurations
+│       └── services/       # Service configurations
+├── config/                  # Legacy config files (to be migrated)
+├── dotfiles/               # Legacy dotfiles (to be migrated)
+└── zsh/                    # Zsh configs and functions
+```
 
-## Quick Start
+## Key Features
 
-### Fresh Machine Setup
+- **Modular Design**: Separate modules for system (darwin) and user (home-manager) configurations
+- **Multi-machine Support**: Easy to add new machines with different configurations
+- **Catppuccin Theme**: Integrated Catppuccin theme support across applications
+- **Declarative Package Management**: All packages defined in Nix, with Homebrew for casks
+- **Comprehensive Shell Setup**: Zsh with Oh-My-Zsh, Powerlevel10k, and custom functions
+- **Developer Tools**: Pre-configured git, tmux, alacritty, fzf, and more
 
-1. Clone your dotfiles repository:
-   ```bash
-   git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-   cd ~/dotfiles/darwin
-   ```
+## Modules
 
-2. Run the bootstrap script:
-   ```bash
-   chmod +x bootstrap.sh
-   ./bootstrap.sh
-   ```
+### Darwin Modules
+- **common**: System packages, Homebrew setup, macOS defaults, fonts
 
-3. The script will:
-   - Install Xcode Command Line Tools (if needed)
-   - Install Determinate Systems Nix
-   - Install nix-darwin
-   - Apply your system configuration
-   - Symlink remaining dotfiles
-   - Set up your development environment
+### Home-Manager Modules
+- **alacritty**: Terminal emulator with Catppuccin theme
+- **bat**: Better `cat` with syntax highlighting
+- **direnv**: Directory-based environment management
+- **fzf**: Fuzzy finder with custom functions
+- **git**: Version control with delta integration
+- **go**: Go development environment
+- **lazygit**: Terminal UI for git
+- **starship**: Cross-shell prompt
+- **tmux**: Terminal multiplexer with plugins
+- **zsh**: Shell configuration with completions and aliases
 
-4. Restart your terminal or run:
-   ```bash
-   exec zsh
-   ```
+## Usage
 
-### Existing Machine
-
-If you already have Nix and nix-darwin installed:
+### Building the Configuration
 
 ```bash
-sudo darwin-rebuild switch --flake ~/dotfiles/darwin#Coopers-MacBook-Pro
+# Build and switch to the new configuration
+darwin-rebuild switch --flake .#Coopers-MacBook-Pro
+
+# Or use the provided rebuild command in the dev shell
+nix develop
+darwin-rebuild
 ```
 
-## Configuration Structure
+### Adding a New Machine
 
-```
-darwin/
-├── flake.nix              # Main entry point
-├── home.nix               # Home-manager user configuration
-├── bootstrap.sh           # Setup script for new machines
-├── local.nix.example      # Template for machine-specific overrides
-├── local.nix              # Machine-specific config (gitignored)
-└── modules/
-    ├── packages.nix       # System packages (from Brewfile)
-    ├── git.nix            # Git configuration
-    ├── tmux.nix           # Tmux configuration
-    ├── zsh.nix            # Zsh configuration
-    ├── macos-defaults.nix # macOS system preferences
-    └── fonts.nix          # Font management
-```
+1. Create a new host configuration in `hosts/<machine-name>/default.nix`
+2. Create a user configuration in `home/<username>/<machine-name>/default.nix`
+3. Add the machine to `flake.nix` under `darwinConfigurations`
+4. Build with `darwin-rebuild switch --flake .#<machine-name>`
 
-## Customization
+### Modifying Configuration
 
-### Machine-Specific Settings
+- System-wide changes: Edit modules in `modules/darwin/`
+- User-specific changes: Edit modules in `modules/home-manager/`
+- Machine-specific overrides: Edit the machine's host or home configuration
 
-Copy `local.nix.example` to `local.nix` and customize:
+## Development
 
-```nix
-{ pkgs, ... }:
-
-{
-  # Override git user for this machine
-  programs.git = {
-    userName = "Your Name";
-    userEmail = "your.email@company.com";
-  };
-  
-  # Add machine-specific packages
-  environment.systemPackages = with pkgs; [
-    # your packages here
-  ];
-}
-```
-
-### Adding Packages
-
-Edit `modules/packages.nix`:
-
-```nix
-environment.systemPackages = with pkgs; [
-  # Add new packages here
-  ripgrep
-  fd
-  neovim
-];
-```
-
-### Adding Applications
-
-For GUI apps, use Homebrew casks in `modules/packages.nix`:
-
-```nix
-homebrew.casks = [
-  "visual-studio-code"
-  "slack"
-  # Add more apps here
-];
-```
-
-## Common Tasks
-
-### Update All Packages
+Enter the development shell for access to formatting and linting tools:
 
 ```bash
-cd ~/dotfiles/darwin
-nix flake update
-sudo darwin-rebuild switch --flake .#Coopers-MacBook-Pro
+nix develop
 ```
 
-### Test Configuration Without Applying
+Format all Nix files:
 
 ```bash
-sudo darwin-rebuild build --flake ~/dotfiles/darwin#Coopers-MacBook-Pro
+nix fmt
 ```
 
-### Check Configuration for Errors
+## Migration Status
 
-```bash
-nix flake check ~/dotfiles/darwin
-```
+The configuration has been refactored from a flat structure to a modular one. Most dotfiles have been migrated to Nix modules, but some legacy configurations remain in the `config/`, `dotfiles/`, and `zsh/` directories for reference.
 
-### Rollback to Previous Generation
+## License
 
-```bash
-sudo darwin-rebuild --rollback
-```
-
-### List Generations
-
-```bash
-darwin-rebuild --list-generations
-```
-
-### Add a New Machine
-
-1. Edit `flake.nix` and add a new configuration:
-   ```nix
-   darwinConfigurations = {
-     "Coopers-MacBook-Pro" = mkDarwinSystem "Coopers-MacBook-Pro" "aarch64-darwin";
-     "Work-MacBook" = mkDarwinSystem "Work-MacBook" "aarch64-darwin";
-   };
-   ```
-
-2. On the new machine, run:
-   ```bash
-   ./bootstrap.sh
-   ```
-
-## Migrating from Homebrew
-
-This configuration uses a hybrid approach:
-- **Nix packages** for most CLI tools and some GUI apps
-- **Homebrew casks** for GUI apps not available in Nix
-- **Homebrew formulas** for a few specialized tools
-
-To see what's installed via Homebrew:
-```bash
-brew list
-```
-
-To see what's installed via Nix:
-```bash
-nix-env -q
-```
-
-## Troubleshooting
-
-### "darwin-rebuild not found"
-
-Make sure nix-darwin is installed and sourced:
-```bash
-. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-```
-
-### "experimental-features not enabled"
-
-Add to `/etc/nix/nix.conf`:
-```
-experimental-features = nix-command flakes
-```
-
-### Changes not applying
-
-1. Check syntax:
-   ```bash
-   nix flake check ~/dotfiles/darwin
-   ```
-
-2. Rebuild with verbose output:
-   ```bash
-   sudo darwin-rebuild switch --flake ~/dotfiles/darwin#Coopers-MacBook-Pro --show-trace
-   ```
-
-### Homebrew conflicts
-
-If Homebrew packages conflict with Nix:
-1. Uninstall the Homebrew package: `brew uninstall <package>`
-2. Let nix-darwin manage it instead
-
-## Philosophy
-
-This configuration follows these principles:
-
-1. **Declarative over Imperative**: System state is defined in code, not built up through commands
-2. **Reproducible**: Running bootstrap.sh on a new machine produces the same result
-3. **Version Controlled**: All changes are tracked in Git
-4. **Modular**: Each concern (git, zsh, packages) is in its own file
-5. **Hybrid Approach**: Use Nix where it excels, Homebrew where necessary
-6. **Machine-Specific Overrides**: `local.nix` for per-machine customization
-
-## Resources
-
-- [Nix-Darwin Manual](https://daiderd.com/nix-darwin/manual/index.html)
-- [Nix Manual](https://nixos.org/manual/nix/stable/)
-- [Home Manager Manual](https://nix-community.github.io/home-manager/)
-- [Determinate Systems Nix Installer](https://github.com/DeterminateSystems/nix-installer)
-- [Nix Package Search](https://search.nixos.org/packages)
-
-## Contributing
-
-When making changes:
-
-1. Test locally first:
-   ```bash
-   sudo darwin-rebuild switch --flake ~/dotfiles/darwin#Coopers-MacBook-Pro
-   ```
-
-2. Commit your changes:
-   ```bash
-   git add -A
-   git commit -m "feat: add new package"
-   git push
-   ```
-
-3. On other machines, pull and rebuild:
-   ```bash
-   cd ~/dotfiles
-   git pull
-   sudo darwin-rebuild switch --flake darwin#$(hostname -s)
-   ```
+This configuration is provided as-is for reference and learning purposes.

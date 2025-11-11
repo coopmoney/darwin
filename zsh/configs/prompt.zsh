@@ -6,9 +6,16 @@ git_prompt_info() {
   fi
 }
 
+# display aws vault profile if set
+aws_vault_info() {
+  if [[ -n $AWS_VAULT ]]; then
+    echo " %{$fg_bold[yellow]%}[aws:$AWS_VAULT]%{$reset_color%}"
+  fi
+}
+
 setopt promptsubst
 
 # Allow exported PS1 variable to override default prompt.
 if ! env | grep -q '^PS1='; then
-  PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info) %# '
+  PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info)$(aws_vault_info) %# '
 fi
