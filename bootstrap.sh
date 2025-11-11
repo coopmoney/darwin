@@ -6,6 +6,7 @@
 
 set -euo pipefail
 
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -41,6 +42,25 @@ DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
 log "Starting bootstrap process..."
 info "Script directory: $SCRIPT_DIR"
 info "Dotfiles directory: $DOTFILES_DIR"
+
+# Step 0: Check for Full Disk Access
+log "Checking for Full Disk Access..."
+# Try to access a protected location that requires Full Disk Access
+if [ "$EUID" -eq 0 ]; then
+  # Running as root/sudo - check if we can modify app bundles in /Applications
+  TEST_APP="/Applications/Safari.app/Contents/Info.plist"
+  if [ -f "$TEST_APP" ]; then
+    if ! /usr/bin/xattr -l "$TEST_APP" &>/dev/null; then
+      error "Full Disk Access is required for this script to run properly."
+      error "Please grant Full Disk Access to the terminal application you're using:"
+      error "  1. Open System Settings > Privacy & Security > Full Disk Access"
+      error "  2. Add your terminal app (Terminal.app, iTerm.app, Warp.app, etc.)"
+      error "  3. Restart your terminal and run this script again"
+      exit 1
+    fi
+  fi
+fi
+success "Full Disk Access check passed"
 
 # Step 1: Check for Command Line Tools
 log "Checking for Xcode Command Line Tools..."
@@ -79,6 +99,37 @@ elif ! grep -q "experimental-features" /etc/nix/nix.conf 2>/dev/null; then
   warn "Adding experimental features to /etc/nix/nix.conf..."
   echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
 fi
+
+# Add SSL certificate configuration for macOS
+if ! grep -q "ssl-cert-file" /etc/nix/nix.conf 2>/dev/null; then
+  warn "Adding SSL certificate configuration to /etc/nix/nix.conf..."
+  
+  # Check for certificate files in order of preference
+  CERT_FILE=""
+  if [ -f /etc/nix/macos-keychain.crt ]; then
+    CERT_FILE="/etc/nix/macos-keychain.crt"
+  elif [ -f /etc/ssl/cert.pem ]; then
+    CERT_FILE="/etc/ssl/cert.pem"
+  elif [ -f /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt ]; then
+    CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+  else
+    error "No SSL certificate file found. Tried:"
+    error "  - /etc/nix/macos-keychain.crt"
+    error "  - /etc/ssl/cert.pem"
+    error "  - /nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+    exit 1
+  fi
+  
+  info "Using certificate file: $CERT_FILE"
+  echo "ssl-cert-file = $CERT_FILE" | sudo tee -a /etc/nix/nix.conf
+  
+  # Restart nix-daemon to pick up the new configuration
+  if command -v launchctl &>/dev/null; then
+    log "Restarting nix-daemon to apply SSL configuration..."
+    sudo launchctl kickstart -k system/org.nixos.nix-daemon
+  fi
+fi
+
 success "Nix configuration is correct"
 
 # Step 4: Get hostname for configuration selection

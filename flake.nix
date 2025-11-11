@@ -89,6 +89,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "backup";
+              overwriteBackup = true;
               extraSpecialArgs = {
                 inherit inputs outputs hostname;
                 inherit (users.${user}) name fullName email gitKey;
@@ -142,8 +143,9 @@
             name = "reload-nix-darwin-configuration";
             runtimeInputs = [ darwin.packages.${system}.darwin-rebuild ];
             text = ''
-              echo "🔄 Rebuilding Darwin configuration..."
-              darwin-rebuild switch --flake .#"Coopers-MacBook-Pro"
+              SYSTEM_NAME=$(scutil --get ComputerName)
+              echo "🔄 Rebuilding Darwin configuration for $SYSTEM_NAME..."
+              darwin-rebuild switch --flake ".#$SYSTEM_NAME"
               echo "✅ Darwin configuration applied!"
             '';
           };

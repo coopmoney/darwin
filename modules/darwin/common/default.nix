@@ -78,6 +78,7 @@
       set -e
 
       FLAKE_DIR="/Users/${name}/darwin"
+      SYSTEM_NAME=$(scutil --get ComputerName)
 
       # Colors for output
       RED='\033[0;31m'
@@ -112,15 +113,15 @@
       case "$COMMAND" in
         build)
           echo -e "''${YELLOW}🔨 Building configuration...''${NC}"
-          darwin-rebuild build --flake '.#Coopers-MacBook-Pro' "$@"
+          darwin-rebuild build --flake ".#$SYSTEM_NAME" "$@"
           ;;
         switch)
           echo -e "''${YELLOW}🚀 Switching configuration...''${NC}"
-          sudo darwin-rebuild switch --flake '.#Coopers-MacBook-Pro' "$@"
+          sudo darwin-rebuild switch --flake ".#$SYSTEM_NAME" "$@"
           ;;
         check)
           echo -e "''${YELLOW}🔍 Checking configuration...''${NC}"
-          darwin-rebuild check --flake '.#Coopers-MacBook-Pro' "$@"
+          darwin-rebuild check --flake ".#$SYSTEM_NAME" "$@"
           ;;
         *)
           echo -e "''${RED}Unknown command: $COMMAND''${NC}"
@@ -576,16 +577,16 @@
     };
 
     # Universal Access / Accessibility
-    universalaccess = {
-      # Reduce transparency
-      reduceTransparency = false;
-      # Reduce motion
-      reduceMotion = false;
-      # Close windows on quit
-      closeViewScrollWheelToggle = false;
-      # Mouse cursor size (1.0 to 4.0)
-      mouseDriverCursorSize = 1.0;
-    };
+    # universalaccess = {
+    #   # Reduce transparency
+    #   reduceTransparency = false;
+    #   # Reduce motion
+    #   reduceMotion = false;
+    #   # Close windows on quit
+    #   closeViewScrollWheelToggle = false;
+    #   # Mouse cursor size (1.0 to 4.0)
+    #   mouseDriverCursorSize = 1.0;
+    # };
 
     # Launch Services (default apps)
     LaunchServices = {
@@ -694,13 +695,9 @@
         skip-verify-remote = true;
       };
 
-      # Enable Safari debug menu
-      "com.apple.Safari" = {
-        IncludeInternalDebugMenu = true;
-        IncludeDevelopMenu = true;
-        WebKitDeveloperExtrasEnabledPreferenceKey = true;
-        "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
-      };
+      # Safari preferences can't be set via nix-darwin due to sandboxing.
+      # To enable these manually, open Safari and go to:
+      # - Safari > Settings > Advanced > Show features for web developers
 
       # TextEdit: Use plain text mode by default
       "com.apple.TextEdit" = {
