@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, ... }:
 
 {
   programs.starship = {
@@ -6,35 +6,15 @@
     enableZshIntegration = true;
 
     settings = {
+      add_newline = false;
       format = lib.concatStrings [
-        "$username"
-        "$hostname"
         "$directory"
         "$git_branch"
         "$git_status"
-        "$c"
-        "$elixir"
-        "$elm"
-        "$golang"
-        "$haskell"
-        "$java"
-        "$julia"
-        "$nodejs"
-        "$nim"
-        "$rust"
-        "$scala"
-        "$docker_context"
-        "$aws"
-        "$env_var"
-        "$cmd_duration"
-        "$line_break"
-        "$jobs"
-        "$battery"
-        "$time"
-        "$status"
-        "$shell"
+        " "
         "$character"
       ];
+      right_format = "$time";
 
       username = {
         show_always = false;
@@ -50,35 +30,41 @@
       };
 
       directory = {
-        style = "cyan bold";
-        repo_root_style = "cyan bold underline";
-        format = "[$path]($style)[$read_only]($read_only_style) ";
+        style = "fg:#0f172a bg:#1d4ed8";
+        repo_root_style = "fg:#0f172a bg:#1d4ed8";
+        format = "[](fg:#1d4ed8)[$path]($style)[$read_only]($read_only_style)";
+        read_only = " ";
+        read_only_style = "fg:#fde68a bg:#1d4ed8";
         truncation_length = 3;
         truncate_to_repo = true;
       };
 
       character = {
-        success_symbol = "[➜](bold green)";
-        error_symbol = "[➜](bold red)";
+        success_symbol = "[❯](fg:#22c55e)";
+        error_symbol = "[❯](fg:#ef4444)";
+        vicmd_symbol = "[❮](fg:#22c55e)";
       };
 
       git_branch = {
-        symbol = " ";
-        style = "bold purple";
-        format = "[$symbol$branch]($style) ";
+        symbol = "";
+        style = "fg:#0f172a bg:#16a34a";
+        format = "[](fg:#1d4ed8 bg:#16a34a)[ $branch ]($style)";
       };
 
       git_status = {
-        format = "([$all_status$ahead_behind]($style) )";
-        style = "bold red";
-        conflicted = "🏳";
+        format = "[](fg:#16a34a bg:#f97316)[ $ahead_behind$staged$modified$untracked$stashed$deleted$conflicted$renamed ]($style)[](fg:#f97316)";
+        style = "fg:#0f172a bg:#f97316";
+        conflicted = "✖$count ";
         up_to_date = "";
-        untracked = "🤷";
-        stashed = "📦";
-        modified = "📝";
-        staged = "[++\($count\)](green)";
-        renamed = "👅";
-        deleted = "🗑";
+        untracked = "?$count ";
+        stashed = "≡$count ";
+        modified = "!$count ";
+        staged = "+$count ";
+        renamed = "»$count ";
+        deleted = "✘$count ";
+        ahead = "↑$count ";
+        behind = "↓$count ";
+        diverged = "↕$ahead_count/$behind_count ";
       };
 
       nodejs = {
@@ -125,7 +111,7 @@
       };
 
       line_break = {
-        disabled = false;
+        disabled = true;
       };
 
       battery = {
@@ -145,8 +131,8 @@
       };
 
       time = {
-        disabled = true;
-        format = "🕙[\\[ $time \\]]($style) ";
+        disabled = false;
+        format = "[](fg:#4c566a)[$time](fg:#e5e9f0 bg:#4c566a)[](fg:#4c566a)";
         time_format = "%T";
       };
     };

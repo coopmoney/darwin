@@ -10,6 +10,7 @@
     "${hmModules}/programs/fzf"
     "${hmModules}/programs/git"
     "${hmModules}/programs/go"
+    "${hmModules}/programs/karabiner"
     "${hmModules}/programs/lazygit"
     "${hmModules}/programs/starship"
     "${hmModules}/programs/tmux"

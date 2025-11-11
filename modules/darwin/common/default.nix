@@ -144,6 +144,11 @@
       exec darwin-rebuild-here "$@"
     '')
 
+    (pkgs.writeShellScriptBin "darwinup" ''
+      #!/usr/bin/env bash
+      exec darwin-rebuild-here "$@"
+    '')
+
     (pkgs.writeShellScriptBin "drbs" ''
       #!/usr/bin/env bash
       exec darwin-rebuild-here switch "$@"
@@ -461,6 +466,18 @@
       tilesize = 48;
       largesize = 64;
       magnification = true;
+      # Show indicator lights for open applications
+      show-process-indicators = true;
+      # Minimize windows into application icon
+      launchanim = true;
+      # Make hidden apps translucent in Dock
+      showhidden = false;
+      # Don't automatically rearrange Spaces based on most recent use
+      mru-spaces = false;
+      # Speed up Mission Control animations
+      expose-animation-duration = 0.1;
+      # Wipe all app icons from the Dock (can be customized per machine)
+      # persistent-apps = [];
     };
 
     # Finder
@@ -469,8 +486,18 @@
       ShowPathbar = true;
       ShowStatusBar = true;
       FXEnableExtensionChangeWarning = false;
-      FXPreferredViewStyle = "clmv";
+      FXPreferredViewStyle = "clmv"; # Column view
       _FXSortFoldersFirst = true;
+      # Show hidden files
+      AppleShowAllFiles = false;
+      # Allow quitting Finder via ⌘ + Q
+      QuitMenuItem = false;
+      # Default search scope: This Mac
+      FXDefaultSearchScope = "SCsp"; # "SCcf" = This Mac, "SCsp" = Current Folder
+      # Show full POSIX path in window title
+      _FXShowPosixPathInTitle = false;
+      # Disable icons on the desktop
+      CreateDesktop = true;
     };
 
     # Trackpad
@@ -478,22 +505,212 @@
       Clicking = true;
       TrackpadRightClick = true;
       TrackpadThreeFingerDrag = true;
+      # Light, medium, or firm click (0, 1, 2)
+      FirstClickThreshold = 1;
+      SecondClickThreshold = 1;
+      # Enable tap to click for login screen
+      ActuateDetents = true;
     };
 
-    # Global
+    # Screenshots
+    screencapture = {
+      # Save screenshots to Downloads folder
+      location = "~/Downloads";
+      # Screenshot format: png, jpg, pdf, tiff, bmp, gif
+      type = "png";
+      # Disable shadow in screenshots
+      disable-shadow = false;
+      # Show thumbnail after taking screenshot
+      show-thumbnail = true;
+    };
+
+    # Login Window
+    loginwindow = {
+      # Disable guest account
+      GuestEnabled = false;
+      # Show name instead of username
+      SHOWFULLNAME = false;
+      # Disable auto login
+      autoLoginUser = null;
+      # Text shown on login window
+      LoginwindowText = null;
+      # Disable restart/shutdown buttons
+      PowerOffDisabledWhileLoggedIn = false;
+      RestartDisabledWhileLoggedIn = false;
+      ShutDownDisabledWhileLoggedIn = false;
+    };
+
+    # Menu Bar Clock
+    menuExtraClock = {
+      # Show date in menu bar clock
+      ShowDate = 0; # 0 = When space allows, 1 = Always, 2 = Never
+      # Show day of week
+      ShowDayOfWeek = true;
+      # Show AM/PM
+      Show24Hour = false;
+      # Show seconds
+      ShowSeconds = false;
+      # Flash date/time separators
+      FlashDateSeparators = false;
+      # Analog or digital
+      IsAnalog = false;
+    };
+
+    # Activity Monitor
+    ActivityMonitor = {
+      # Show all processes
+      ShowCategory = 100;
+      # Sort by CPU usage
+      SortColumn = "CPUUsage";
+      SortDirection = 0;
+      # Icon type: 5 = CPU Usage, 6 = CPU History
+      IconType = 5;
+      # Show main window on launch
+      OpenMainWindow = true;
+    };
+
+    # Spaces (Mission Control)
+    spaces = {
+      # Group windows by application in Mission Control
+      spans-displays = true;
+    };
+
+    # Universal Access / Accessibility
+    universalaccess = {
+      # Reduce transparency
+      reduceTransparency = false;
+      # Reduce motion
+      reduceMotion = false;
+      # Close windows on quit
+      closeViewScrollWheelToggle = false;
+      # Mouse cursor size (1.0 to 4.0)
+      mouseDriverCursorSize = 1.0;
+    };
+
+    # Launch Services (default apps)
+    LaunchServices = {
+      # Disable quarantine for downloaded apps
+      LSQuarantine = true;
+    };
+
+    # Screen Saver
+    screensaver = {
+      # Require password after sleep or screen saver
+      askForPassword = true;
+      # Delay before password is required (in seconds)
+      askForPasswordDelay = 5;
+    };
+
+    # SMB/File Sharing
+    smb = {
+      # Disable SMB server signing (for performance)
+      NetBIOSName = null;
+      ServerDescription = null;
+    };
+
+
+
+    # Global macOS Settings
     NSGlobalDomain = {
+      # Dark mode
       AppleInterfaceStyle = "Dark";
       AppleShowAllExtensions = true;
       AppleShowScrollBars = "WhenScrolling";
+
+      # Keyboard
       NSAutomaticCapitalizationEnabled = false;
       NSAutomaticSpellingCorrectionEnabled = false;
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
       NSAutomaticDashSubstitutionEnabled = false;
-      KeyRepeat = 2;
-      InitialKeyRepeat = 15;
+      KeyRepeat = 2; # Fast key repeat (2 = 30ms)
+      InitialKeyRepeat = 15; # Initial key repeat delay (15 = 225ms)
+      # Use F keys as standard function keys
       "com.apple.keyboard.fnState" = true;
+      # Full keyboard access for all controls
+      AppleKeyboardUIMode = 3;
+      # Press and hold for accents (disable for key repeat)
+      ApplePressAndHoldEnabled = true;
+
+      # Mouse & Trackpad
       "com.apple.trackpad.scaling" = 3.0;
+      # Natural scrolling
+      "com.apple.swipescrolldirection" = true;
+      # Enable tap to click
+      "com.apple.mouse.tapBehavior" = 1;
+
+      # Display & Windows
+      # Automatically hide and show menu bar
+      _HIHideMenuBar = false;
+      # Use smooth scrolling
+      NSScrollAnimationEnabled = true;
+      # Disable window animations
+      NSAutomaticWindowAnimationsEnabled = true;
+      # Resize windows from any corner
+      NSWindowResizeTime = 0.001;
+
+      # Save & Print Panels
+      # Expand save panel by default
+      NSNavPanelExpandedStateForSaveMode = true;
+      NSNavPanelExpandedStateForSaveMode2 = true;
+      # Expand print panel by default
+      PMPrintingExpandedStateForPrint = true;
+      PMPrintingExpandedStateForPrint2 = true;
+      # Save to disk (not iCloud) by default
+      NSDocumentSaveNewDocumentsToCloud = false;
+
+      # Text & Editing
+      # Show control characters
+      NSTextShowsControlCharacters = false;
+      # Use animated focus ring
+      NSUseAnimatedFocusRing = true;
+
+      # Measurements & Units
+      AppleMeasurementUnits = "Centimeters";
+      AppleMetricUnits = 1; # Use metric
+      AppleTemperatureUnit = "Celsius";
+
+      # Sound
+      # Alert volume (0.0 to 1.0)
+      "com.apple.sound.beep.volume" = 0.5;
+      # Play feedback when volume changed
+      "com.apple.sound.beep.feedback" = 0;
+
+      # Sidebar icon size
+      NSTableViewDefaultSizeMode = 2; # 1 = Small, 2 = Medium, 3 = Large
+    };
+
+    # Custom User Preferences (for settings not exposed by nix-darwin)
+    CustomUserPreferences = {
+      # Disable Time Machine prompts for new disks
+      "com.apple.TimeMachine" = {
+        DoNotOfferNewDisksForBackup = true;
+      };
+
+      # Disable disk image verification
+      "com.apple.frameworks.diskimages" = {
+        skip-verify = true;
+        skip-verify-locked = true;
+        skip-verify-remote = true;
+      };
+
+      # Enable Safari debug menu
+      "com.apple.Safari" = {
+        IncludeInternalDebugMenu = true;
+        IncludeDevelopMenu = true;
+        WebKitDeveloperExtrasEnabledPreferenceKey = true;
+        "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" = true;
+      };
+
+      # TextEdit: Use plain text mode by default
+      "com.apple.TextEdit" = {
+        RichText = 0;
+      };
+
+      # Disable Spotlight indexing for specific folders
+      # "com.apple.spotlight" = {
+      #   orderedItems = [];
+      # };
     };
   };
 

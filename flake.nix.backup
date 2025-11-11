@@ -123,13 +123,11 @@
       # Darwin configurations
       darwinConfigurations = {
         "Coopers-MacBook-Pro" = mkDarwinConfiguration "macbook-pro" "coopermaruyama";
-      "Coopers-Mac-Studio" = mkDarwinConfiguration "coopers-mac-studio" "coopermaruyama";
       };
 
       # Standalone home-manager configurations
       homeConfigurations = {
         "coopermaruyama@macbook-pro" = mkHomeConfiguration "aarch64-darwin" "coopermaruyama" "macbook-pro";
-        "coopermaruyama@coopers-mac-studio" = mkHomeConfiguration "aarch64-darwin" "coopermaruyama" "coopers-mac-studio";
       };
 
       # Packages
