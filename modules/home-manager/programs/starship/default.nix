@@ -30,11 +30,11 @@
       };
 
       directory = {
-        style = "fg:#0f172a bg:#1d4ed8";
-        repo_root_style = "fg:#0f172a bg:#1d4ed8";
-        format = "[](fg:#1d4ed8)[$path]($style)[$read_only]($read_only_style)";
+        style = "fg:#0f172a bg:#0e0e15";
+        repo_root_style = "fg:#4be4b5 bg:#515670";
+        format = "[](fg:#8e93b0)[$path]($style)[$read_only]($read_only_style)";
         read_only = " ";
-        read_only_style = "fg:#fde68a bg:#1d4ed8";
+        read_only_style = "fg:#fde68a bg:#515670";
         truncation_length = 3;
         truncate_to_repo = true;
       };
@@ -47,13 +47,13 @@
 
       git_branch = {
         symbol = "";
-        style = "fg:#0f172a bg:#16a34a";
-        format = "[](fg:#1d4ed8 bg:#16a34a)[ $branch ]($style)";
+        style = "fg:#73bf9c bg:#16a34a";
+        format = "[](fg:#515670 bg:#16a34a)[ $branch ]($style)";
       };
 
       git_status = {
-        format = "[](fg:#16a34a bg:#f97316)[ $ahead_behind$staged$modified$untracked$stashed$deleted$conflicted$renamed ]($style)[](fg:#f97316)";
-        style = "fg:#0f172a bg:#f97316";
+        format = "[](fg:#4be4b5 bg:#515670)[ $ahead_behind$staged$modified$untracked$stashed$deleted$conflicted$renamed ]($style)[](fg:#f97316)";
+        style = "fg:#4be4b5 bg:#515670";
         conflicted = "✖$count ";
         up_to_date = "";
         untracked = "?$count ";

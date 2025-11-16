@@ -12,20 +12,20 @@
   "showExtensionDescriptions": true,
   "navigationCommandStyleIdentifierKey": "default",
   "inputPlaceholder": "Search for apps, commands, and more...",
-  
+
   "hotkey": {
     "key": "space",
     "modifiers": ["cmd"]
   },
-  
+
   "raycastGlobalHotkey": {
     "key": "space",
     "modifiers": ["cmd"]
   },
-  
+
   "searchBarPosition": "center",
   "showMenuBarIcon": true,
-  
+
   "extensions": {
     "clipboard-history": {
       "enabled": true,
@@ -57,23 +57,23 @@
       "enabled": true
     }
   },
-  
+
   "suggestionOrdering": {
     "default": "recency"
   },
-  
+
   "showRecentApplications": true,
   "showFrequentApplications": true,
-  
+
   "advancedSettings": {
     "developerMode": false,
     "showDeveloperTools": false
   },
-  
+
   "accessibility": {
     "reduceMotion": false
   },
-  
+
   "analytics": {
     "enabled": true
   }
