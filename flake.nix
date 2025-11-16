@@ -32,9 +32,12 @@
     # FH
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/0.1.26.tar.gz";
 
-    # Catppuccin theme
-    catppuccin.url = "github:catppuccin/nix";
-  };
+      # Catppuccin theme
+      catppuccin.url = "github:catppuccin/nix";
+
+      # Nixvim (Neovim as Nix module)
+      nixvim.url = "github:nix-community/nixvim";
+    };
 
   outputs =
     { self
@@ -123,7 +126,7 @@
       # Darwin configurations
       darwinConfigurations = {
         "Coopers-MacBook-Pro" = mkDarwinConfiguration "macbook-pro" "coopermaruyama";
-      "Coopers-Mac-Studio" = mkDarwinConfiguration "coopers-mac-studio" "coopermaruyama";
+        "Coopers-Mac-Studio" = mkDarwinConfiguration "coopers-mac-studio" "coopermaruyama";
       };
 
       # Standalone home-manager configurations

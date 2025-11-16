@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, name, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  name,
+  ...
+}:
 
 {
   # Required for nix-darwin
@@ -35,7 +42,6 @@
   environment.systemPackages = with pkgs; [
     # Core utilities
     coreutils
-    vim
     tmux
     git
     curl
@@ -56,6 +62,7 @@
     terraform
     gh
     direnv
+    inputs.flox.packages.${pkgs.system}.default
 
     # Terminal enhancements
     ripgrep
@@ -71,6 +78,7 @@
     stats
     lazygit
     postgresql
+    ollama
 
     # Darwin rebuild utilities
     (pkgs.writeShellScriptBin "darwin-rebuild-here" ''
@@ -332,8 +340,8 @@
 
   # Environment variables
   environment.variables = {
-    EDITOR = "vim";
-    VISUAL = "vim";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   # Fonts configuration
@@ -357,7 +365,10 @@
           sha256 = "sha256-8tPwm92ZtaXL9qeDL+ay9PdXLUBBsspdk7/0U8VO0Tg=";
         };
 
-        nativeBuildInputs = [ pkgs.nodejs pkgs.python3 ];
+        nativeBuildInputs = [
+          pkgs.nodejs
+          pkgs.python3
+        ];
 
         buildPhase = ''
           # The fonts are pre-built in the repo
@@ -411,7 +422,7 @@
 
     casks = [
       # Development
-      "docker"
+      "docker-desktop"
       "visual-studio-code"
       "cursor"
       "warp"
@@ -425,6 +436,7 @@
       "1password"
       "1password-cli"
       "rectangle"
+      "raycast"
       "maccy"
       "notion"
       "figma"
@@ -439,7 +451,7 @@
       # Fonts
       "font-source-code-pro"
       "font-courier-prime"
-      "font-monaspace-nerd-font"
+      "font-monaspice-nerd-font"
       "font-monaspace"
       "font-geist-mono"
       "font-meslo-lg-nerd-font"
@@ -608,8 +620,6 @@
       ServerDescription = null;
     };
 
-
-
     # Global macOS Settings
     NSGlobalDomain = {
       # Dark mode
@@ -707,10 +717,122 @@
         RichText = 0;
       };
 
-      # Disable Spotlight indexing for specific folders
-      # "com.apple.spotlight" = {
-      #   orderedItems = [];
-      # };
+      # Disable Spotlight
+      "com.apple.spotlight" = {
+        orderedItems = [
+          {
+            enabled = 0;
+            name = "APPLICATIONS";
+          }
+          {
+            enabled = 0;
+            name = "MENU_SPOTLIGHT_SUGGESTIONS";
+          }
+          {
+            enabled = 0;
+            name = "MENU_CONVERSION";
+          }
+          {
+            enabled = 0;
+            name = "MENU_EXPRESSION";
+          }
+          {
+            enabled = 0;
+            name = "MENU_DEFINITION";
+          }
+          {
+            enabled = 0;
+            name = "SYSTEM_PREFS";
+          }
+          {
+            enabled = 0;
+            name = "DOCUMENTS";
+          }
+          {
+            enabled = 0;
+            name = "DIRECTORIES";
+          }
+          {
+            enabled = 0;
+            name = "PRESENTATIONS";
+          }
+          {
+            enabled = 0;
+            name = "SPREADSHEETS";
+          }
+          {
+            enabled = 0;
+            name = "PDF";
+          }
+          {
+            enabled = 0;
+            name = "MESSAGES";
+          }
+          {
+            enabled = 0;
+            name = "CONTACT";
+          }
+          {
+            enabled = 0;
+            name = "EVENT_TODO";
+          }
+          {
+            enabled = 0;
+            name = "IMAGES";
+          }
+          {
+            enabled = 0;
+            name = "BOOKMARKS";
+          }
+          {
+            enabled = 0;
+            name = "MUSIC";
+          }
+          {
+            enabled = 0;
+            name = "MOVIES";
+          }
+          {
+            enabled = 0;
+            name = "FONTS";
+          }
+          {
+            enabled = 0;
+            name = "MENU_OTHER";
+          }
+        ];
+      };
+
+      # Raycast preferences
+      "com.raycast.macos" = {
+        # Show in menu bar
+        showInMenuBar = true;
+
+        # Initial setup completed
+        initialSpotlightSetupCompleted = true;
+
+        # Analytics
+        analyticsEnabled = false;
+        crashReportingEnabled = false;
+
+        # Appearance
+        emojiPickerSkinTone = 0; # Default skin tone
+
+        # Window behavior
+        popToRootTimeout = 60;
+
+        # Navigation
+        navigationCommandStyleIdentifierKey = "default";
+
+        # Other
+        keepHistoryInClipboard = true;
+        clipboardHistoryLength = 100;
+        windowWidth = 680;
+        "NSStatusItem Preferred Position Item-0" = 0.0;
+
+        # Privacy
+        "raycast-telemetry" = false;
+      };
     };
   };
 
@@ -722,4 +844,19 @@
 
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  # User-level launchd agent for Ollama
+  launchd.user.agents."dev.ollama.user" = {
+    serviceConfig = {
+      ProgramArguments = [ "${pkgs.ollama}/bin/ollama" "serve" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      EnvironmentVariables = {
+        OLLAMA_HOST = "127.0.0.1:11434";
+        OLLAMA_MODELS = "/Users/${name}/.local/share/ollama/models";
+      };
+      StandardOutPath = "/Users/${name}/.local/state/ollama/ollama.out.log";
+      StandardErrorPath = "/Users/${name}/.local/state/ollama/ollama.err.log";
+    };
+  };
 }

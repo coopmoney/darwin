@@ -30,7 +30,7 @@
         showBottomLine = true;
 
         # Window size
-        windowSize = "normal";
+        screenMode = "normal";
 
         # Border style
         border = "rounded";
@@ -41,10 +41,10 @@
       };
 
       git = {
-        paging = {
+        pagers = [{
           colorArg = "always";
           pager = "delta --dark --paging=never";
-        };
+        }];
 
         pull = {
           mode = "rebase";
@@ -132,7 +132,7 @@
           scrollDownMain-alt1 = "J";
           scrollUpMain-alt2 = "<c-u>";
           scrollDownMain-alt2 = "<c-d>";
-          executeCustomCommand = ":";
+          executeShellCommand = ":";
           createRebaseOptionsMenu = "m";
           pushFiles = "P";
           pullFiles = "p";

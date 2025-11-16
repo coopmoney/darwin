@@ -7,3 +7,6 @@ result-*
 
 # Nix flake lock file (commit this if you want reproducible builds)
 # flake.lock
+.DS_Store
+
+cache

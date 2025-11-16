@@ -22,8 +22,8 @@
 
     # Environment variables
     sessionVariables = {
-      EDITOR = "vim";
-      VISUAL = "vim";
+      EDITOR = "nvim";
+      VISUAL = "nvim";
       ERL_AFLAGS = "-kernel shell_history enabled";
     };
 
@@ -38,6 +38,8 @@
       mkdir = "mkdir -p";
       e = "$EDITOR";
       v = "$VISUAL";
+      vi = "nvim";
+      vim = "nvim";
 
       # Navigation
       ".." = "cd ..";
