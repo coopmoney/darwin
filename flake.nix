@@ -146,7 +146,16 @@
             runtimeInputs = [ darwin.packages.${system}.darwin-rebuild ];
             text = ''
               echo "🔄 Rebuilding Darwin configuration..."
-              darwin-rebuild switch --flake .#"Coopers-MacBook-Pro"
+              HOST_FILE="''${XDG_CONFIG_HOME:-''${HOME}/.config}/darwin/host"
+              if [ -f "$HOST_FILE" ]; then
+                HOST_ATTR="$(sed -e 's/[[:space:]]*$//' "$HOST_FILE")"
+              else
+                HOST_ATTR="$(scutil --get HostName 2>/dev/null || hostname -s)"
+                if [ -z "$HOST_ATTR" ]; then
+                  HOST_ATTR="$(scutil --get LocalHostName 2>/dev/null || hostname)"
+                fi
+              fi
+              darwin-rebuild switch --flake ".#$HOST_ATTR"
               echo "✅ Darwin configuration applied!"
             '';
           };

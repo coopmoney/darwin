@@ -22,8 +22,18 @@ if [ "${1:-}" = "--update" ]; then
 fi
 
 # Build the configuration
+HOST_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/darwin/host"
+if [ -f "$HOST_FILE" ]; then
+    HOST_ATTR=$(sed -e 's/[[:space:]]*$//' "$HOST_FILE")
+else
+    HOST_ATTR=$(scutil --get HostName 2>/dev/null || hostname -s)
+    if [ -z "$HOST_ATTR" ]; then
+        HOST_ATTR=$(scutil --get LocalHostName 2>/dev/null || hostname)
+    fi
+fi
+
 echo -e "${YELLOW}🔨 Building configuration...${NC}"
-if darwin-rebuild build --flake .#"Coopers-MacBook-Pro"; then
+if darwin-rebuild build --flake ".#$HOST_ATTR"; then
     echo -e "${GREEN}✅ Build successful!${NC}"
 else
     echo -e "${RED}❌ Build failed!${NC}"
@@ -32,7 +42,7 @@ fi
 
 # Apply the configuration
 echo -e "${YELLOW}🚀 Applying configuration...${NC}"
-if sudo darwin-rebuild switch --flake .#"Coopers-MacBook-Pro"; then
+if sudo darwin-rebuild switch --flake ".#$HOST_ATTR"; then
     echo -e "${GREEN}✅ Configuration applied successfully!${NC}"
     echo -e "${GREEN}🎉 Darwin rebuild complete!${NC}"
 else

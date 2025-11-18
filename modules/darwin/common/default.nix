@@ -79,9 +79,10 @@
     lazygit
     postgresql
     ollama
+		discord
 
     # Darwin rebuild utilities
-    (pkgs.writeShellScriptBin "darwin-rebuild-here" ''
+    (pkgs.writeShellScriptBin "darwin" ''
       #!/usr/bin/env bash
       set -e
 
@@ -117,23 +118,34 @@
       COMMAND="''${1:-switch}"
       shift || true
 
+      # Determine flake attribute from config file or current hostname
+      HOST_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/darwin/host"
+      if [ -f "$HOST_FILE" ]; then
+        HOST_ATTR=$(sed -e 's/[[:space:]]*$//' "$HOST_FILE")
+      else
+        HOST_ATTR=$(scutil --get HostName 2>/dev/null || hostname -s)
+        if [ -z "$HOST_ATTR" ]; then
+          HOST_ATTR=$(scutil --get LocalHostName 2>/dev/null || hostname)
+        fi
+      fi
+
       case "$COMMAND" in
         build)
           echo -e "''${YELLOW}🔨 Building configuration...''${NC}"
-          darwin-rebuild build --flake '.#Coopers-MacBook-Pro' "$@"
+          darwin-rebuild build --flake ".#$HOST_ATTR" "$@"
           ;;
         switch)
           echo -e "''${YELLOW}🚀 Switching configuration...''${NC}"
-          sudo darwin-rebuild switch --flake '.#Coopers-MacBook-Pro' "$@"
+          sudo darwin-rebuild switch --flake ".#$HOST_ATTR" "$@"
           ;;
         check)
           echo -e "''${YELLOW}🔍 Checking configuration...''${NC}"
-          darwin-rebuild check --flake '.#Coopers-MacBook-Pro' "$@"
+          darwin-rebuild check --flake ".#$HOST_ATTR" "$@"
           ;;
         *)
           echo -e "''${RED}Unknown command: $COMMAND''${NC}"
           echo ""
-          echo "Usage: darwin-rebuild-here [command] [options]"
+          echo "Usage: darwin [command] [options]"
           echo ""
           echo "Commands:"
           echo "  build   - Build the configuration without switching"
@@ -147,29 +159,20 @@
     '')
 
     # Shortcut commands
-    (pkgs.writeShellScriptBin "drb" ''
+    (pkgs.writeShellScriptBin "osxup" ''
       #!/usr/bin/env bash
-      exec darwin-rebuild-here "$@"
+      exec darwin switch "$@"
     '')
 
     (pkgs.writeShellScriptBin "darwinup" ''
       #!/usr/bin/env bash
-      exec darwin-rebuild-here "$@"
+      exec darwin switch "$@"
     '')
 
-    (pkgs.writeShellScriptBin "drbs" ''
-      #!/usr/bin/env bash
-      exec darwin-rebuild-here switch "$@"
-    '')
-
-    (pkgs.writeShellScriptBin "drbb" ''
-      #!/usr/bin/env bash
-      exec darwin-rebuild-here build "$@"
-    '')
 
     (pkgs.writeShellScriptBin "drbc" ''
       #!/usr/bin/env bash
-      exec darwin-rebuild-here check "$@"
+      exec osxup check "$@"
     '')
 
     # Nix package search utility
@@ -633,30 +636,9 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
       NSAutomaticDashSubstitutionEnabled = false;
+      ApplePressAndHoldEnabled = false; # Disable accent picker to enable key repeat
       KeyRepeat = 2; # Fast key repeat (2 = 30ms)
-      InitialKeyRepeat = 15; # Initial key repeat delay (15 = 225ms)
-      # Use F keys as standard function keys
-      "com.apple.keyboard.fnState" = true;
-      # Full keyboard access for all controls
-      AppleKeyboardUIMode = 3;
-      # Press and hold for accents (disable for key repeat)
-      ApplePressAndHoldEnabled = true;
-
-      # Mouse & Trackpad
-      "com.apple.trackpad.scaling" = 3.0;
-      # Natural scrolling
-      "com.apple.swipescrolldirection" = true;
-      # Enable tap to click
-      "com.apple.mouse.tapBehavior" = 1;
-
-      # Display & Windows
-      # Automatically hide and show menu bar
-      _HIHideMenuBar = false;
-      # Use smooth scrolling
-      NSScrollAnimationEnabled = true;
-      # Disable window animations
-      NSAutomaticWindowAnimationsEnabled = true;
-      # Resize windows from any corner
+      InitialKeyRepeat = lib.mkDefault 10;
       NSWindowResizeTime = 0.001;
 
       # Save & Print Panels

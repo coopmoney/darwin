@@ -102,6 +102,13 @@ fi
 
 info "Using configuration: $CONFIG_NAME"
 
+# Persist selected configuration name for future use
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+DARWIN_CFG_DIR="$CONFIG_HOME/darwin"
+mkdir -p "$DARWIN_CFG_DIR"
+echo "$CONFIG_NAME" > "$DARWIN_CFG_DIR/host"
+success "Saved selected hostname to $DARWIN_CFG_DIR/host"
+
 # Step 5: Install nix-darwin if not present
 if ! command -v darwin-rebuild &>/dev/null; then
   log "Installing nix-darwin..."
