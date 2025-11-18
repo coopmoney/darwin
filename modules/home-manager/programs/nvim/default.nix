@@ -56,6 +56,9 @@ in
 
     # UI defaults and theme
     extraConfigLua = ''
+      vim.o.tabstop = 2
+      vim.o.shiftwidth = 2
+      vim.o.softtabstop = 2
       vim.o.termguicolors = true
       vim.o.number = true
       vim.o.relativenumber = true
@@ -140,12 +143,12 @@ in
           providers = {
             openai = {
               endpoint = os.getenv('OPENAI_API_BASE') or 'https://api.openai.com/v1',
-              secret = os.getenv('OPENAI_API_KEY'),
+              secret = { "op", "read", "op://services/neovim/openai-api-key", "--account", "my" },
               models = { 'gpt-4o-mini', 'gpt-4o' },
             },
             anthropic = {
               endpoint = os.getenv('ANTHROPIC_API_BASE') or 'https://api.anthropic.com',
-              secret = os.getenv('ANTHROPIC_API_KEY'),
+              secret = { "op", "read", "op://services/neovim/anthropic-api-key", "--account", "my" },
               models = { 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest' },
             },
             ollama = {
