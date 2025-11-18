@@ -92,6 +92,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "backup";
+              overwriteBackup = true;
               extraSpecialArgs = {
                 inherit inputs outputs hostname;
                 inherit (users.${user}) name fullName email gitKey;
