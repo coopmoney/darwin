@@ -104,10 +104,9 @@
       plugins = [
         "git"
         "docker"
-        "kubectl"
         "aws"
         "colored-man-pages"
-        "command-not-found"
+        # "command-not-found"
         "fzf"
       ];
       theme = "robbyrussell"; # Will be overridden by starship
