@@ -1,0 +1,258 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# darwin CLI
+# Subcommands: commit
+
+usage() {
+  cat <<'EOF'
+Usage: darwin <command> [args]
+
+Commands:
+  commit   Summarize working changes, ask for confirmation, and commit
+EOF
+}
+
+# Detect gum availability for nicer prompts (optional)
+if command -v gum >/dev/null 2>&1; then
+  GUM_PRESENT=1
+else
+  GUM_PRESENT=0
+fi
+
+confirm() {
+  # Prompt the user for Yes/No/Edit using gum if available
+  local prompt msg reply choice edited
+  prompt=${1:-"Proceed?"}
+  msg=${2:-}
+
+  if [[ ${GUM_PRESENT:-0} -eq 1 ]]; then
+    if [[ -n "$msg" ]]; then
+      choice=$(gum choose --header "$prompt" "Create commit" "Skip" "Edit message" || true)
+      case "$choice" in
+        "Create commit") return 0 ;;
+        "Skip"|"") return 1 ;;
+        "Edit message")
+          edited=$(printf "%s" "$msg" | gum write --placeholder "Edit commit message" || true)
+          if [[ -n "$edited" ]]; then
+            COMMIT_MSG="$edited"
+            return 2
+          else
+            return 1
+          fi
+          ;;
+      esac
+    else
+      gum confirm "$prompt"
+      return $?
+    fi
+  fi
+
+  # Fallback to plain prompts (Y/n/e)
+  while true; do
+    if [[ -n "$msg" ]]; then
+      read -r -p "$prompt [y/n/e]: " reply
+    else
+      read -r -p "$prompt [y/n]: " reply
+    fi
+    case ${reply,,} in
+      y|yes) return 0 ;;
+      n|no) return 1 ;;
+      e|edit)
+        if [[ -n "$msg" ]]; then
+          echo "$msg" > "$TMPFILE"
+          if [[ -n "${EDITOR:-}" ]]; then
+            "$EDITOR" "$TMPFILE"
+          else
+            ${VISUAL:-vi} "$TMPFILE"
+          fi
+          COMMIT_MSG=$(cat "$TMPFILE")
+          return 2
+        else
+          echo "Nothing to edit." >&2
+        fi
+        ;;
+      *) echo "Please answer y, n, or e." ;;
+    esac
+  done
+}
+
+cmd_commit() {
+  # Ensure we're inside a git repo
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: not inside a git repository" >&2
+    exit 1
+  fi
+
+  # Detect changes
+  if [[ -z "$(git --no-pager diff --name-only HEAD)" ]]; then
+    echo "No changes to commit." >&2
+    exit 0
+  fi
+
+  # Check for codex command
+  if ! command -v codex &>/dev/null; then
+    echo "Error: codex command not found. Please install it first." >&2
+    exit 1
+  fi
+
+  # Create suggestions directory
+  SUGGESTIONS_DIR="/tmp/commit-suggestions"
+  mkdir -p "$SUGGESTIONS_DIR"
+
+  # If existing suggestions are present, continue processing them (idempotent)
+  if compgen -G "$SUGGESTIONS_DIR/*" >/dev/null; then
+    echo "Found existing commit suggestions in $SUGGESTIONS_DIR; continuing without regeneration." >&2
+  else
+    echo "Analyzing changes with LLM..." >&2
+    # Run codex to generate commit suggestions unless explicitly skipped
+    if [[ -z "${SKIP_GENERATE:-}" ]]; then
+      if ! codex e "Propose commit messages based on the working changes - write them out to /tmp/commit-suggestions (one file per commit). use a random hex for the name. there should be 2 files per commit - one file with just the text content of the commit message, and another with git commands to stage the changes."; then
+        # If generation failed and nothing was produced, bail out
+        if ! compgen -G "$SUGGESTIONS_DIR/*" >/dev/null; then
+          echo "Error: codex command failed and no suggestions were found" >&2
+          exit 1
+        fi
+      fi
+    fi
+  fi
+
+  # Find all message files (not the stage scripts)
+  # Look for pairs: .msg and .sh files with same basename
+  shopt -s nullglob
+  local msg_files=("$SUGGESTIONS_DIR"/*.msg)
+  shopt -u nullglob
+
+  if [[ ${#msg_files[@]} -eq 0 ]]; then
+    # Fallback: look for any text files
+    shopt -s nullglob
+    msg_files=("$SUGGESTIONS_DIR"/*)
+    shopt -u nullglob
+    
+    # Filter out .sh files
+    local filtered=()
+    for f in "${msg_files[@]}"; do
+      if [[ ! "$f" =~ \.sh$ ]]; then
+        filtered+=("$f")
+      fi
+    done
+    msg_files=("${filtered[@]}")
+  fi
+
+  if [[ ${#msg_files[@]} -eq 0 ]]; then
+    echo "No commit suggestions generated." >&2
+    exit 1
+  fi
+
+  echo "" >&2
+  echo "Found ${#msg_files[@]} commit suggestion(s)" >&2
+  echo "" >&2
+
+  # Process each commit suggestion
+  for msg_file in "${msg_files[@]}"; do
+    local basename="${msg_file%.msg}"
+    if [[ "$basename" == "$msg_file" ]]; then
+      # No .msg extension, try to find companion .sh
+      basename="$msg_file"
+    fi
+    
+    local stage_script="${basename}.sh"
+    if [[ ! -f "$stage_script" ]]; then
+      # Try without extension
+      stage_script="${basename%.txt}.sh"
+    fi
+
+    # Read commit message
+    local commit_msg
+    commit_msg=$(cat "$msg_file")
+    
+    echo "========================================" >&2
+    echo "Proposed commit message:" >&2
+    echo "----------------------------------------" >&2
+    echo "$commit_msg" >&2
+    echo "----------------------------------------" >&2
+    
+    # Show which files will be staged if script exists
+    if [[ -f "$stage_script" ]]; then
+      echo "" >&2
+      echo "Staging script:" >&2
+      cat "$stage_script" >&2
+      echo "" >&2
+      chmod +x "$stage_script"
+    fi
+    echo "" >&2
+
+    # Prompt user
+    local TMPFILE
+    TMPFILE=$(mktemp -t darwin-commit-msg.XXXXXX)
+    echo "$commit_msg" > "$TMPFILE"
+    
+    confirm "Create this commit?" "$commit_msg"
+    rc=$?
+    
+    if [[ $rc -eq 1 ]]; then
+      echo "Skipped." >&2
+      rm -f "$TMPFILE"
+      continue
+    elif [[ $rc -eq 2 ]]; then
+      # User edited the message
+      commit_msg="$COMMIT_MSG"
+    fi
+
+    # Execute staging script if it exists
+    if [[ -f "$stage_script" ]] && [[ -x "$stage_script" ]]; then
+      echo "Staging files..." >&2
+      if ! "$stage_script"; then
+        echo "Error: staging script failed" >&2
+        rm -f "$TMPFILE"
+        continue
+      fi
+    else
+      # Fallback: stage everything
+      echo "No staging script found, staging all changes..." >&2
+      git add -A
+    fi
+
+    # Check if anything is staged
+    if [[ -z "$(git --no-pager diff --cached --name-only)" ]]; then
+      echo "Nothing staged for commit." >&2
+      rm -f "$TMPFILE"
+      continue
+    fi
+
+    # Commit
+    printf '%s\n' "$commit_msg" > "$TMPFILE"
+    git commit -F "$TMPFILE"
+    rm -f "$TMPFILE"
+    
+    echo "✓ Commit created" >&2
+    
+    # Delete the applied suggestion files to allow idempotent continuation
+    if [[ -n "${msg_file:-}" ]]; then
+      rm -f "$msg_file" 2>/dev/null || true
+    fi
+    if [[ -n "${stage_script:-}" && -f "$stage_script" ]]; then
+      rm -f "$stage_script" 2>/dev/null || true
+    fi
+    echo "Cleaned up applied suggestion files." >&2
+    echo "" >&2
+  done
+
+  # Cleanup: if no suggestions remain, remove the directory; otherwise leave for next run
+  if ! compgen -G "$SUGGESTIONS_DIR/*" >/dev/null; then
+    rmdir "$SUGGESTIONS_DIR" 2>/dev/null || true
+  fi
+  
+  echo "All commits processed." >&2
+}
+
+main() {
+  local cmd=${1:-}
+  case "$cmd" in
+    commit) shift; cmd_commit "$@" ;;
+    -h|--help|help|"") usage ;;
+    *) echo "Unknown command: $cmd" >&2; usage; exit 1 ;;
+  esac
+}
+
+main "$@"
