@@ -133,7 +133,12 @@ in
     ];
 
     # Extra plugins
-    extraPlugins = [ gp-nvim ];
+    extraPlugins = with pkgs.vimPlugins; [ 
+			gp-nvim
+			multicursors-nvim
+			comment-nvim
+			nvim-autopairs
+		];
 
     # gp.nvim configuration and keymaps (appended to extraConfigLua)
     extraConfigLuaPost = ''
