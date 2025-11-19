@@ -37,6 +37,12 @@
 
       # Nixvim (Neovim as Nix module)
       nixvim.url = "github:nix-community/nixvim";
+
+      # Cachix Deploy helpers for flakes
+      cachix-deploy-flake = {
+        url = "github:cachix/cachix-deploy-flake";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
     };
 
   outputs =
@@ -161,6 +167,18 @@
             '';
           };
 
+          # Cachix Deploy spec (builds a deploy.json store path)
+          cachix-deploy-spec =
+            let
+              cdl = inputs.cachix-deploy-flake.lib { pkgs = pkgs; };
+            in
+            cdl.spec {
+              agents = {
+                "Coopers-MacBook-Pro" = (mkDarwinConfiguration "macbook-pro" "coopermaruyama").system;
+                "Coopers-Mac-Studio" = (mkDarwinConfiguration "coopers-mac-studio" "coopermaruyama").system;
+              };
+            };
+
           # Make this the default package for 'nix run'
           default = self.packages.${system}.reload-nix-darwin-configuration;
         }
@@ -185,6 +203,7 @@
               nixfmt-rfc-style
               nil
               git
+              cachix
               self.packages.${system}.reload-nix-darwin-configuration
             ];
           };
