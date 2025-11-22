@@ -32,16 +32,11 @@
     extra-experimental-features = [
       "build-time-fetch-tree"
       "parallel-eval"
-			"external-builders"
     ];
-	# 	external-builders = [{
-	# 		systems = [
-	# 			"aarch64-linux"
-	# 			"x86_64-linux"
-	# 		];
-	# 		program = "/usr/local/bin/determinate-nixd";
-	# 		args = ["builder"];
-	# 	}];
+    trusted-users = [
+      "root"
+      name
+    ];
   };
 
   # Allow unfree packages
@@ -88,101 +83,231 @@
     lazygit
     postgresql
     ollama
-		discord
+    discord
+    claude-code
 
+    bun
     # Darwin rebuild utilities
     (pkgs.writeShellScriptBin "darwin" ''
-      #!/usr/bin/env bash
-      set -e
+            #!/usr/bin/env bash
+            set -e
 
-      FLAKE_DIR="/Users/${name}/darwin"
-      SYSTEM_NAME=$(scutil --get ComputerName)
+            FLAKE_DIR="/Users/${name}/darwin"
+            SYSTEM_NAME=$(scutil --get ComputerName)
 
-      # Colors for output
-      RED='\033[0;31m'
-      GREEN='\033[0;32m'
-      YELLOW='\033[0;33m'
-      BLUE='\033[0;34m'
-      NC='\033[0m' # No Color
+            # Colors for output
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            YELLOW='\033[0;33m'
+            BLUE='\033[0;34m'
+            CYAN='\033[0;36m'
+            MAGENTA='\033[0;35m'
+            NC='\033[0m' # No Color
 
-      echo -e "''${BLUE}🔄 Darwin Rebuild Utility''${NC}"
-      echo -e "''${YELLOW}Flake directory: $FLAKE_DIR''${NC}"
+            # Helper function to show usage (gum-styled when available)
+            show_usage() {
+              if command -v gum >/dev/null 2>&1; then
+                gum style --bold --foreground 212 "🍎 Darwin Configuration Manager"
+                echo ""
+                gum style --foreground 103 "Usage:"
+                gum style --foreground 7   "  darwin <command> [options]"
+                echo ""
+                gum style --foreground 103 "Commands:"
+                gum style --foreground 7   "  apply           - Apply configuration changes (default)"
+                gum style --foreground 7   "  build           - Build the configuration without switching"
+                gum style --foreground 7   "  check           - Check the configuration for errors"
+                gum style --foreground 7   "  commit          - Commit configuration changes with AI-assisted message"
+                gum style --foreground 7   "  evolve          - AI-assisted configuration evolution"
+                echo ""
+                gum style --foreground 103 "Aliases:"
+                gum style --foreground 7   "  switch          - Alias for 'apply'"
+                gum style --foreground 7   "  up              - Backward-compat alias for 'apply'"
+                echo ""
+                gum style --foreground 103 "Examples:"
+                gum style --foreground 7   "  darwin apply    - Apply and activate configuration"
+                gum style --foreground 7   "  darwin commit   - Create an intelligent git commit"
+                gum style --foreground 7   "  darwin evolve   - Modify your system interactively with AI"
+                echo ""
+                gum style --foreground 238 "All additional arguments are passed to darwin-rebuild (for apply/build/check)"
+              else
+                echo -e "''${BLUE}🍎 Darwin Configuration Manager''${NC}"
+                echo ""
+                echo "Usage: darwin <command> [options]"
+                echo ""
+                echo -e "''${CYAN}Commands:''${NC}"
+                echo "  apply           - Apply configuration changes (default)"
+                echo "  build           - Build the configuration without switching"
+                echo "  check           - Check the configuration for errors"
+                echo "  commit          - Commit configuration changes with AI-assisted message"
+                echo "  evolve          - AI-assisted configuration evolution"
+                echo ""
+                echo -e "''${CYAN}Aliases:''${NC}"
+                echo "  switch          - Alias for 'apply'"
+                echo "  up              - Backward-compat alias for 'apply'"
+                echo ""
+                echo -e "''${CYAN}Examples:''${NC}"
+                echo "  darwin apply    - Apply and activate configuration"
+                echo "  darwin commit   - Create an intelligent git commit"
+                echo "  darwin evolve   - Modify your system interactively with AI"
+                echo ""
+                echo "All additional arguments are passed to darwin-rebuild (for apply/build/check)"
+              fi
+            }
 
-      # Check if flake directory exists
-      if [ ! -d "$FLAKE_DIR" ]; then
-        echo -e "''${RED}❌ Error: Flake directory not found at $FLAKE_DIR''${NC}"
-        exit 1
-      fi
+            # Check if flake directory exists
+            if [ ! -d "$FLAKE_DIR" ]; then
+              echo -e "''${RED}❌ Error: Flake directory not found at $FLAKE_DIR''${NC}"
+              exit 1
+            fi
 
-      # Change to flake directory
-      cd "$FLAKE_DIR"
+            # Change to flake directory
+            cd "$FLAKE_DIR"
 
-      # Check for uncommitted changes
-      if git diff-index --quiet HEAD -- 2>/dev/null; then
-        echo -e "''${GREEN}✓ Git tree is clean''${NC}"
-      else
-        echo -e "''${YELLOW}⚠️  Warning: Git tree has uncommitted changes''${NC}"
-      fi
+            # Determine flake attribute from config file or current hostname
+            HOST_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/darwin/host"
+            if [ -f "$HOST_FILE" ]; then
+              HOST_ATTR=$(sed -e 's/[[:space:]]*$//' "$HOST_FILE")
+            else
+              HOST_ATTR=$(scutil --get HostName 2>/dev/null || hostname -s)
+              if [ -z "$HOST_ATTR" ]; then
+                HOST_ATTR=$(scutil --get LocalHostName 2>/dev/null || hostname)
+              fi
+            fi
 
-      # Parse arguments
-      COMMAND="''${1:-switch}"
-      shift || true
+            # Parse command
+            COMMAND="''${1:-apply}"
+            shift || true
 
-      # Determine flake attribute from config file or current hostname
-      HOST_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/darwin/host"
-      if [ -f "$HOST_FILE" ]; then
-        HOST_ATTR=$(sed -e 's/[[:space:]]*$//' "$HOST_FILE")
-      else
-        HOST_ATTR=$(scutil --get HostName 2>/dev/null || hostname -s)
-        if [ -z "$HOST_ATTR" ]; then
-          HOST_ATTR=$(scutil --get LocalHostName 2>/dev/null || hostname)
-        fi
-      fi
+            case "$COMMAND" in
+              apply|switch|up)
+                echo -e "''${BLUE}🔄 Darwin Configuration Manager''${NC}"
+                echo -e "''${YELLOW}Flake directory: $FLAKE_DIR''${NC}"
 
-      case "$COMMAND" in
-        build)
-          echo -e "''${YELLOW}🔨 Building configuration...''${NC}"
-          darwin-rebuild build --flake ".#$HOST_ATTR" "$@"
-          ;;
-        switch)
-          echo -e "''${YELLOW}🚀 Switching configuration...''${NC}"
-          sudo darwin-rebuild switch --flake ".#$HOST_ATTR" "$@"
-          ;;
-        check)
-          echo -e "''${YELLOW}🔍 Checking configuration...''${NC}"
-          darwin-rebuild check --flake ".#$HOST_ATTR" "$@"
-          ;;
-        *)
-          echo -e "''${RED}Unknown command: $COMMAND''${NC}"
-          echo ""
-          echo "Usage: darwin [command] [options]"
-          echo ""
-          echo "Commands:"
-          echo "  build   - Build the configuration without switching"
-          echo "  switch  - Build and switch to the new configuration (default)"
-          echo "  check   - Check the configuration for errors"
-          echo ""
-          echo "All additional arguments are passed to darwin-rebuild"
-          exit 1
-          ;;
-      esac
+                # Check for uncommitted changes
+                if git diff-index --quiet HEAD -- 2>/dev/null; then
+                  echo -e "''${GREEN}✓ Git tree is clean''${NC}"
+                else
+                  echo -e "''${YELLOW}⚠️  Warning: Git tree has uncommitted changes''${NC}"
+                fi
+
+                echo -e "''${YELLOW}🚀 Switching configuration...''${NC}"
+                sudo darwin-rebuild switch --flake ".#$HOST_ATTR" "$@"
+                ;;
+
+              build)
+                echo -e "''${BLUE}🔄 Darwin Configuration Manager''${NC}"
+                echo -e "''${YELLOW}Flake directory: $FLAKE_DIR''${NC}"
+                echo -e "''${YELLOW}🔨 Building configuration...''${NC}"
+                darwin-rebuild build --flake ".#$HOST_ATTR" "$@"
+                ;;
+
+              check)
+                echo -e "''${BLUE}🔄 Darwin Configuration Manager''${NC}"
+                echo -e "''${YELLOW}Flake directory: $FLAKE_DIR''${NC}"
+                echo -e "''${YELLOW}🔍 Checking configuration...''${NC}"
+                darwin-rebuild check --flake ".#$HOST_ATTR" "$@"
+                ;;
+
+              commit)
+                echo -e "''${MAGENTA}🤖 AI-Assisted Commit''${NC}"
+                echo -e "''${CYAN}Analyzing changes in $FLAKE_DIR...''${NC}"
+                echo ""
+
+                # Check if there are changes to commit
+                if git diff-index --quiet HEAD -- 2>/dev/null && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+                  echo -e "''${YELLOW}⚠️  No changes to commit''${NC}"
+                  exit 0
+                fi
+
+                # Use claude to create an intelligent commit
+                claude -p "Please analyze the changes in this Darwin/nix-darwin configuration repository and create an appropriate git commit. Include all relevant files and write a clear, concise commit message that explains what was changed and why."
+                ;;
+
+              evolve)
+                echo -e "''${MAGENTA}🧬 Darwin Evolution Mode''${NC}"
+                echo -e "''${CYAN}What would you like to change about your system?''${NC}"
+                echo ""
+                echo -e "''${YELLOW}Examples:''${NC}"
+                echo "  - Add a new package or application"
+                echo "  - Change system preferences or defaults"
+                echo "  - Modify shell configuration"
+                echo "  - Update development tools"
+                echo "  - Adjust keyboard or trackpad settings"
+                echo ""
+
+                # Read user input
+                read -p "$(echo -e ''${CYAN}Your request:''${NC} )" USER_REQUEST
+
+                if [ -z "$USER_REQUEST" ]; then
+                  echo -e "''${RED}❌ No request provided''${NC}"
+                  exit 1
+                fi
+
+                echo ""
+                echo -e "''${MAGENTA}🤖 Invoking AI to evolve your system...''${NC}"
+                echo ""
+
+                # Prefer Codex for repo-aware edits; fallback to claude if unavailable
+                if command -v codex >/dev/null 2>&1; then
+                  set +e
+                  codex e "I'm working in a nix-darwin configuration repository at $FLAKE_DIR. The user wants to: $USER_REQUEST
+
+      Please:
+      1. Analyze the current configuration
+      2. Make the necessary changes to implement this request by editing files in this repo
+      3. Explain what you changed and why
+      4. Ask if I want to apply the changes with 'darwin apply' or commit them with 'darwin commit'
+
+      Remember this is a nix-darwin + home-manager configuration, so changes should be made to the appropriate Nix files."
+                  CODEX_RC=$?
+                  set -e
+                  if [ "$CODEX_RC" -ne 0 ]; then
+                    echo -e "''${YELLOW}⚠️  Codex exited with code $CODEX_RC (non-fatal). Continuing...''${NC}"
+                  fi
+                elif command -v claude >/dev/null 2>&1; then
+                  set +e
+                  claude -p "I'm working in a nix-darwin configuration repository at $FLAKE_DIR. The user wants to: $USER_REQUEST
+
+      Please:
+      1. Analyze the current configuration
+      2. Make the necessary changes to implement this request
+      3. Explain what you changed and why
+      4. Ask if I want to apply the changes with 'darwin apply' or commit them with 'darwin commit'
+
+      Remember this is a nix-darwin + home-manager configuration, so changes should be made to the appropriate Nix files."
+                  CLAUDE_RC=$?
+                  set -e
+                  if [ "$CLAUDE_RC" -ne 0 ]; then
+                    echo -e "''${YELLOW}⚠️  Claude exited with code $CLAUDE_RC (non-fatal). Continuing...''${NC}"
+                  fi
+                else
+                  echo -e "''${RED}❌ Neither 'codex' nor 'claude' is available. Install one of them and retry.''${NC}"
+                  exit 1
+                fi
+                ;;
+
+              help|--help|-h)
+                show_usage
+                ;;
+
+              *)
+                echo -e "''${RED}❌ Unknown command: $COMMAND''${NC}"
+                echo ""
+                show_usage
+                exit 1
+                ;;
+            esac
     '')
 
-    # Shortcut commands
+    # Backward compatibility aliases
     (pkgs.writeShellScriptBin "osxup" ''
       #!/usr/bin/env bash
-      exec darwin switch "$@"
+      exec darwin apply "$@"
     '')
 
     (pkgs.writeShellScriptBin "darwinup" ''
       #!/usr/bin/env bash
-      exec darwin switch "$@"
-    '')
-
-
-    (pkgs.writeShellScriptBin "drbc" ''
-      #!/usr/bin/env bash
-      exec osxup check "$@"
+      exec darwin apply "$@"
     '')
 
     # Nix package search utility
@@ -612,12 +737,6 @@
     #   mouseDriverCursorSize = 1.0;
     # };
 
-    # Launch Services (default apps)
-    LaunchServices = {
-      # Disable quarantine for downloaded apps
-      LSQuarantine = true;
-    };
-
     # Screen Saver
     screensaver = {
       # Require password after sleep or screen saver
@@ -836,7 +955,10 @@
   # User-level launchd agent for Ollama
   launchd.user.agents."dev.ollama.user" = {
     serviceConfig = {
-      ProgramArguments = [ "${pkgs.ollama}/bin/ollama" "serve" ];
+      ProgramArguments = [
+        "${pkgs.ollama}/bin/ollama"
+        "serve"
+      ];
       RunAtLoad = true;
       KeepAlive = true;
       EnvironmentVariables = {

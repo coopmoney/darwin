@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # LLM-assisted bootstrap for this Darwin/Home-Manager repo
 # Usage: bin/bootstrap-llm.sh [--model MODEL] [--dry-run] [--no-new-machine] [--hostname NAME] [--username NAME]
-# Requires: curl, jq, OPENAI_API_KEY in env (you can paste it interactively)
+# Requires: curl, jq, Codex CLI (auto-installed via nixpkgs#codex if missing)
 
 set -euo pipefail
 
@@ -70,7 +70,7 @@ ensure_gum() {
   rm -rf "$tmp"
 }
 
-MODEL_DEFAULT="gpt-4o-mini"
+MODEL_DEFAULT="gpt-5"
 MODEL="$MODEL_DEFAULT"
 DRY_RUN=0
 SKIP_NEW_MACHINE=0
@@ -89,14 +89,14 @@ while [[ $# -gt 0 ]]; do
 ${BOLD}LLM-assisted bootstrap${NC}
 
 Usage: $(basename "$0") [options]
-  --model MODEL          OpenAI model (default: ${MODEL_DEFAULT})
+  --model MODEL          Model for Codex (default: ${MODEL_DEFAULT})
   --dry-run              Do not write files; just print planned actions
   --no-new-machine       Skip calling bin/new-machine.sh
   --hostname NAME        Explicit machine hostname key (e.g., macbook-pro)
   --username NAME        Username for home path (defaults to current user)
 
 Notes:
-- If OPENAI_API_KEY is not set, you'll be guided to obtain one and may paste it securely for this run.
+- This script uses the Codex CLI. If it's not installed, we'll attempt to install it automatically and Codex will guide setup.
 - On macOS arm64, this script auto-installs a local gum binary for a nicer UI.
 EOF
       exit 0;;
@@ -115,6 +115,26 @@ if command -v gum >/dev/null 2>&1; then
 else
   GUM_PRESENT=0
 fi
+
+# Ensure Codex is installed (install via Nix if possible)
+ensure_codex() {
+  if command -v codex >/dev/null 2>&1; then
+    return 0
+  fi
+  warn "Codex CLI not found; attempting installation via Nix..."
+  if command -v nix >/dev/null 2>&1; then
+    if [[ $GUM_PRESENT -eq 1 ]]; then
+      gum spin --spinner dot --title "Installing Codex via nixpkgs#codex..." -- \
+        nix profile install nixpkgs#codex >/dev/null 2>&1 || true
+    else
+      nix profile install nixpkgs#codex || true
+    fi
+  fi
+  if ! command -v codex >/dev/null 2>&1; then
+    error "Codex is still not available. Please install it (e.g., 'nix profile install nixpkgs#codex') and re-run."
+    exit 1
+  fi
+}
 
 confirm() {
   local prompt="$1"
@@ -168,7 +188,7 @@ DEFAULT_HOST_KEY="$(echo "$DETECTED_COMPUTER_NAME" | tr '[:upper:]' '[:lower:]' 
 HOST_KEY="${HOSTNAME_ARG:-$DEFAULT_HOST_KEY}"
 
 header "LLM-assisted Darwin bootstrap"
-info "OpenAI model: $MODEL"
+info "Model: $MODEL"
 info "Proposed hostname key: $HOST_KEY"
 info "Username: $USERNAME"
 
@@ -185,30 +205,8 @@ mkdir -p "$CFG_HOME/darwin"
 echo "$HOSTNAME_SYSTEM" > "$CFG_HOME/darwin/host"
 success "Saved selected hostname to $CFG_HOME/darwin/host"
 
-# API key guidance and capture (no storage), if absent
-if [[ -z "${OPENAI_API_KEY:-}" ]]; then
-  warn "OPENAI_API_KEY is not set."
-  printf "\nTo use LLM assistance, you need an OpenAI API key.\n"
-  printf "Get a key here: https://platform.openai.com/api-keys\n"
-  printf "Docs: https://platform.openai.com/docs/quickstart\n\n"
-  if [[ $GUM_PRESENT -eq 1 ]]; then
-    if confirm "Open browser to create an API key now?"; then
-      open "https://platform.openai.com/api-keys" >/dev/null 2>&1 || true
-    fi
-    local_key=$(prompt_secret "Paste your OpenAI API key (kept only for this run, not stored)")
-    if [[ -n "$local_key" ]]; then
-      export OPENAI_API_KEY="$local_key"
-      success "API key captured for this run only."
-    else
-      error "No API key provided. You can set it later and re-run."
-      printf "Example (replace with your secret):\n  export OPENAI_API_KEY=\"{{OPENAI_API_KEY}}\"\n"
-      exit 1
-    fi
-  else
-    printf "Set it in your shell and re-run, e.g.:\n  export OPENAI_API_KEY=\"{{OPENAI_API_KEY}}\"\n\n"
-    exit 1
-  fi
-fi
+# Ensure Codex CLI is present (will attempt install) and let it guide setup as needed
+ensure_codex
 
 # Optionally create scaffolding using existing script
 if [[ $SKIP_NEW_MACHINE -eq 0 ]]; then
@@ -234,19 +232,19 @@ DARWIN_MODULES=$( (cd "$ROOT_DIR/modules/darwin" 2>/dev/null && find . -maxdepth
 EXISTING_HOSTS=$( (cd "$ROOT_DIR/hosts" 2>/dev/null && find . -maxdepth 1 -mindepth 1 -type d -print | sed 's#^./##' | sort) || true )
 README_SUMMARY=$(sed -n '1,80p' "$ROOT_DIR/README.md" 2>/dev/null || true)
 
-# Compose the prompt for OpenAI to produce a JSON plan
+# Compose the prompt for Codex to produce a JSON plan
 read -r -d '' SYS_MSG <<'SYS'
 You are an expert assistant helping initialize a nix-darwin + home-manager repo for macOS.
 Return ONLY minified JSON that matches the following schema:
 {
-  "hostname_key": "string",                 // a safe key like "macbook-pro"
-  "username": "string",                     // user name
-  "machine_display_name": "string",         // pretty display name
-  "advice": "string",                        // short guidance for the user
-  "host_overrides": "string",                // Nix snippet to paste into hosts/<key>/default.nix
-  "home_overrides": "string",                // Nix snippet to paste into home/<user>/<key>/default.nix
-  "packages": ["string"],                    // suggested pkgs for home.packages
-  "next_steps": ["string"]                   // actionable steps
+  "hostname_key": "string",
+  "username": "string",
+  "machine_display_name": "string",
+  "advice": "string",
+  "host_overrides": "string",
+  "home_overrides": "string",
+  "packages": ["string"],
+  "next_steps": ["string"]
 }
 Do not include backticks, markdown, or extra commentary.
 SYS
@@ -272,46 +270,87 @@ Task:
 Keep output strictly JSON per schema.
 USER
 
-header "Calling OpenAI for a tailored plan"
+header "Calling Codex for a tailored plan"
 
-OPENAI_URL="${OPENAI_API_BASE:-https://api.openai.com}/v1/chat/completions"
+# Prepare JSON Schema for strict validation via Codex
+SCHEMA_FILE=$(mktemp -t bootstrap-llm-schema.XXXXXX.json)
+cat >"$SCHEMA_FILE" <<'SCHEMA'
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hostname_key",
+    "username",
+    "machine_display_name",
+    "advice",
+    "host_overrides",
+    "home_overrides",
+    "packages",
+    "next_steps"
+  ],
+  "properties": {
+    "hostname_key": {"type": "string"},
+    "username": {"type": "string"},
+    "machine_display_name": {"type": "string"},
+    "advice": {"type": "string"},
+    "host_overrides": {"type": "string"},
+    "home_overrides": {"type": "string"},
+    "packages": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  }
+}
+SCHEMA
 
-REQ=$(jq -n \
-  --arg model "$MODEL" \
-  --arg sys "$SYS_MSG" \
-  --arg usr "$USER_MSG" \
-  '{model:$model, temperature: 0.3, response_format:{type:"json_object"}, messages:[{role:"system",content:$sys},{role:"user",content:$usr}] }')
+PROMPT=$(cat <<EOF
+System instructions:
+$SYS_MSG
+
+User context:
+$USER_MSG
+EOF
+)
+
+LAST_MSG_FILE=$(mktemp -t bootstrap-llm-last.XXXXXX.json)
 
 if [[ $DRY_RUN -eq 1 ]]; then
-  info "DRY RUN: would POST to OpenAI"
-  echo "$REQ" | jq 'del(.messages[].content) + {messages:[{"role":"system","content":"<snip>"},{"role":"user","content":"<snip>"}]}'
+  info "DRY RUN: would run Codex exec with schema enforcement"
+  printf "Command: codex exec -m '%s' --sandbox read-only --skip-git-repo-check --output-schema '%s' -o '%s' -\n" "$MODEL" "$SCHEMA_FILE" "$LAST_MSG_FILE"
+  printf "Prompt (snipped): System [%d chars], User [%d chars]\n" "${#SYS_MSG}" "${#USER_MSG}"
+  rm -f "$SCHEMA_FILE" "$LAST_MSG_FILE"
   exit 0
 fi
 
+CODEX_CMD=(codex exec -m "$MODEL" --sandbox read-only --skip-git-repo-check --output-schema "$SCHEMA_FILE" -o "$LAST_MSG_FILE" -)
+
+set +e
 if [[ $GUM_PRESENT -eq 1 ]]; then
-  RAW=$(gum spin --spinner dot --title "Contacting OpenAI..." -- \
-    curl -sS \
-      -H "Authorization: Bearer ${OPENAI_API_KEY}" \
-      -H "Content-Type: application/json" \
-      -d "$REQ" \
-      "$OPENAI_URL")
+  printf "%s" "$PROMPT" | gum spin --spinner dot --title "Contacting Codex..." -- "${CODEX_CMD[@]}"
+  rc=$?
 else
-  RAW=$(curl -sS \
-      -H "Authorization: Bearer ${OPENAI_API_KEY}" \
-      -H "Content-Type: application/json" \
-      -d "$REQ" \
-      "$OPENAI_URL")
+  printf "%s" "$PROMPT" | "${CODEX_CMD[@]}"
+  rc=$?
+fi
+set -e
+
+if [[ $rc -ne 0 ]]; then
+  error "Codex invocation failed (exit $rc). If this is a first run, try: codex login"
+  rm -f "$SCHEMA_FILE" "$LAST_MSG_FILE"
+  exit $rc
 fi
 
-# Extract content safely
-if ! CONTENT=$(echo "$RAW" | jq -r '.choices[0].message.content' 2>/dev/null); then
-  error "Failed to parse OpenAI response."; echo "$RAW"; exit 1
+# Extract content safely (Codex wrote the final message to LAST_MSG_FILE)
+if ! CONTENT=$(cat "$LAST_MSG_FILE" 2>/dev/null); then
+  error "Failed to read Codex output."; rm -f "$SCHEMA_FILE" "$LAST_MSG_FILE"; exit 1
 fi
 
-# Validate JSON content
+# Validate JSON content is well-formed
 if ! echo "$CONTENT" | jq . >/dev/null 2>&1; then
-  error "OpenAI did not return valid JSON. Raw content:"; echo "$CONTENT"; exit 1
+  error "Codex did not return valid JSON. Raw content:"; echo "$CONTENT"; rm -f "$SCHEMA_FILE" "$LAST_MSG_FILE"; exit 1
 fi
+
+# Cleanup temp files used for the call
+rm -f "$SCHEMA_FILE" "$LAST_MSG_FILE"
 
 PLAN_JSON_PRETTY=$(echo "$CONTENT" | jq '.')
 

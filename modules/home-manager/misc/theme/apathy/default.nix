@@ -21,7 +21,7 @@ let
 
       gutter = "#0c0a10",
       cursorline = "#17121c",
-      selection = "#2d22476b",
+      selection = "#1a1420",
     }
     return M
   '';
