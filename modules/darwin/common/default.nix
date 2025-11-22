@@ -431,6 +431,7 @@
       "cursor"
       "warp"
       "tableplus"
+      "plex"
 
       # Browsers & Communication
       "google-chrome"
