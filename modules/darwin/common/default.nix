@@ -27,12 +27,15 @@
   };
 
   # Determinate Nix settings
+  # Only include keys permitted by the Determinate module.
   determinate-nix.customSettings = {
     eval-cores = 0;
     extra-experimental-features = [
       "build-time-fetch-tree"
       "parallel-eval"
     ];
+    # Note: ssl-cert-file is managed by the installer/system and is not allowed here.
+    # If needed, set it in /etc/nix/nix.conf (our bootstrap does this) rather than via customSettings.
   };
 
   # Allow unfree packages
@@ -41,6 +44,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Core utilities
+    cacert
     coreutils
     tmux
     git
@@ -62,7 +66,7 @@
     terraform
     gh
     direnv
-    inputs.flox.packages.${pkgs.system}.default
+    # inputs.flox.packages.${pkgs.system}.default
 
     # Terminal enhancements
     ripgrep

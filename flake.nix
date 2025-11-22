@@ -25,9 +25,9 @@
     };
 
     # Flox
-    flox = {
-      url = "github:flox/flox/latest";
-    };
+    # flox = {
+    #   url = "github:flox/flox/latest";
+    # };
 
     # FH
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/0.1.26.tar.gz";

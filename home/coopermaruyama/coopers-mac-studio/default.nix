@@ -22,18 +22,19 @@
   #   - home/coopermaruyama/coopers-mac-studio/wallpaper-secondary.jpg
   home.file."Pictures/wallpaper-primary.png" = {
     # Uncomment and set the source to your primary display wallpaper
-    source = ./black-hole.png;
+    source = ../../../modules/home-manager/misc/wallpapers/black-hole.png;
   };
 
-  home.file."Pictures/wallpaper-secondary.png" = {
+  home.file."Pictures/wallpaper-secondary.jpg" = {
     # Uncomment and set the source to your secondary display wallpaper
-    source = ./saturn.jpg;
+    source = ../../../modules/home-manager/misc/wallpapers/saturn.jpg;
   };
 
   # Set wallpapers on activation (supports multiple monitors)
   home.activation.setWallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
     WALLPAPER_PRIMARY="${config.home.homeDirectory}/Pictures/wallpaper-primary.png"
-    WALLPAPER_SECONDARY="${config.home.homeDirectory}/Pictures/wallpaper-secondary.png"
+    WALLPAPER_SECONDARY="${config.home.homeDirectory}/Pictures/wallpaper-secondary.jpg"
+    WALLPAPER_TERTIARY="${config.home.homeDirectory}/Pictures/wallpaper-primary.png"
 
     # Check if wallpaper files exist
     if [ ! -f "$WALLPAPER_PRIMARY" ] && [ ! -f "$WALLPAPER_SECONDARY" ]; then

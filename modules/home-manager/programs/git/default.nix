@@ -15,6 +15,8 @@
         name = fullName;
         email = email;
       };
+      # Ensure Git uses the same CA bundle (helps user-invoked Git outside Nix)
+      http.sslCAInfo = "/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt";
       init = {
         defaultBranch = "main";
         templatedir = "~/.git_template";
