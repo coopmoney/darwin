@@ -33,6 +33,7 @@
     packages = with pkgs; [
       # Add any user-specific packages here
       devenv
+      goose-cli
     ];
 
     # Session variables
