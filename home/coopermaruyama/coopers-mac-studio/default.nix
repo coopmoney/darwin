@@ -20,6 +20,7 @@
   # Place your wallpaper files at:
   #   - home/coopermaruyama/coopers-mac-studio/wallpaper-primary.png
   #   - home/coopermaruyama/coopers-mac-studio/wallpaper-secondary.jpg
+  #   - home/coopermaruyama/coopers-mac-studio/wallpaper-tertiary.jpg
   home.file."Pictures/wallpaper-primary.png" = {
     # Uncomment and set the source to your primary display wallpaper
     source = ./black-hole.png;
@@ -30,18 +31,25 @@
     source = ./saturn.jpg;
   };
 
+  home.file."Pictures/wallpaper-tertiary.jpg" = {
+    # Cute kitten wallpaper for the third display
+    source = ./wallpaper-tertiary.jpg;
+  };
+
   # Set wallpapers on activation (supports multiple monitors)
   home.activation.setWallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
     WALLPAPER_PRIMARY="${config.home.homeDirectory}/Pictures/wallpaper-primary.png"
     WALLPAPER_SECONDARY="${config.home.homeDirectory}/Pictures/wallpaper-secondary.png"
+    WALLPAPER_TERTIARY="${config.home.homeDirectory}/Pictures/wallpaper-tertiary.jpg"
 
     # Check if wallpaper files exist
-    if [ ! -f "$WALLPAPER_PRIMARY" ] && [ ! -f "$WALLPAPER_SECONDARY" ]; then
+    if [ ! -f "$WALLPAPER_PRIMARY" ] && [ ! -f "$WALLPAPER_SECONDARY" ] && [ ! -f "$WALLPAPER_TERTIARY" ]; then
       echo "No wallpaper files found."
       echo "To set wallpapers:"
       echo "  1. Place wallpaper files in home/coopermaruyama/coopers-mac-studio/"
       echo "     - wallpaper-primary.jpg (for main display)"
       echo "     - wallpaper-secondary.jpg (for second display)"
+      echo "     - wallpaper-tertiary.jpg (for third display)"
       echo "  2. Uncomment the source lines in the config"
       echo "  3. Rebuild with: darwin-rebuild switch"
     else
@@ -62,10 +70,10 @@
                   set picture to "$WALLPAPER_SECONDARY"
                   do shell script "echo 'Display 2: Set to secondary wallpaper'"
                 end if
-              else if desktopNumber is 2 then
+              else if desktopNumber is 3 then
                 if (do shell script "test -f '$WALLPAPER_TERTIARY' && echo 'exists' || echo 'missing'") is "exists" then
                   set picture to "$WALLPAPER_TERTIARY"
-                  do shell script "echo 'Display 2: Set to secondary wallpaper'"
+                  do shell script "echo 'Display 3: Set to tertiary wallpaper'"
                 end if
               else
                 -- For additional displays, use secondary wallpaper by default

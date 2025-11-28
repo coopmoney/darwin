@@ -85,6 +85,7 @@
     ollama
     discord
     claude-code
+		betterdisplay
 
     bun
     # Darwin rebuild utilities

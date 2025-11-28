@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   programs.zsh = {
@@ -40,6 +45,7 @@
       v = "$VISUAL";
       vi = "nvim";
       vim = "nvim";
+			ce = "cursor editor .";
 
       # Navigation
       ".." = "cd ..";
@@ -186,9 +192,9 @@
       fi
 
       # Node/NPM
-      export NPM_PACKAGES="$HOME/.npm-packages"
-      export PATH="$NPM_PACKAGES/bin:$PATH"
-      export NODE_PATH="$NPM_PACKAGES/lib/node_modules"
+      # export NPM_PACKAGES="$HOME/.npm-packages"
+      # export PATH="$NPM_PACKAGES/bin:$PATH"
+      # export NODE_PATH="$NPM_PACKAGES/lib/node_modules"
 
       # Web search function
       web_search() {
