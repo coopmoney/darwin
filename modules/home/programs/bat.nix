@@ -1,14 +1,19 @@
 # Bat (better cat) configuration
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   programs.bat = {
     enable = true;
     config = {
-      theme = "catppuccin-mocha";
+      # Theme is set automatically by catppuccin module
+      # (see catppuccin.enable in default.nix)
       style = "numbers,changes,header";
       pager = "less -FR";
     };
   };
 }
-
