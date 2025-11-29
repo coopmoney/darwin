@@ -1,0 +1,12 @@
+# read from chamber
+fuction locker_read() {
+  aws-vault exec dmadmin -- chamber read locker "$@"
+}
+
+function locker_write() {
+  aws-vault exec dmadmin -- chamber write locker "$@"
+}
+
+function locker_list() {
+ aws-vault exec dmadmin -- chamber list locker "$@"
+}

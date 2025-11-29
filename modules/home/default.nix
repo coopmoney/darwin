@@ -1,5 +1,11 @@
 # Home Manager modules - aggregates all common home configuration
-{ config, pkgs, lib, user, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  user,
+  ...
+}:
 
 {
   imports = [
@@ -21,6 +27,7 @@
     # Misc
     ./xdg.nix
     ./theme.nix
+    ./files.nix
   ];
 
   # Basic home configuration
@@ -53,4 +60,3 @@
     accent = "blue";
   };
 }
-
