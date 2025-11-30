@@ -1,13 +1,11 @@
 # Karabiner-Elements configuration
-# Note: Config is now managed via files.nix from files/config/karabiner/
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+# Config is COPIED (not symlinked) via files.nix because Karabiner needs write access
+{ config, pkgs, lib, ... }:
 
 {
-  # Karabiner config is symlinked via xdg.configFile in files.nix
-  # This module is kept for any additional karabiner-related settings
+  # Karabiner config is managed in files.nix using home.activation
+  # This allows Karabiner to modify its own config file
+
+  # If you want to fully reset to your Nix config, delete ~/.config/karabiner
+  # and rebuild: rm -rf ~/.config/karabiner && darwin-rebuild switch
 }
