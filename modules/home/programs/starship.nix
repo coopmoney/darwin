@@ -9,11 +9,17 @@
     settings = {
       add_newline = false;
       format = lib.concatStrings [
-        "$directory"
+        "[░▒▓](#a3aed2)"
+        "[  ](bg:#a3aed2 fg:#090c0c)"
+        "[](bg:#568fa0 fg:#a3aed2)"
+        "''$directory"
+        "[](fg:#568fa0 bg:#394260)"
         "$git_branch"
-        "$git_status"
-        " "
-        "$character"
+        "$git_metrics"
+        "[](fg:#394260 bg:#212736)"
+        "$nix_shell"
+        "[ ](fg:#1d2230)"
+        "\n$character"
       ];
       right_format = "$time";
 
@@ -68,22 +74,59 @@
         diverged = "↕$ahead_count/$behind_count ";
       };
 
-      nodejs = { symbol = " "; style = "bold green"; format = "[$symbol($version )]($style)"; };
-      golang = { symbol = " "; style = "bold cyan"; format = "[$symbol($version )]($style)"; };
-      python = { symbol = " "; style = "yellow bold"; format = "[$symbol($pyenv_prefix)($version )(\\($virtualenv\\) )]($style)"; };
-      rust = { symbol = " "; style = "bold red"; format = "[$symbol($version )]($style)"; };
-      docker_context = { symbol = " "; style = "blue bold"; format = "[$symbol$context]($style) "; only_with_files = true; };
-      aws = { symbol = "  "; style = "bold orange"; format = "[$symbol($profile )(\\($region\\) )]($style)"; disabled = false; };
-      cmd_duration = { min_time = 2000; format = "⏱ [$duration](bold yellow)"; };
-      line_break = { disabled = true; };
+      nodejs = {
+        symbol = " ";
+        style = "bold green";
+        format = "[$symbol($version )]($style)";
+      };
+      golang = {
+        symbol = " ";
+        style = "bold cyan";
+        format = "[$symbol($version )]($style)";
+      };
+      python = {
+        symbol = " ";
+        style = "yellow bold";
+        format = "[$symbol($pyenv_prefix)($version )(\\($virtualenv\\) )]($style)";
+      };
+      rust = {
+        symbol = " ";
+        style = "bold red";
+        format = "[$symbol($version )]($style)";
+      };
+      docker_context = {
+        symbol = " ";
+        style = "blue bold";
+        format = "[$symbol$context]($style) ";
+        only_with_files = true;
+      };
+      aws = {
+        symbol = "  ";
+        style = "bold orange";
+        format = "[$symbol($profile )(\\($region\\) )]($style)";
+        disabled = false;
+      };
+      cmd_duration = {
+        min_time = 2000;
+        format = "⏱ [$duration](bold yellow)";
+      };
+      line_break = {
+        disabled = true;
+      };
 
       battery = {
         full_symbol = "🔋 ";
         charging_symbol = "⚡️ ";
         discharging_symbol = "💀 ";
         display = [
-          { threshold = 10; style = "bold red"; }
-          { threshold = 30; style = "bold yellow"; }
+          {
+            threshold = 10;
+            style = "bold red";
+          }
+          {
+            threshold = 30;
+            style = "bold yellow";
+          }
         ];
       };
 
@@ -101,4 +144,3 @@
     fi
   '';
 }
-

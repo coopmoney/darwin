@@ -33,6 +33,9 @@
       "root"
       user.username
     ];
+    # Remote builders
+    builders = "ssh://cooper@coopers-mac-pro ; ssh://admin@65.108.233.35";
+    builders-use-substitutes = true;
   };
 
   # Allow unfree packages
