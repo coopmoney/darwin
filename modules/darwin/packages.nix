@@ -1,52 +1,56 @@
 # System packages
-  helix and custom scripts
+#  helix and custom scripts
 { config, pkgs, lib, inputs, user, ... }:
 
 {
   environment.systemPackages = with pkgs; [
-    # Core utilities
-    coreutils
-    tmux
-    git
-    curl
-    wget
-    tree
-    watch
-
-    # CLI Tools
-    awscli2
-    chamber
-
-    # Development tools
-    go
-    nodejs
-    kubectl
-    biome
-    aws-vault
-    terraform
-    gh
-    direnv
-    inputs.flox.packages.${pkgs.system}.default
-
-    # Terminal enhancements
-    ripgrep
-    fd
-    bat
-    eza
-    htop
-    jq
-
-    # Applications
     act
+    age
     alacritty
-    stats
-    lazygit
-    postgresql
-    ollama
-    discord
-    claude-code
+    aws-vault
+    awscli2
+    bashInteractive
+    bat
     betterdisplay
+    biome
     bun
+    chamber
+    claude-code
+    codex
+    coreutils
+    curl
+    direnv
+    discord
+    docker
+    eza
+    fd
+    gh
+    git
+    go
+    goose-cli
+    htop
+    inputs.flox.packages.${pkgs.system}.default
+    ipmitool
+    jq
+    kubectl
+    lazygit
+    lsyncd
+    niv
+    nmap
+    nodejs
+    # ollama
+    postgresql
+    ripgrep
+    rsync
+    stats
+    step-cli
+    terraform
+    tmux
+    tree
+    unison
+    watch
+    wget
+
 
     # Darwin management script
     (pkgs.writeShellScriptBin "darwin" (builtins.readFile ./scripts/darwin-cli.sh))

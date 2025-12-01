@@ -30,6 +30,7 @@
     # Tools
     flox.url = "github:flox/flox/latest";
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/0.1.26.tar.gz";
+    devenv.url = "github:cachix/devenv/latest";
 
     # Theming
     catppuccin.url = "github:catppuccin/nix";

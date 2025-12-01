@@ -47,7 +47,7 @@ in
             };
           }
         ];
-      }
+      };
       
 
       "Coopers-Mac-Studio" = inputs.darwin.lib.darwinSystem {

@@ -17,7 +17,7 @@ in
 
   home.packages = with pkgs; [
     ripgrep fd fzf git lazygit
-    _1password-cli ollama curl
+    _1password-cli curl  # ollama temporarily disabled due to build failures
 
     # JavaScript / TypeScript
     biome nodejs_22

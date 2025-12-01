@@ -34,8 +34,10 @@
       user.username
     ];
     # Remote builders
-    builders = "ssh://cooper@coopers-mac-pro ; ssh://admin@65.108.233.35";
+    builders = "ssh://coopermaruyama@coopers-mac-studio ; ssh://cooper@coopers-mac-pro ; ssh://admin@65.108.233.35";
     builders-use-substitutes = true;
+    # Don't require signed store paths from our own remote builders
+    require-sigs = false;
   };
 
   # Allow unfree packages
@@ -61,20 +63,22 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # User-level launchd agent for Ollama
-  launchd.user.agents."dev.ollama.user" = {
-    serviceConfig = {
-      ProgramArguments = [
-        "${pkgs.ollama}/bin/ollama"
-        "serve"
-      ];
-      RunAtLoad = true;
-      KeepAlive = true;
-      EnvironmentVariables = {
-        OLLAMA_HOST = "127.0.0.1:11434";
-        OLLAMA_MODELS = "${user.homeDirectory}/.local/share/ollama/models";
-      };
-      StandardOutPath = "${user.homeDirectory}/.local/state/ollama/ollama.out.log";
-      StandardErrorPath = "${user.homeDirectory}/.local/state/ollama/ollama.err.log";
-    };
-  };
+  # TEMPORARILY DISABLED: Ollama 0.13.0 has build failures on macOS
+  # See: https://github.com/NixOS/nixpkgs/issues/345333
+  # launchd.user.agents."dev.ollama.user" = {
+  #   serviceConfig = {
+  #     ProgramArguments = [
+  #       "${pkgs.ollama}/bin/ollama"
+  #       "serve"
+  #     ];
+  #     RunAtLoad = true;
+  #     KeepAlive = true;
+  #     EnvironmentVariables = {
+  #       OLLAMA_HOST = "127.0.0.1:11434";
+  #       OLLAMA_MODELS = "${user.homeDirectory}/.local/share/ollama/models";
+  #     };
+  #     StandardOutPath = "${user.homeDirectory}/.local/state/ollama/ollama.out.log";
+  #     StandardErrorPath = "${user.homeDirectory}/.local/state/ollama/ollama.err.log";
+  #   };
+  # };
 }
