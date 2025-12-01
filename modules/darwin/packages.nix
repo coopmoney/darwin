@@ -1,4 +1,5 @@
-# System packages and custom scripts
+# System packages
+  helix and custom scripts
 { config, pkgs, lib, inputs, user, ... }:
 
 {
