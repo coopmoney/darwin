@@ -1,3 +1,16 @@
 {
-  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "terminal.defaultProfile.osx": "devenv",
+  "terminal.integrated.profiles.osx": {
+    "devenv": {
+      "cwd": "${workspaceFolder}",
+      "path": "/nix/var/nix/profiles/default/bin/nix",
+      "args": [
+        "run",
+        "github:cachix/devenv",
+        "--",
+        "shell"
+      ]
+    }
+  }
 }

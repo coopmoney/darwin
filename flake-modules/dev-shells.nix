@@ -8,7 +8,6 @@
         nixfmt-rfc-style
         nil
         git
-        cachix
         self.packages.${system}.darwin-rebuild-wrapper
       ];
 

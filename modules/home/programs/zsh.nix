@@ -27,7 +27,7 @@
 
     shellAliases = {
       # Unix basics
-      ls = "eza --color=always --group-directories-first --icons";
+      # ls = "eza --color=always --group-directories-first --icons";
       ll = "ls -la";
       la = "ls -a";
       lt = "ls --tree --level=2";

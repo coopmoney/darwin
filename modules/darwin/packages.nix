@@ -42,6 +42,7 @@
     postgresql
     ripgrep
     rsync
+    spotifyd
     stats
     step-cli
     terraform
