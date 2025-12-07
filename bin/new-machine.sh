@@ -14,29 +14,61 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
+# Gum styling palette (fallbacks to ANSI above if gum is unavailable)
+RED_N=197
+KIWI_N=156
+PINK_N=212
+PRIMARY_N=7
+BRIGHT_N=15
+FAINT_N=103
+DARK_N=238
+
+have_gum() { command -v gum >/dev/null 2>&1; }
+
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DARWIN_DIR="$(dirname "$SCRIPT_DIR")"
 
-# Function to print colored output
+# Function to print colored output (uses gum if available)
 print_info() {
-    printf "${BLUE}ℹ${NC} %s\n" "$1"
+    if have_gum; then
+        gum style --foreground $PRIMARY_N "ℹ $1"
+    else
+        printf "${BLUE}ℹ${NC} %s\n" "$1"
+    fi
 }
 
 print_success() {
-    printf "${GREEN}✓${NC} %s\n" "$1"
+    if have_gum; then
+        gum style --foreground $KIWI_N "✓ $1"
+    else
+        printf "${GREEN}✓${NC} %s\n" "$1"
+    fi
 }
 
 print_warning() {
-    printf "${YELLOW}⚠${NC} %s\n" "$1"
+    if have_gum; then
+        gum style --foreground $FAINT_N "⚠ $1"
+    else
+        printf "${YELLOW}⚠${NC} %s\n" "$1"
+    fi
 }
 
 print_error() {
-    printf "${RED}✗${NC} %s\n" "$1"
+    if have_gum; then
+        gum style --foreground $RED_N "✗ $1"
+    else
+        printf "${RED}✗${NC} %s\n" "$1"
+    fi
 }
 
 print_header() {
-    printf "\n${BOLD}${CYAN}%s${NC}\n\n" "$1"
+    if have_gum; then
+        gum style --bold --foreground $PINK_N "$1"
+        echo ""
+    else
+        printf "\n${BOLD}${CYAN}%s${NC}\n\n" "$1"
+    fi
 }
 
 # Function to show usage

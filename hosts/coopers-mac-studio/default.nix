@@ -1,35 +1,19 @@
-{ inputs, darwinModules, ... }:
+# Mac Studio - Darwin system configuration
+{ config, pkgs, lib, inputs, hostname, user, ... }:
 
 {
-  # Import common Darwin settings
-  imports = [
-    "${darwinModules}/common"
-  ];
-
   # Machine-specific network settings
-  networking.hostName = "Coopers-Mac-Studio";
-  networking.computerName = "Coopers-Mac-Studio";
-  networking.localHostName = "Coopers-Mac-Studio";
-
-  # System configuration
-  system = {
-    stateVersion = 1;
-
-    # You can override any defaults here
-    # Uncomment and customize as needed:
-    
-    # defaults = {
-    #   dock = {
-    #     autohide = true;
-    #   };
-    #   finder = {
-    #     AppleShowAllExtensions = true;
-    #   };
-    # };
+  networking = {
+    hostName = "Coopers-Mac-Studio";
+    computerName = "Coopers-Mac-Studio";
+    localHostName = "Coopers-Mac-Studio";
   };
+
+  # Machine-specific system defaults (uses common defaults, override here if needed)
+  # system.defaults = { };
 
   # Machine-specific packages
   environment.systemPackages = [
-    # Add machine-specific packages here
+    # Add Mac Studio-specific packages here
   ];
 }
