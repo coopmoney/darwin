@@ -71,6 +71,12 @@ in
       source = mkWritableSymlink "${filesDir}/config/karabiner";
     };
 
+    # Zed
+    ".config/zed" = {
+      source = mkWritableSymlink "${filesDir}/config/zed";
+      recursive = true;
+    };
+
     # Raycast preferences (needs write access)
     ".config/raycast" = {
       source = mkWritableSymlink "${filesDir}/config/raycast";
