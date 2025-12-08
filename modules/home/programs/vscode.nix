@@ -2,8 +2,7 @@
 
 {
   programs.vscode = {
-    enable = true;
-
+    enable = false;
     # Use the default stable VS Code package from nixpkgs
     package = pkgs.vscode;
 
@@ -21,6 +20,7 @@
 
       # Start with no extensions; user can add later if desired
       extensions = [ ];
+      mutableExtensionsDir = true;
     };
   };
 }
