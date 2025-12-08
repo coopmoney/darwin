@@ -31,6 +31,8 @@
     flox.url = "github:flox/flox/latest";
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
     devenv.url = "github:cachix/devenv/latest";
+    direnv-instant.url = "github:Mic92/direnv-instant";
+
 
     # Theming
     catppuccin.url = "github:catppuccin/nix";
