@@ -17,7 +17,7 @@ in
 
   home.packages = with pkgs; [
     ripgrep fd fzf git lazygit
-    _1password-cli ollama curl
+    _1password-cli curl  # ollama temporarily disabled due to build failures
 
     # JavaScript / TypeScript
     biome nodejs_22
@@ -110,6 +110,13 @@ in
     extraPlugins = with pkgs.vimPlugins; [ gp-nvim multicursors-nvim comment-nvim nvim-autopairs ];
 
     extraConfigLuaPost = ''
+      -- Ensure diff colors are clearly distinguishable
+      -- Green background for additions, red background for deletions
+      vim.api.nvim_set_hl(0, 'DiffAdd', { bg = '#1b4d1b', fg = nil })
+      vim.api.nvim_set_hl(0, 'DiffDelete', { bg = '#4d1b1b', fg = nil })
+      vim.api.nvim_set_hl(0, 'DiffChange', { bg = '#1b3b4d', fg = nil })
+      vim.api.nvim_set_hl(0, 'DiffText', { bg = '#266d99', fg = nil })
+
       local ok_gp, gp = pcall(require, 'gp')
       if ok_gp then
         gp.setup({

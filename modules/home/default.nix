@@ -3,12 +3,16 @@
   config,
   pkgs,
   lib,
+  inputs,
   user,
   ...
 }:
 
 {
   imports = [
+
+    inputs.direnv-instant.homeModules.direnv-instant
+
     # Programs
     ./programs/alacritty.nix
     ./programs/bat.nix

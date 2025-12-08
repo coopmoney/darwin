@@ -29,6 +29,7 @@
       # Browsers & Communication
       "google-chrome"
       "slack"
+			"spotify"
 
       # Productivity
       "1password"

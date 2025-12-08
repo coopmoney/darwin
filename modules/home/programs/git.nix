@@ -73,6 +73,13 @@
     options = {
       navigate = true;
       line-numbers = true;
+
+      # Make added vs deleted lines clearly distinct
+      plus-style = "syntax #1b4d1b";
+      plus-emph-style = "syntax #266d26";
+      minus-style = "syntax #4d1b1b";
+      minus-emph-style = "syntax #802626";
+
       decorations = {
         commit-decoration-style = "bold yellow box ul";
         file-style = "bold yellow ul";

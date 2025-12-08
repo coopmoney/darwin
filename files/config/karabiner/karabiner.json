@@ -975,7 +975,13 @@
                         "vendor_id": 13364
                     },
                     "ignore": false,
-                    "ignore_vendor_events": true
+                    "ignore_vendor_events": true,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "f5" },
+                            "to": [{ "key_code": "f5" }]
+                        }
+                    ]
                 },
                 {
                     "identifiers": {
@@ -1008,7 +1014,17 @@
                         "product_id": 53288,
                         "vendor_id": 13364
                     },
-                    "ignore_vendor_events": true
+                    "ignore_vendor_events": true,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_option" },
+                            "to": [{ "key_code": "left_command" }]
+                        }
+                    ]
                 },
                 {
                     "identifiers": { "is_keyboard": true },

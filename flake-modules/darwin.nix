@@ -13,7 +13,7 @@ in
         system = "aarch64-darwin";
         specialArgs = {
           inherit inputs self;
-          hostname = "macbook-pro";
+          hostname = "coopers-macbook-pro";
           user = users.coopermaruyama;
         };
         modules = [
@@ -35,7 +35,7 @@ in
               backupFileExtension = "backup";
               extraSpecialArgs = {
                 inherit inputs self;
-                hostname = "macbook-pro";
+                hostname = "coopers-macbook-pro";
                 user = users.coopermaruyama;
               };
               users.${users.coopermaruyama.username} = {
@@ -48,6 +48,7 @@ in
           }
         ];
       };
+      
 
       "Coopers-Mac-Studio" = inputs.darwin.lib.darwinSystem {
         system = "aarch64-darwin";
