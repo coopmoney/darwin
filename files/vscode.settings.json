@@ -1,0 +1,616 @@
+{
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.rulers": [88],
+		"editor.tabSize": 4
+	},
+	"[sql]": {
+		"editor.defaultFormatter": "ms-ossdata.vscode-pgsql"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"workbench.tree.indent": 12,
+	"autoflake.path": "${workspaceFolder}/.venv/bin/autoflake",
+	"autoflake.sortImports": true,
+	"chat.agent.maxRequests": 100,
+	"chat.mcp.autostart": "onlyNew",
+	"chat.mcp.discovery.enabled": {
+		"claude-desktop": true,
+		"cursor-global": true,
+		"cursor-workspace": true
+	},
+	"chat.tools.terminal.autoApprove": {
+		"./apollo-test": true,
+		"./run": true,
+		"\"": true,
+		"docker compose": true,
+		"go": true,
+		"gofmt": true,
+		"make": true,
+		"psql": true,
+		"source": true,
+		"timeout": true,
+		"pnpm": true,
+		"mv": true,
+		"rm": true,
+		"sed": true,
+		"perl": true,
+		"s/\\breturn": true,
+		"s/\\bconst": true,
+		"'": true,
+		"liteapi-sync-service.test.ts": true,
+		"it(\"should": true,
+		"//": true,
+		"data:": true,
+		"id:": true,
+		"mockAPI.getDataChains.mockResolvedValueOnce(mockChains)": true,
+		"expect(result.processedCount).toBe(2)": true,
+		"expect(result.failedCount).toBe(0)": true,
+		"expect(result.errors).toHaveLength(0)": true,
+		"expect(savedChains).toHaveLength(2)": true,
+		"expect(savedChains[0]?.name).toBe(\"Hilton\")": true,
+		"expect(savedChains[1]?.name).toBe(\"Marriott\")": true,
+		"})": true,
+		"expect(result.failedCount).toBe(1)": true,
+		"expect(result.errors).toHaveLength(1)": true,
+		"expect(result.errors[0]).toContain(\"API": true,
+		"expect(result.processedCount).toBe(0)": true,
+		"TESTFILE": true,
+		"beforeEach(async": true,
+		"await": true,
+		"mockAPI.getDataHotels.mockResolvedValueOnce(mockHotels)": true,
+		"expect(savedHotels).toHaveLength(2)": true,
+		"expect(savedHotels[0]?.name).toBe(\"Test": true,
+		"expect(savedHotels[0]?.starRating).toBe(4)": true,
+		"const": true,
+		"expect(result.success).toBe(true)": true,
+		"expect(result.processedCount).toBe(1)": true,
+		"expect(savedHotels).toHaveLength(1)": true,
+		"expect(savedHotels[0]?.name).toBe(\"Minimal": true,
+		"pm2": true,
+		"node": true,
+		"terraform": true,
+		"terraform console <<< 'keys(aws_iam_role.chamber_repo)'": {
+			"approve": true,
+			"matchCommandLine": true
+		}
+	},
+	"database-client.autoSync": true,
+	"debug.console.fontFamily": "'MonaSpiceAr Nerd Font', monospace",
+	"debug.console.fontSize": 10,
+	"debug.console.wordWrap": true,
+	"debug.javascript.autoAttachFilter": "smart",
+	"debug.javascript.codelens.npmScripts": "all",
+	"debug.javascript.terminalOptions": {
+		"cwd": "${workspaceFolder}",
+		"env": {
+			"PATH": "/opt/homebrew/bin:${env:PATH}"
+		},
+		"shellArgs": ["-l"],
+		"shellPath": "/bin/zsh"
+	},
+	"diffEditor.hideUnchangedRegions.enabled": true,
+	"diffEditor.ignoreTrimWhitespace": false,
+	"editor.accessibilitySupport": "off",
+	"editor.bracketPairColorization.enabled": false,
+	"editor.fontFamily": "MonaspiceNe Nerd Font",
+	"editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga'",
+	"editor.fontSize": 11,
+	"editor.fontVariations": "\"wght\"2300, \"wdth\" 100",
+	"editor.fontWeight": "200",
+	"editor.formatOnSave": true,
+	"editor.inlineSuggest.enabled": true,
+	"editor.inlineSuggest.fontFamily": "'Monaspace Krypton', monospace",
+	"editor.lineHeight": 1.6,
+	"editor.minimap.enabled": false,
+	"editor.rulers": [80],
+	"editor.stickyScroll.enabled": false,
+	"editor.stickyTabStops": true,
+	"editor.tabSize": 2,
+	"editor.tokenColorCustomizations": {
+		"[Apathy]": {
+			"textMateRules": [
+				{
+					"scope": ["source.go", "variable.parameter.go"],
+					"settings": {
+						"foreground": "#9892a4e0"
+					}
+				},
+				{
+					"scope": ["source"],
+					"settings": {
+						"foreground": "#a99fbf"
+					}
+				}
+			]
+		}
+	},
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"cmd": "golines ${file} -w",
+				"match": "\\.go$"
+			}
+		]
+	},
+	"explorer.autoReveal": "focusNoScroll",
+	"files.trimTrailingWhitespace": true,
+	"github.copilot.chat.agent.thinkingTool": true,
+	"github.copilot.chat.byok.ollamaEndpoint": "http://tinybox:11434",
+	"github.copilot.chat.codeGeneration.useInstructionFiles": false,
+	"github.copilot.chat.codesearch.enabled": true,
+	"github.copilot.chat.editor.temporalContext.enabled": true,
+	"github.copilot.chat.edits.temporalContext.enabled": true,
+	"github.copilot.chat.enableRetryAfterFilteredResponse": true,
+	"github.copilot.chat.generateTests.codeLens": true,
+	"github.copilot.chat.languageContext.fix.typescript.enabled": true,
+	"github.copilot.chat.languageContext.inline.typescript.enabled": true,
+	"github.copilot.chat.languageContext.typescript.enabled": true,
+	"github.copilot.chat.newWorkspace.useContext7": true,
+	"github.copilot.chat.scopeSelection": true,
+	"githubPullRequests.notifications": "pullRequests",
+	"gitlens.ai.model": "gitkraken",
+	"gitlens.ai.vscode.model": "copilot:gpt-5-mini",
+	"gitlens.currentLine.fontFamily": "Source Code Pro",
+	"gitlens.graph.allowMultiple": false,
+	"gitlens.graph.minimap.enabled": false,
+	"gitlens.launchpad.indicator.useColors": true,
+	"go.testTimeout": "300s",
+	"go.toolsManagement.autoUpdate": true,
+	"gopls": {
+		"ui.semanticTokens": true
+	},
+	"inlineSQL.enableDBIntegration": true,
+	"javascript.suggest.jsdoc.generateReturns": false,
+	"makefile.configureOnOpen": false,
+	"editor.semanticHighlighting.enabled": true,
+	"mcp-companion.enableInlineButtons": false,
+	"notes.notesLocation": "/Users/coopermaruyama/Library/CloudStorage/Dropbox/Notes",
+	"Notes.notesLocation": "/Users/cooper/Temporary/notes",
+	"pgsql.connections": [
+		{
+			"applicationName": "vscode-pgsql",
+			"authenticationType": "SqlLogin",
+			"clientEncoding": "utf8",
+			"connectTimeout": 15,
+			"database": "app",
+			"expiresOn": 0,
+			"groupId": "DB143B72-38F1-48F4-8338-20B17CFFAA70",
+			"id": "295F4D57-56B7-49E1-AB6D-5ECEDC12B70E",
+			"password": "",
+			"port": "5436",
+			"profileName": "apollo-local",
+			"savePassword": true,
+			"server": "localhost",
+			"sshPassword": "",
+			"sslmode": "prefer",
+			"user": "pguser"
+		},
+		{
+			"id": "8B4A6D47-A781-4470-A98B-EF47B976AEDC",
+			"groupId": "DB143B72-38F1-48F4-8338-20B17CFFAA70",
+			"authenticationType": "SqlLogin",
+			"connectTimeout": 15,
+			"applicationName": "vscode-pgsql",
+			"clientEncoding": "utf8",
+			"sslmode": "prefer",
+			"server": "localhost",
+			"user": "neon",
+			"port": "54320",
+			"database": "app",
+			"password": "",
+			"expiresOn": 0,
+			"emptyPasswordInput": false,
+			"profileName": "neon-local",
+			"sshPassword": ""
+		}
+	],
+	"pgsql.serverGroups": [
+		{
+			"description": "",
+			"id": "DB143B72-38F1-48F4-8338-20B17CFFAA70",
+			"name": "apollo"
+		},
+		{
+			"id": "1D3FEF4D-9011-44A2-9FF2-2F218410F351",
+			"name": "voytravel",
+			"description": ""
+		}
+	],
+	"playwright.reuseBrowser": true,
+	"prettier.printWidth": 80,
+	"prisma.showPrismaDataPlatformNotification": false,
+	"problems.decorations.enabled": false,
+	"python.analysis.enableAsyncProgram": true,
+	"python.analysis.typeCheckingMode": "basic",
+	"python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+	"remote.SSH.externalSSH_ASKPASS": true,
+	"scm.inputFontFamily": "'Monaspace Neon', monospace",
+	"search.smartCase": true,
+	"sql-formatter.uppercase": true,
+	"tailwind-fold.autoFold": true,
+	"tailwind-fold.foldedTextBackgroundColor": "hsla(0, 0%, 100%, 0.1)",
+	"tailwind-fold.foldedTextOpacity": 0.35,
+	"tailwind-fold.foldLengthThreshold": 80,
+	"tailwind-fold.foldStyle": "QUOTES",
+	"tailwind-fold.replaceText": false,
+	"tailwind-fold.showTailwindImage": false,
+	"tailwind-fold.unfoldIfLineSelected": true,
+	"tailwindCSS.experimental.classRegex": ["classNames:\\s?{[^}]*}"],
+	"terminal.editor.fontFamily": "'Monaspace Krypton', monospace",
+	"terminal.integrated.fontSize": 10,
+	"terminal.external.osxExec": "/bin/zsh",
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.cursorStyle": "line",
+	"terminal.integrated.defaultProfile.osx": "zsh",
+	"terminal.integrated.inheritEnv": true,
+	"terminal.integrated.lineHeight": 1.5,
+	"typescript.check.npmIsInstalled": true,
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.quoteStyle": "single",
+	"typescript.tsserver.experimental.enableProjectDiagnostics": false,
+	"typescript.tsserver.log": "verbose",
+	"typescript.tsserver.maxTsServerMemory": 16000,
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"viraTheme.accent": "White",
+	"viraTheme.contrastedTabs": true,
+	"viraTheme.hidesShadows": true,
+	"viraTheme.solidLineHighlight": true,
+	"viraTheme.useOutlinedIcons": true,
+	"window.titleBarStyle": "custom",
+	"workbench.editor.enablePreviewFromQuickOpen": true,
+	"workbench.editor.showIcons": false,
+	"workbench.fontAliasing": "antialiased",
+	"workbench.panel.showLabels": false,
+	"zenMode.fullScreen": false,
+	"zenMode.hideActivityBar": false,
+	"zenMode.showTabs": "none",
+	"workbench.secondarySideBar.showLabels": false,
+	"gitlens.currentLine.enabled": false,
+	"gitlens.hovers.currentLine.details": false,
+	"gitlens.blame.fontWeight": "300",
+	"gitlens.blame.fontFamily": "Source Code Pro",
+	"git.blame.editorDecoration.enabled": true,
+	"[dockercompose]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "advanced",
+		"editor.quickSuggestions": {
+			"other": true,
+			"comments": false,
+			"strings": true
+		},
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"[github-actions-workflow]": {
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"window.confirmBeforeClose": "keyboardOnly",
+	"explorer.excludeGitIgnore": true,
+	"cyber-icon-theme.activeIconPack": "react",
+	"cyber-icon-theme.files.color": "#888888",
+	"cyber-icon-theme.opacity": 0.5,
+	// "apc.parts.font.family": {
+	// 	"sidebar": "'Monaspace Neon'",
+	// 	"titlebar": "'Monaspace Neon'",
+	// 	"activityBar": "'Monaspace Neon'",
+	// 	"panel": "'Monaspace Neon'",
+	// 	"tabs": "'Monaspace Neon'",
+	// 	"statusbar": "'Monaspace Neon'",
+	// 	"settings-body": "'Monaspace Neon'",
+	// 	"extension-editor": "'Monaspace Neon'",
+	// 	"monaco-menu": "'Monaspace Neon'"
+	// },
+	"apc.electron": {
+		"frame": false
+	},
+	"apc.stylesheet": {
+		".show-file-icons .file-icon::before": {
+			"color": "#666666"
+		}
+	},
+	"apc.font.family": "'Monaspace Neon', monospace",
+	"neonLocal.port": 54320,
+	"files.associations": {
+		"*.json": "jsonc"
+	},
+	"workbench.editor.limit.enabled": true,
+	"biome.lsp.trace.server": "verbose",
+	"biome.requireConfiguration": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"biome.lsp.bin": "/run/current-system/sw/bin/biome",
+	"material-icon-theme.activeIconPack": "react",
+	"material-icon-theme.opacity": 0.5,
+	"material-icon-theme.files.associations": {
+		".env": "dotenv",
+		".env.*": "dotenv"
+	},
+	"material-icon-theme.folders.associations": {
+		"src": "source",
+		"test": "test",
+		"tests": "test",
+		"docs": "docs",
+		"doc": "docs",
+		"config": "config",
+		"configs": "config",
+		"bin": "bin",
+		"build": "build",
+		"dist": "dist",
+		"public": "public",
+		"assets": "assets",
+		"i18n": "i18n",
+		"locales": "i18n",
+		"lang": "i18n",
+		"languages": "i18n",
+		".github": "github",
+		".vscode": "vscode",
+		".idea": "idea"
+	},
+	"material-icon-theme.files.customClones": [
+		{
+			"activeForPacks": ["angular"],
+			"icon": "angular",
+			"extensions": ["ng", "angular.json"],
+			"format": "svg"
+		},
+		{
+			"name": "dotfile",
+			"base": "dotenv",
+			"extensions": ["env", "env.*"],
+			"format": "svg",
+			"color": "#888888",
+			"fileExtensions": [".env", ".env.*"],
+			"fileNames": [".env", ".env.*"]
+		}
+	],
+	"material-icon-theme.folders.color": "#dddddd",
+	"material-icon-theme.files.color": "#555555",
+	"sops.beta": true,
+	"sops.defaults.ageKeyFile": "$HOME/.config/sops/age/keys.txt",
+	"sops.binPath": "/opt/homebrew/bin/sops",
+	"sops.enabled": true,
+	"sops.defaults.ignoreMac": true,
+	"markdown.extension.completion.enabled": true,
+	"output.smartScroll.enabled": false,
+	"markdown.extension.preview.autoShowPreviewToSide": false,
+	"markdown.extension.showActionButtons": true,
+	"workbench.productIconTheme": "icons-carbon",
+	"githubLocalActions.dockerDesktopPath": "/Applications/Docker.app",
+	"chat.checkpoints.showFileChanges": true,
+	"workbench.colorTheme": "Minted",
+	"biome.suggestInstallingGlobally": true,
+	"color-highlight.markerType": "foreground",
+	"turbo.useLocalTurbo": true,
+	"editor.tokenColorCustomizations": {
+		"[Apathy]": {
+			"textMateRules": [
+				// // Gray
+				// {
+				// 	"scope": ["source.go", "variable.parameter.go"],
+				// 	"settings": {
+				// 		"foreground": "#949494"
+				// 	}
+				// },
+				// // Pink
+				// {
+				// 	"scope": ["entity.name.type.go"],
+				// 	"settings": {
+				// 		"foreground": "#ffa1ce"
+				// 	}
+				// },
+				// // Cyan
+				// {
+				// 	"scope": [
+				// 		"keyword.type.go",
+				// 		"keyword.function.go",
+				// 		"keyword.control.go",
+				// 		"keyword.go",
+				// 		"keyword.var.go"
+				// 	],
+				// 	"settings": {
+				// 		"foreground": "#5EFFD7"
+				// 	}
+				// },
+				// // Blue
+				// {
+				// 	"scope": ["entity.name.function.support.go"],
+				// 	"settings": {
+				// 		"foreground": "#82AAFF"
+				// 	}
+				// },
+				// // Green
+				// {
+				// 	"scope": ["string.quoted.double.go"],
+				// 	"settings": {
+				// 		"foreground": "#C3E88D"
+				// 	}
+				// },
+				// // Purple
+				// {
+				// 	"scope": ["storage.type.string.go"],
+				// 	"settings": {
+				// 		"foreground": "#875FFF"
+				// 	}
+				// },
+				// // Purple
+				// {
+				// 	"scope": [""],
+				// 	"settings": {
+				// 		"foreground": "#F07178"
+				// 	}
+				// },
+				// END DEV
+				{
+					"scope": ["variable.other"],
+					"settings": {
+						// "foreground": "#8077a1"
+						"foreground": "#e9f0eee3"
+						// "foreground": "#a3a6a7",
+						// "foreground": "oklch(0.69 0.06 306.93)",
+						// "foreground": "#e483ad",
+					}
+				},
+				{
+					"scope": ["entity.name.function", "entity.name.function.support.go"],
+					"settings": {
+						// "foreground": "#6bffbfdb"
+						// "foreground": "#ff9d9ddf"
+						// "foreground": "#efadeab0"
+					}
+				}
+				// {
+				// 	"scope": "note.that.wont.match.anything",
+				// 	"settings": {
+				// 		"foreground": "#5EFFD7" // cyan
+				// 		// "foreground": "#949494", // gray
+				// 		// "foreground": "#875FFF",  // purple
+				// 		// "foreground": "#82AAFF",  // blue
+				// 		// "foreground": "#F07178", // red
+				// 		// "foreground": "#C3E88D",  // green
+				// 	}
+				// }
+				// Editor Base Colors
+				// white: #e1e2e5
+				// cyan: #88e6d6
+				// blue: #1abdda
+				// purple: #7e89ec
+				// orange: #ffbf71
+			]
+		},
+		"[Community Material Theme Ocean High Contrast]": {
+			"textMateRules": [
+				{
+					"scope": [
+						"punctuation.definition.comment",
+						"comment.block",
+						"comment.line",
+						"comment.block.documentation"
+					],
+					"settings": {
+						// "foreground": "#EEEEEE66"
+					}
+				}
+			]
+		},
+		"[Tokyo Night]": {
+			"textMateRules": [
+				{
+					"scope": "punctuation.terminator",
+					"settings": {
+						"foreground": "#456e93bc",
+						"fontStyle": ""
+					}
+				}
+			]
+		},
+		"[Vira*]": {
+			"textMateRules": []
+		}
+	},
+	"workbench.colorCustomizations": {
+		"[Apathetic Ocean]": {
+			"icon.foreground": "#c5c5c536",
+			"editor.background": "#0e0e15",
+			// "editor.background": "#0f0f12",
+			// "editor.foreground": "#e9f0eee3",
+			// "foreground": "#e9f0eea4",
+			// "editor.wordHighlightTextBackground": "#ffffff2f",
+			// "editor.lineHighlightBackground": "#ffffff2f",
+			// "editor.wordHighlightBackground": "#ffffff2f",
+			// "editor.findMatchHighlightBackground": "#ffffff2f",
+			// "editor.selectionHighlightBackground": "#ffffff2f",
+			// "editor.findRangeHighlightBackground": "#ffffff2f",
+			// "editor.hoverHighlightBackground": "#ffffff2f",
+			// "editor.selectionBackground": "#ffffff2f",
+			// "editor.selectionHighlightBorder": "#ffffff2f",
+			// "editor.findMatchBorder": "#ffffff2f",
+			// "editor.findMatchHighlightBorder": "#ffffff2f",
+			// "editor.wordHighlightBorder": "#ffffff2f",
+			// "editor.wordHighlightTextBorder": "#ffffff2f",
+			// "editor.lineHighlightBorder": "#ffffff2f",
+			"editorIndentGuide.background1": "#3c137994",
+			"editorIndentGuide.activeBackground1": "#b0347f70",
+			"editorIndentGuide.background2": "#410b9294",
+			"editorIndentGuide.background3": "#410b9294",
+			"editorIndentGuide.background4": "#410b9294",
+			"editorIndentGuide.background5": "#410b9294",
+			"editorGutter.background": "#0e0e15",
+			"panel.background": "#0e0e15",
+			"sideBar.background": "#0e0e15",
+			"activityBar.background": "#0e0e15",
+			"statusBar.background": "#0e0e15",
+			"titleBar.activeBackground": "#0e0e15",
+			"breadcrumb.background": "#0e0e15",
+			"terminal.background": "#0e0e15",
+			"tab.inactiveBackground": "#0e0e15",
+			"list.dropBackground": "#0e0e15",
+			"menu.background": "#0e0e15",
+			"dropdown.background": "#0e0e15",
+			"tab.activeBackground": "#0e0e15",
+			"badge.background": "#0e0e15",
+			"editor.foldBackground": "#0e0e1590",
+			"editorPane.background": "#0e0e15",
+			"sideBar.dropBackground": "#0e0e15",
+			"banner.background": "#0e0e15",
+			"editorInfo.background": "#0e0e157c",
+			"quickInput.background": "#0e0e15",
+			"sideBarSectionHeader.background": "#0e0e15",
+			"editorGroupHeader.tabsBackground": "#0e0e15",
+			"window.activeBorder": "#6fc3df91"
+		},
+
+	},
+	"cursor.composer.queueMessageDefaultBehavior": "queue",
+	"cursor.composer.shouldAllowCustomModes": true,
+	"cursor.composer.shouldChimeAfterChatFinishes": true,
+	"update.releaseTrack": "prerelease",
+	"gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash",
+	"remote.SSH.remotePlatform": {
+		"drkmttr-hz-de": "linux"
+	},
+	"[nix]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.defaultFormatter": "jnoortheen.nix-ide"
+	},
+	"nix.enableLanguageServer": true,
+	"[terraform]": {
+		"editor.defaultFormatter": "hashicorp.terraform"
+	},
+	"python.terminal.activateEnvInCurrentTerminal": true,
+	"[terraform-vars]": {
+		"editor.defaultFormatter": "hashicorp.terraform"
+	},
+	"explorer.fileNesting.enabled": true,
+	"editor.codeLens": false,
+	"git.autofetch": true,
+	"workbench.editor.autoLockGroups": {
+		"gitlens.rebase": true,
+		"workbench.editor.reviewchanges.input": true,
+		"mainThreadWebview-markdown.preview": true
+	},
+	"gitlens.graph.layout": "editor",
+	"workbench.editor.showTabs": "none",
+	"workbench.editor.editorActionsLocation": "default",
+	"gitlens.graph.scrollMarkers.additionalTypes": [
+		"stashes",
+		"localBranches"
+	],
+	"cursorpyright.analysis.diagnosticMode": "workspace",
+	"cursorpyright.analysis.typeCheckingMode": "basic",
+	"cursor.general.enableShadowWorkspace": true,
+	"window.openFoldersInNewWindow": "on",
+	"rust-client.engine": "rust-analyzer",
+	"rust-client.enableMultiProjectSetup": null,
+	"claudeCode.preferredLocation": "panel",
+	"[rust]": {
+		"editor.defaultFormatter": "rust-lang.rust-analyzer"
+	},
+	"editor.wordWrap": "on",
+	"gitlens.mode.active": "zen",
+	"[markdown]": {
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one"
+	}
+}
+

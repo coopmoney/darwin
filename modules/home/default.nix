@@ -11,8 +11,6 @@
 {
   imports = [
 
-    inputs.direnv-instant.homeModules.direnv-instant
-
     # Programs
     ./programs/alacritty.nix
     ./programs/bat.nix
@@ -27,6 +25,7 @@
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/zsh.nix
+    ./programs/vscode.nix
 
     # Misc
     ./xdg.nix
