@@ -1,0 +1,75 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent": {
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-latest"
+    },
+    "model_parameters": []
+  },
+  "buffer_font_weight": 300.0,
+  "buffer_line_height": "comfortable",
+  "ui_font_weight": 350.0,
+  "ui_font_family": "Geist Mono",
+  "helix_mode": false,
+  "terminal": {
+    "font_size": 11.0,
+    "font_family": "MonaspiceNe Nerd Font",
+    "line_height": {
+      "custom": 1.5
+    },
+    "cursor_shape": "bar",
+    "blinking": "on"
+  },
+  "project_panel": {
+    "hide_gitignore": true
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "base_keymap": "VSCode",
+  "preview_tabs": {
+    "enable_preview_from_file_finder": true
+  },
+  "tabs": {
+    "file_icons": false
+  },
+  "use_smartcase_search": true,
+  "sticky_scroll": {
+    "enabled": false
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "confirm_quit": true,
+  "buffer_font_fallbacks": [
+    "monospace"
+  ],
+  "buffer_font_family": "MonaspiceNe Nerd Font Mono",
+  "file_types": {
+    "jsonc": [
+      "*.json"
+    ]
+  },
+  "show_edit_predictions": true,
+  "wrap_guides": [
+    80
+  ],
+  "tab_size": 2,
+  "ui_font_size": 15.0,
+  "buffer_font_size": 11.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Apathetic Ocean"
+  }
+}
