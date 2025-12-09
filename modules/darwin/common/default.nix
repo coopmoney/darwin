@@ -436,6 +436,7 @@
       "warp"
       "tableplus"
       "plex-media-server"
+			"plex"
 
       # Browsers & Communication
       "google-chrome"
