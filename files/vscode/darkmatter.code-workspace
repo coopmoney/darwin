@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "name": "stackpanel/stackpanel",
+      "path": "./stackpanel"
+    },
+    {
+      "name": "stackpanel/stackpanel-ui",
+      "path": "./stackpanel-ui"
+    },
+    {
+      "name": "stackpanel/template",
+      "path": "./template"
+    },
+    // {
+    //   "name": "darkmatter/universal-turbo-stack",
+    //   "path": "./universal-turbo-stack"
+    // },
+    {
+      "name": "darkmatter/docs",
+      "path": "./docs"
+    },
+    {
+      "name": "darkmatter/nix",
+      "path": "./nix"
+    },
+    {
+      "name": "darkmatter/infra",
+      "path": "./infra"
+    }
+  ],
+  "settings": {}
+}
