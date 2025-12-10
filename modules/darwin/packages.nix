@@ -53,6 +53,7 @@
     unison
     watch
     wget
+		blesh
 
 
     # Darwin management script

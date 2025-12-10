@@ -51,6 +51,7 @@
       "figma"
       "chatgpt"
       "claude"
+			"ghostty"
 
       # Utilities
       "tailscale"

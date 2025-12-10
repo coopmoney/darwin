@@ -12,10 +12,10 @@
     //   "name": "darkmatter/universal-turbo-stack",
     //   "path": "./universal-turbo-stack"
     // },
-    {
-      "name": "darkmatter/docs",
-      "path": "./docs"
-    },
+    // {
+    //   "name": "darkmatter/docs",
+    //   "path": "./docs"
+    // },
     {
       "name": "darkmatter/nix",
       "path": "./nix"

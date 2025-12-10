@@ -1,35 +1,105 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[░▒▓](#a3aed2)\
-[  ](bg:#a3aed2 fg:#090c0c)\
-[](bg:#568fa0 fg:#a3aed2)\
+[░▒▓](fg:surface2)\
+[  ](bg:gray fg:white)\
+[](bg:black fg:gray)\
 $directory\
-[](fg:#568fa0 bg:#394260)\
+[](bg:white fg:black)\
 $git_branch\
-$git_metrics\
-[](fg:#394260 bg:#212736)\
+$git_status\
+[](fg:white)\
+$fill\
 $nix_shell\
-[ ](fg:#1d2230)\
-\n$character"""
+$aws\
+$username\
+$time\
+$line_break\
+$character"""
 
-right_format = """
-$nix_shell$aws(fg:#1d2230)
-"""
-
-# continuation_prompt = "[▸▹ ](dimmed white)"
-
-add_newline = true
-
-# [fill]
-# symbol = '-'
-# style = 'bold green'
+# [](bg:#D7D8E0 fg:#575B60)\
+# $directory\
+# [](bg:#D7D8E0 fg:#16181D)\
+# $git_branch\
+# $git_status\
+# [](fg:#16181D bg:#D7D8E0)\
+# $aw\
+# # $time\
+# # [ ](fg:lavender)\
+# # $cmd_duration\
+# $line_break\
+# $character\
+# [](red)\
+# $os\
+# $username\
+# [](bg:peach fg:red)\
+# $directory\
+# [](bg:yellow fg:peach)\
+# $git_branch\
+# $git_status\
+# [](fg:yellow bg:green)\
+# $aws
+# [](fg:green bg:sapphire)\
+# $conda\
+# [](fg:sapphire bg:lavender)\
 # $time\
-# [ ](fg:#1d2230)\
-# \n$character"""
+# [ ](fg:lavender)\
+# $cmd_duration\
+# $character"""
+
+
+
+
+# right_format =  """
+# $nix_shell\
+# $aws\
+# [](bg:white fg:black)\
+# $git_branch\
+# $git_status\
+# [](bg:black fg:gray)\
+# $time\
+# """
+
+palette = 'apathy'
+
+[fill]
+disabled = false
+symbol = ' '
+
+[os]
+disabled = false
+style = "bg:red fg:crust"
+
+[os.symbols]
+Windows = ""
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = true
+style_user = "fg:flamingo"
+style_root = "fg:red"
+format = '[ $user ]($style)'
 
 [directory]
-style = "fg:#e3e5e5 bg:#568fa0"
+style = "bg:black fg:white"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -37,57 +107,198 @@ truncation_symbol = "…/"
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
-"Music" = " "
+"Music" = "󰝚 "
 "Pictures" = " "
+"Developer" = "󰲋 "
 
 [git_branch]
 symbol = ""
-style = "bg:#394260"
-format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+style = "bg:white fg:black"
+format = '[ $symbol $branch ]($style)'
 
 [git_status]
-disabled = true
-style = "bg:#394260"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
-
-[git_metrics]
-added_style = 'bg:#394260 fg:156'
-deleted_style = "bg:#394260 fg:212"
-format = '[+$added]($added_style)[/](bg:#394260)[-$deleted]($deleted_style)'
-disabled = false
+style = "bg:white fg:black"
+format = '[ $all_status$ahead_behind ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+# ~/.config/starship.toml
+
+[nix_shell]
+disabled = false
+impure_msg = '[impure shell](bold mauve)'
+pure_msg = '[pure shell](bold sky)'
+unknown_msg = '[unknown shell](bold yellow)'
+format = 'via [☃️ $state( \($name\))](bold blue) '
+
+
+[shlvl]
+disabled = false
+format = '$shlvl level(s) down'
+threshold = 3
+
+[c]
+symbol = " "
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [golang]
 symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [php]
 symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [aws]
 symbol = ""
-style = "bg:#212736"
-format ='[[ $symbol ($profile )(\[$duration\] )](fg:#df8e1d bg:#212736)]($style)'
+style = "bg:sapphire"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[java]
+symbol = " "
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[python]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:sapphire"
+format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
+
+[conda]
+symbol = "  "
+style = "fg:crust bg:sapphire"
+format = '[$symbol$environment ]($style)'
+ignore_base = false
 
 [time]
 disabled = false
-time_format = "%R"                                      # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+time_format = "%R"
+style = "fg:subtext0"
+format = '[  $time ]($style)'
 
-[nix_shell]
-format =	'[ $symbol$state]($style)'
-style = "bg:#212736"
-symbol = " "
+[battery]
+# full_symbol = '🔋 '
+# charging_symbol = '⚡️ '
+# discharging_symbol = '💀 '
+format = '[$symbol$percentage]($style) '
+disabled = false
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = '[❯](bold fg:green)'
+error_symbol = '[❯](bold fg:red)'
+vimcmd_symbol = '[❮](bold fg:green)'
+vimcmd_replace_one_symbol = '[❮](bold fg:lavender)'
+vimcmd_replace_symbol = '[❮](bold fg:lavender)'
+vimcmd_visual_symbol = '[❮](bold fg:yellow)'
+
+[cmd_duration]
+show_milliseconds = true
+format = " in $duration "
+style = "bg:lavender"
+disabled = false
+show_notifications = true
+min_time_to_notify = 45000
+
+[palettes.apathy]
+gray = "#575B60"
+black = "#16181D"
+white = "#D7D8E0"
+rosewater = "#f0c9dd"
+flamingo = "#f0c9dd"
+pink = "#f5c2e7"
+mauve = "#998fe1"
+red = "#FF6188"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#ffcb6b"
+green = "#a6e3a1"
+teal = "#93e3db"
+sky = "#baf8e5"
+sapphire = "#33b3cc"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+#           "foreground": "#829297"
+# Colors": {
+# pace": "#f0c9dd",
+# ": {
+#   "foreground": "#bb7494",
+#   "fontStyle": ""
+#
+# .defaultLibrary": "#e0a2b1",
+# face": {
+#   "foreground": "#93e3db",
+# ember": "#33b3cc",
+# : "#ffcb6b",
+#   "foreground": "#93e3db",
+# t": "#cdf6ff",
+# eter": {
+#   "foreground": "#8e8db3",
+# ble": "#9aa1c7",
+# ble.defaultLibrary": "#ffa114",
+# rty": "#e0a2b1",
+# rty.definition": "#74728f",
+# rty.defaultLibrary": "#96a5b6",
+# rty.declaration": "#675f5a",
+# ion": "#7ce6bcff",
+# ion.defaultLibrary": "#7ce6bcff",
+# ion.declaration": "#7ce6bcff",
+# d": "#baf8e5",
+# d.defaultLibrary": "#baf8e5",
+# d.declaration": "#baf8e5",
+# ": "#afd1e9cf",
+#   "foreground": "#4D4A56",
+# g": "#c3dc8f",
+#   "foreground": "#FF6188",
+# r": "#33b3cc",
+# rd": "#998fe1cf",
+# rd.wordlike": "#FF6188",
+# rd.unsafe": "#FF6188",
+# tor": "#e60063",
+#   "foreground": "#ffa114",
+# ification": "#ffd014d4",
+#   "foreground": "#4D4A56",
+# donly": "#96a5b6"
+

@@ -65,6 +65,9 @@ in
       source = "${self}/files/dotfiles/vimrc.bundles";
     };
 
+    # ".config/starship.toml".source = lib.mkForce "${self}/files/starship.toml";
+
+
     # ============================================
     # WRITABLE FILES (out-of-store symlinks)
     # ============================================
