@@ -1,4 +1,4 @@
-{ config, pkgs, lib, hmModules, ... }:
+{ config, pkgs, lib, hmModules, self, ... }:
 
 {
   # Import common home-manager settings
@@ -17,17 +17,13 @@
   programs.home-manager.enable = true;
 
   # Wallpaper configuration for multiple monitors
-  # Place your wallpaper files at:
-  #   - home/coopermaruyama/coopers-mac-studio/wallpaper-primary.png
-  #   - home/coopermaruyama/coopers-mac-studio/wallpaper-secondary.jpg
-  home.file."Pictures/wallpaper-primary.png" = {
-    # Uncomment and set the source to your primary display wallpaper
-    source = ../../../modules/home-manager/misc/wallpapers/black-hole.png;
+  # Place your wallpaper files in: darwin/files/wallpapers/
+  home.file."Pictures/wallpaper-primary.png" = lib.mkIf (builtins.pathExists "${self}/files/wallpapers/black-hole.png") {
+    source = "${self}/files/wallpapers/black-hole.png";
   };
 
-  home.file."Pictures/wallpaper-secondary.jpg" = {
-    # Uncomment and set the source to your secondary display wallpaper
-    source = ../../../modules/home-manager/misc/wallpapers/saturn.jpg;
+  home.file."Pictures/wallpaper-secondary.jpg" = lib.mkIf (builtins.pathExists "${self}/files/wallpapers/saturn.jpg") {
+    source = "${self}/files/wallpapers/saturn.jpg";
   };
 
   # Set wallpapers on activation (supports multiple monitors)

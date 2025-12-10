@@ -52,6 +52,10 @@ in
       source = "${self}/files/dotfiles/vimrc";
     };
 
+		"darkmatter/darkmatter.code-workspace" = {
+			source = "${self}/files/vscode/darkmatter.code-workspace";
+		};
+
     # 1Password SSH agent config
     "1Password/ssh/agent.toml" = lib.mkIf (builtins.pathExists "${self}/files/config/1Password/ssh/agent.toml") {
       source = "${self}/files/config/1Password/ssh/agent.toml";
@@ -72,11 +76,7 @@ in
     };
 
     # Zed
-    ".config/zed" = {
-      source = mkWritableSymlink "${filesDir}/config/zed";
-      recursive = true;
-			force = true;
-    };
+    ".config/zed".source = mkWritableSymlink "${filesDir}/config/zed";
 
     # Raycast preferences (needs write access)
     ".config/raycast" = {
