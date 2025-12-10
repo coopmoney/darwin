@@ -76,11 +76,7 @@ in
     };
 
     # Zed
-    ".config/zed" = {
-      source = mkWritableSymlink "${filesDir}/config/zed";
-      recursive = true;
-			force = true;
-    };
+    ".config/zed".source = mkWritableSymlink "${filesDir}/config/zed";
 
     # Raycast preferences (needs write access)
     ".config/raycast" = {
