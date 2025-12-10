@@ -79,6 +79,7 @@ in
     ".config/zed" = {
       source = mkWritableSymlink "${filesDir}/config/zed";
       recursive = true;
+			force = true;
     };
 
     # Raycast preferences (needs write access)

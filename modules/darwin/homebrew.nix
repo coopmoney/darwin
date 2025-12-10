@@ -25,6 +25,8 @@
       "cursor"
       "warp"
       "tableplus"
+			"plex"
+			"plex-media-server"
 
       # Browsers & Communication
       "google-chrome"
