@@ -7,7 +7,7 @@
       "name": "Apathetic Ocean",
       "appearance": "dark",
       "style": {
-        "background.appearance": "opaque",
+        "background.appearance": "transparent",
         "accents": [
           "#ff0000",
           "#ff7f00",
@@ -24,7 +24,7 @@
         "border.disabled": "#26242a99",
         "elevated_surface.background": "#1c1e29cc",
         "surface.background": "#0f0f12",
-        "background": "#0e0e15",
+        "background": "#0e0e10",
         "element.background": "#7a5acd2e",
         "element.hover": "#8d61ff2e",
         "element.active": "#7a5acd2e",

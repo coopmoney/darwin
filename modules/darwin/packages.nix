@@ -37,6 +37,7 @@
     lazygit
     lsyncd
     niv
+		nixd
     nmap
     nodejs
     # ollama

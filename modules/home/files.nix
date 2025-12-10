@@ -79,8 +79,8 @@ in
     ".config/zed".source = mkWritableSymlink "${filesDir}/config/zed";
 
     # Raycast preferences (needs write access)
-    ".config/raycast" = {
-      source = mkWritableSymlink "${filesDir}/config/raycast";
+    ".config/raycast/config.json" = {
+      source = mkWritableSymlink "${filesDir}/config/raycast/config.json";
     };
   };
 }
