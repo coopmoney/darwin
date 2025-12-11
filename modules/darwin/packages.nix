@@ -54,6 +54,7 @@
     watch
     wget
 		blesh
+		flyctl
 
 
     # Darwin management script

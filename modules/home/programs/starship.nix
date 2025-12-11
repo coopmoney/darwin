@@ -9,67 +9,68 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      format = ''
-        [░▒▓](fg:surface2)\
-        [  ](bg:gray fg:white)\
-        [](bg:black fg:gray)\
-        $username\
-        [](bg:white fg:black)\
-        $directory\
-        [](fg:white)\
-        $fill\
-        $line_break\
-        $character\
-      '';
-
-      right_format = ''
-        $nix_shell\
-        $aws\
-        $git_branch\
-        $git_status\
-        [](bg:black fg:gray)\
-        $time\
-      '';
+			format = lib.concatStrings [
+				"[░▒▓](fg:surface2)"
+				"[ $os](bg:gray fg:white)"
+				"[](bg:black fg:gray)"
+				"$directory"
+				"[](bg:white fg:black)"
+				"$git_branch"
+				"[](fg:white)"
+				"[ $git_status[](fg:base)](bg:base)"
+				"$fill"
+				"$aws"
+				"$nix_shell"
+        "$username"
+				"$time"
+				"$line_break"
+				"$shlvl"
+				"$character"
+			];
 
       palette = "apathy";
 
-      os = {
+      fill = {
         disabled = false;
-        style = "bg:red fg:crust";
+        symbol = " ";
       };
 
-      "os.symbols" = {
-        Windows = "";
-        Ubuntu = "󰕈";
-        SUSE = "";
-        Raspbian = "󰐿";
-        Mint = "󰣭";
-        Macos = "󰀵";
-        Manjaro = "";
-        Linux = "󰌽";
-        Gentoo = "󰣨";
-        Fedora = "󰣛";
-        Alpine = "";
-        Amazon = "";
-        Android = "";
-        AOSC = "";
-        Arch = "󰣇";
-        Artix = "󰣇";
-        CentOS = "";
-        Debian = "󰣚";
-        Redhat = "󱄛";
-        RedHatEnterprise = "󱄛";
+      os = {
+        disabled = false;
+        style = "bg:gray fg:white";
+        symbols = {
+          Windows = "";
+          Ubuntu = "󰕈";
+          SUSE = "";
+          Raspbian = "󰐿";
+          Mint = "󰣭";
+          Macos = "󰀵";
+          Manjaro = "";
+          Linux = "󰌽";
+          Gentoo = "󰣨";
+          Fedora = "󰣛";
+          Alpine = "";
+          Amazon = "";
+          Android = "";
+          AOSC = "";
+          Arch = "󰣇";
+          Artix = "󰣇";
+          CentOS = "";
+          Debian = "󰣚";
+          Redhat = "󱄛";
+          RedHatEnterprise = "󱄛";
+        };
       };
 
       username = {
         show_always = true;
-        style_user = "bg:black fg:subtext0";
-        style_root = "bg:black fg:red";
+        style_user = "fg:white bg:gray";
+        style_root = "fg:red bg:gray";
         format = "[ $user ]($style)";
       };
 
       directory = {
-        style = "bg:white fg:black";
+        style = "bg:black fg:white";
         format = "[ $path ]($style)";
         truncation_length = 3;
         truncation_symbol = "…/";
@@ -84,13 +85,20 @@
 
       git_branch = {
         symbol = "";
-        style = "bg:black";
-        format = "[[ $symbol $branch ](fg:sky bg:black)]($style)";
+        style = "bg:white fg:black";
+        format = "[ $symbol $branch ]($style)";
       };
 
       git_status = {
-        style = "bg:yellow";
-        format = "[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)";
+        style = "bold bg:base fg:sky";
+        format = "[$all_status]($style)";
+      };
+
+      git_metrics = {
+        disabled = true;
+        added_style = "bg:base fg:green";
+        deleted_style = "bg:base fg:red";
+        format = "[+$added]($added_style) [-$deleted]($deleted_style) ";
       };
 
       nodejs = {
@@ -100,91 +108,40 @@
       };
 
       nix_shell = {
-        disabled = true;
-        impure_msg = "[impure shell](bold mauve)";
-        pure_msg = "[pure shell](bold sky)";
-        unknown_msg = "[unknown shell](bold yellow)";
-        format = "via [☃️ $state( \\($name\\))](bold blue) ";
+        disabled = false;
+        impure_msg = "[impure](maroon)";
+        pure_msg = "[pure](sky)";
+        unknown_msg = "[unknown](mauve)";
+        format = "[ $state( $name)](overlay0) ";
       };
 
       shlvl = {
         disabled = false;
-        format = "$shlvl level(s) down";
-        threshold = 3;
+        format = "[$symbol]($style)";
+        repeat = true;
+        symbol = "❯";
+        repeat_offset = 1;
       };
 
-      c = {
-        symbol = " ";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      rust = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      golang = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      php = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+      shell = {
+        fish_indicator = "󰈺 ";
+        powershell_indicator = "_";
+        unknown_indicator = "mystery shell";
+        style = "cyan bold";
+        disabled = true;
       };
 
       aws = {
         symbol = "";
-        style = "bg:sapphire";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      java = {
-        symbol = " ";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      kotlin = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      haskell = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
-      };
-
-      python = {
-        symbol = "";
-        style = "bg:green";
-        format = "[[ $symbol( $version)(\\(#$virtualenv\\)) ](fg:crust bg:green)]($style)";
-      };
-
-      docker_context = {
-        symbol = "";
-        style = "bg:sapphire";
-        format = "[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)";
-      };
-
-      conda = {
-        symbol = "  ";
-        style = "fg:crust bg:sapphire";
-        format = "[$symbol$environment ]($style)";
-        ignore_base = false;
+        style = "fg:yellow";
+        format = "[[ $symbol( $version) ](fg:crust)]($style)";
       };
 
       time = {
         disabled = false;
         time_format = "%R";
-        style = "bg:gray";
-        format = "[[  $time ](fg:white bg:gray)]($style)";
+        style = "fg:subtext0";
+        format = "[  $time ]($style)";
       };
 
       battery = {
@@ -222,8 +179,8 @@
         rosewater = "#f0c9dd";
         flamingo = "#f0c9dd";
         pink = "#f5c2e7";
-        mauve = "#998fe1cf";
-        red = "#FF6188";
+        mauve = "#998fe1";
+        red = "#bb4561";
         maroon = "#eba0ac";
         peach = "#fab387";
         yellow = "#ffcb6b";

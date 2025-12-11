@@ -2,63 +2,21 @@
 
 format = """
 [░▒▓](fg:surface2)\
-[  ](bg:gray fg:white)\
+[ $os$username](bg:gray fg:white)\
 [](bg:black fg:gray)\
 $directory\
 [](bg:white fg:black)\
 $git_branch\
-$git_status\
 [](fg:white)\
+[ $git_status[](fg:base)](bg:base)\
 $fill\
-$nix_shell\
 $aws\
-$username\
+$nix_shell\
 $time\
 $line_break\
+$shlvl\
 $character"""
 
-# [](bg:#D7D8E0 fg:#575B60)\
-# $directory\
-# [](bg:#D7D8E0 fg:#16181D)\
-# $git_branch\
-# $git_status\
-# [](fg:#16181D bg:#D7D8E0)\
-# $aw\
-# # $time\
-# # [ ](fg:lavender)\
-# # $cmd_duration\
-# $line_break\
-# $character\
-# [](red)\
-# $os\
-# $username\
-# [](bg:peach fg:red)\
-# $directory\
-# [](bg:yellow fg:peach)\
-# $git_branch\
-# $git_status\
-# [](fg:yellow bg:green)\
-# $aws
-# [](fg:green bg:sapphire)\
-# $conda\
-# [](fg:sapphire bg:lavender)\
-# $time\
-# [ ](fg:lavender)\
-# $cmd_duration\
-# $character"""
-
-
-
-
-# right_format =  """
-# $nix_shell\
-# $aws\
-# [](bg:white fg:black)\
-# $git_branch\
-# $git_status\
-# [](bg:black fg:gray)\
-# $time\
-# """
 
 palette = 'apathy'
 
@@ -68,7 +26,7 @@ symbol = ' '
 
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "bg:gray fg:white"
 
 [os.symbols]
 Windows = ""
@@ -94,8 +52,8 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
-style_user = "fg:flamingo"
-style_root = "fg:red"
+style_user = "fg:white bg:gray"
+style_root = "fg:red bg:gray"
 format = '[ $user ]($style)'
 
 [directory]
@@ -117,8 +75,15 @@ style = "bg:white fg:black"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:white fg:black"
-format = '[ $all_status$ahead_behind ]($style)'
+style = "bold bg:base fg:peach"
+format = '[$all_status]($style)'
+# format = '[ $all_status$ahead_behind ]($style)'
+
+[git_metrics]
+disabled = true
+added_style = 'bg:base fg:green'
+deleted_style = 'bg:base fg:red'
+format = '[+$added]($added_style) [-$deleted]($deleted_style) '
 
 [nodejs]
 symbol = ""
@@ -129,16 +94,25 @@ format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [nix_shell]
 disabled = false
-impure_msg = '[impure shell](bold mauve)'
-pure_msg = '[pure shell](bold sky)'
-unknown_msg = '[unknown shell](bold yellow)'
-format = 'via [☃️ $state( \($name\))](bold blue) '
+impure_msg = '[impure](maroon)'
+pure_msg = '[pure](sky)'
+unknown_msg = '[unknown](mauve)'
+format = '[ $state( $name)](overlay0) '
 
 
 [shlvl]
 disabled = false
-format = '$shlvl level(s) down'
-threshold = 3
+format = '[$symbol]($style)'
+repeat = true
+symbol = '❯'
+repeat_offset = 1
+
+[shell]
+fish_indicator = '󰈺 '
+powershell_indicator = '_'
+unknown_indicator = 'mystery shell'
+style = 'cyan bold'
+disabled = true
 
 [c]
 symbol = " "
@@ -162,8 +136,8 @@ format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
 
 [aws]
 symbol = ""
-style = "bg:sapphire"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:yellow"
+format = '[[ $symbol( $version) ](fg:crust)]($style)'
 
 [java]
 symbol = " "
@@ -237,7 +211,7 @@ rosewater = "#f0c9dd"
 flamingo = "#f0c9dd"
 pink = "#f5c2e7"
 mauve = "#998fe1"
-red = "#FF6188"
+red = "#bb4561"
 maroon = "#eba0ac"
 peach = "#fab387"
 yellow = "#ffcb6b"

@@ -23,6 +23,10 @@
     {
       "name": "darkmatter/infra",
       "path": "./infra"
+    },
+    {
+      "name": "stack-panel/nix",
+      "path": "~/Developer/stack-panel/nix"
     }
   ],
   "settings": {}
