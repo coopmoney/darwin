@@ -1,5 +1,10 @@
 # Homebrew configuration
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   homebrew = {
@@ -25,13 +30,16 @@
       "cursor"
       "warp"
       "tableplus"
-			"plex"
-			"plex-media-server"
+      "plex"
+      "plex-media-server"
+      "telegram"
+			"whatsapp"
+			"linear-linear"
 
       # Browsers & Communication
       "google-chrome"
       "slack"
-			"spotify"
+      "spotify"
 
       # Productivity
       "1password"
@@ -43,6 +51,7 @@
       "figma"
       "chatgpt"
       "claude"
+			"ghostty"
 
       # Utilities
       "tailscale"
@@ -65,4 +74,3 @@
     };
   };
 }
-

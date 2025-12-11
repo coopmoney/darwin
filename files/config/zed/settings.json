@@ -7,6 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "centered_layout": {
+    "right_padding": 0.15,
+    "left_padding": 0.15
+  },
   "agent": {
     "default_model": {
       "provider": "anthropic",
@@ -15,7 +19,9 @@
     "model_parameters": []
   },
   "buffer_font_weight": 300.0,
-  "buffer_line_height": "comfortable",
+  "buffer_line_height": {
+    "custom": 1.8000000715255737
+  },
   "ui_font_weight": 350.0,
   "ui_font_family": "Geist Mono",
   "helix_mode": false,

@@ -1,0 +1,249 @@
+{
+  "blockCode" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "524f67"
+  },
+  "footnoteDef" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "linkLink" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "6e6a86"
+  },
+  "ol" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "eb6f92"
+  },
+  "editor" : {
+    "color" : "c1bdc2",
+    "currentLineBgColor" : "36334a",
+    "app-row-content-color" : "908caa",
+    "app-icon-color" : "c4a7e7",
+    "selectionBgColor" : "26233a",
+    "app-row-bgColor" : "191724",
+    "app-tab-borderColor" : "52537b",
+    "app-row-title-color" : "e0def4",
+    "app-row-icon-color" : "c4a7e7",
+    "app-outlineView-bgColor" : "060609",
+    "app-2col-bgColor" : "191724",
+    "app-row-selected-bgColor" : "c4a7e7",
+    "selectionColor" : "",
+    "app-tab-bgColor" : "1f1d2e",
+    "bgColor" : "08080d",
+    "app-group-bgColor" : "201e2b",
+    "app-row-separator-color" : "26233a",
+    "app-row-info-color" : "6e6a86",
+    "app-group-color" : "908caa",
+    "caretColor" : "f6db62"
+  },
+  "h1" : {
+    "isBold" : true,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "inlineCode" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "524f67"
+  },
+  "image" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "h2" : {
+    "isBold" : true,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "table" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "e0def4"
+  },
+  "h3" : {
+    "isBold" : true,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "link" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "strikethrough" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : true,
+    "isUnderline" : false,
+    "color" : "908caa"
+  },
+  "h4" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "footnoteRef" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "isAutoGenCSS" : true,
+  "codeblock-string" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "31748f"
+  },
+  "codeblock-preprocessor" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "h5" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "underline" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : true,
+    "color" : "e0def4"
+  },
+  "inlineHTML" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "524f67"
+  },
+  "strong" : {
+    "isBold" : true,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "8c7ab6"
+  },
+  "blockHTML" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "524f67"
+  },
+  "codeblock-attribute" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "9ccfd8"
+  },
+  "h6" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "cbcbcb"
+  },
+  "quote" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "eb6f92"
+  },
+  "codeblock-keyword" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "f6c177"
+  },
+  "ul" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "eb6f92"
+  },
+  "codeblock-comment" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "6e6a86"
+  },
+  "emph" : {
+    "isBold" : false,
+    "isItalic" : true,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "b69aab"
+  },
+  "codeblock-character" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "31748f"
+  },
+  "codeblock-number" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "ebbcba"
+  },
+  "hr" : {
+    "isBold" : false,
+    "isItalic" : false,
+    "isStrikethrough" : false,
+    "isUnderline" : false,
+    "color" : "eb6f92"
+  }
+}
+
+
+
+=============================================
+
+
+

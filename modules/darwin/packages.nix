@@ -37,6 +37,7 @@
     lazygit
     lsyncd
     niv
+		nixd
     nmap
     nodejs
     # ollama
@@ -52,6 +53,8 @@
     unison
     watch
     wget
+		blesh
+		flyctl
 
 
     # Darwin management script

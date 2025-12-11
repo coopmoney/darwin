@@ -51,6 +51,7 @@
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    STARSHIP_CONFIG = "${user.homeDirectory}/darwin/files/starship.toml";
   };
 
   # System keyboard remapping

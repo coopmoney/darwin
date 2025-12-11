@@ -81,7 +81,7 @@
     };
 
     oh-my-zsh = {
-      enable = true;
+      enable = false;
       plugins = [ "git" "docker" "aws" "colored-man-pages" "fzf" ];
       theme = "robbyrussell";
     };
@@ -105,20 +105,9 @@
           sha256 = "0z6i9wjjklb4lvr7zjhbphibsyx51psv50gm07mbb0kj9058j6kc";
         };
       }
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
     ];
 
     initContent = ''
-      # Powerlevel10k instant prompt
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
-
-      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
       # Load custom functions
       if [ -d "$HOME/.zsh/functions" ]; then

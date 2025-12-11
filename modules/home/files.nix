@@ -72,6 +72,9 @@ in
       source = "${self}/files/dotfiles/vimrc.bundles";
     };
 
+    # ".config/starship.toml".source = lib.mkForce "${self}/files/starship.toml";
+
+
     # ============================================
     # WRITABLE FILES (out-of-store symlinks)
     # ============================================
@@ -86,8 +89,8 @@ in
     ".config/zed".source = mkWritableSymlink "${filesDir}/config/zed";
 
     # Raycast preferences (needs write access)
-    ".config/raycast" = {
-      source = mkWritableSymlink "${filesDir}/config/raycast";
+    ".config/raycast/config.json" = {
+      source = mkWritableSymlink "${filesDir}/config/raycast/config.json";
     };
   };
 }
