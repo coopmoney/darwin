@@ -12,6 +12,10 @@ let
   # This points directly to your repo, not the Nix store
   filesDir = "${config.home.homeDirectory}/darwin/files";
 
+  mkIfExists = path: lib.mkIf (builtins.pathExists path) {
+    source = path;
+  };
+
   # Helper for creating writable symlinks (points to repo, not store)
   mkWritableSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 in
@@ -52,9 +56,12 @@ in
       source = "${self}/files/dotfiles/vimrc";
     };
 
-		"darkmatter/darkmatter.code-workspace" = {
-			source = "${self}/files/vscode/darkmatter.code-workspace";
-		};
+    # VSCode workspace (needs write access)
+    "darkmatter/darkmatter.code-workspace".source = mkWritableSymlink "${filesDir}/vscode/darkmatter.code-workspace";
+
+    ".warp/themes/standard/apathy.yaml" = lib.mkIf (builtins.pathExists "${self}/files/warp/apathy.yaml") {
+      source = mkWritableSymlink "${filesDir}/warp/apathy.yaml";
+    };
 
     # 1Password SSH agent config
     "1Password/ssh/agent.toml" = lib.mkIf (builtins.pathExists "${self}/files/config/1Password/ssh/agent.toml") {
