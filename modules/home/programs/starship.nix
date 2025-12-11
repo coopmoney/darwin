@@ -64,8 +64,8 @@
 
       username = {
         show_always = true;
-        style_user = "fg:white bg:gray";
-        style_root = "fg:red bg:gray";
+        style_user = "fg:rosewater";
+        style_root = "fg:red";
         format = "[ $user ]($style)";
       };
 
@@ -109,10 +109,10 @@
 
       nix_shell = {
         disabled = false;
-        impure_msg = "[impure](maroon)";
-        pure_msg = "[pure](sky)";
-        unknown_msg = "[unknown](mauve)";
-        format = "[ $state( $name)](overlay0) ";
+        impure_msg = "[󰫧](maroon)";
+        pure_msg = "[󰇈](sky)";
+        unknown_msg = "[?](mauve)";
+        format = "[ $state($name)](overlay0) ";
       };
 
       shlvl = {
