@@ -63,6 +63,11 @@
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  security.sudo.extraConfig = lib.concatStringsSep "\n" [
+    "${user.username} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild"
+  ]
+  ;
+
   # User-level launchd agent for Ollama
   # TEMPORARILY DISABLED: Ollama 0.13.0 has build failures on macOS
   # See: https://github.com/NixOS/nixpkgs/issues/345333
