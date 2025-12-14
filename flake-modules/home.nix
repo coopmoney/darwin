@@ -16,7 +16,7 @@ in
         };
         modules = [
           ../hosts/macbook-pro/home.nix
-          inputs.catppuccin.homeModules.catppuccin
+          inputs.catppuccin.homeManagerModules.catppuccin
         ];
       };
 
@@ -29,7 +29,7 @@ in
         };
         modules = [
           ../hosts/coopers-mac-studio/home.nix
-          inputs.catppuccin.homeModules.catppuccin
+          inputs.catppuccin.homeManagerModules.catppuccin
         ];
       };
     };

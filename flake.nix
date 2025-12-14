@@ -3,29 +3,32 @@
 
   inputs = {
     # Core
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2311.559232.tar.gz";
 
     # Flake framework
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.url = "https://flakehub.com/f/hercules-ci/flake-parts/0.1.419.tar.gz";
 
     # nix-darwin
     darwin = {
-      url = "github:nix-darwin/nix-darwin/master";
+      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Home Manager
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "https://flakehub.com/f/nix-community/home-manager/0.2511.5835.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Determinate Systems
     determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secrets management
+    agenix.url = "github:ryantm/agenix";
 
     # Tools
     flox.url = "github:flox/flox/latest";
@@ -35,7 +38,7 @@
 
 
     # Theming
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin.url = "https://flakehub.com/f/catppuccin/nix/1.2.1.tar.gz";
 
     # Neovim
     nixvim.url = "github:nix-community/nixvim";

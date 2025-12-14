@@ -5,9 +5,16 @@
   lib,
   inputs,
   user,
+  hostname,
   ...
 }:
 
+let
+  # If we're on the laptop, delegate builds to the studio (host must trust this key)
+  builderMachines = lib.optionalString (hostname == "coopers-macbook-pro") ''
+    ssh-ng://coopermaruyama@Coopers-Mac-Studio aarch64-darwin /var/root/.ssh/id_ed25519 4 1 big-parallel
+  '';
+in
 {
   # Required for nix-darwin
   system.stateVersion = 1;
@@ -22,30 +29,44 @@
   # Nix configuration (let Determinate handle most of it)
   nix.enable = false;
 
-  # Determinate Nix settings
-  determinate-nix.customSettings = {
-    eval-cores = 0;
-    extra-experimental-features = [
-      "build-time-fetch-tree"
-      "parallel-eval"
-    ];
-    trusted-users = [
-      "root"
-      user.username
-    ];
-    # Remote builders
-    builders = "ssh://coopermaruyama@coopers-mac-studio ; ssh://cooper@coopers-mac-pro ; ssh://admin@65.108.233.35";
-    builders-use-substitutes = true;
+  # Determinate Nix custom settings via nix.custom.conf
+  environment.etc."nix/nix.custom.conf".text = lib.concatStringsSep "\n" ([
+    "eval-cores = 0"
+    "extra-experimental-features = build-time-fetch-tree parallel-eval"
+    "trusted-users = root ${user.username}"
+  ]
+  ++ lib.optional (builderMachines != "") "builders = @/etc/nix/machines"
+  ++ lib.optional (builderMachines != "") "builders-use-substitutes = true"
+  ++ [
     # Don't require signed store paths from our own remote builders
-    require-sigs = false;
+    "require-sigs = false"
+    ""
+  ]);
+
+  # Write the machines file only on hosts that use remote builders
+  environment.etc."nix/machines" = lib.mkIf (builderMachines != "") {
+    text = builderMachines;
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Remove temporary LSP stubs/renames now that nixvim is updated
+  nixpkgs.overlays = [ ];
+
   # Enable zsh system-wide
   programs.zsh.enable = true;
   environment.shells = [ pkgs.zsh ];
+
+  # agenix: Age identities and GitHub PAT secret
+  age.identityPaths = [ "${user.homeDirectory}/.config/age/keys.txt" ];
+  age.secrets.github_token = {
+    file = ../../secrets/github-token.conf.age;
+    mode = "0400";
+  };
+
+  # Install decrypted token file into nix.conf include path
+  environment.etc."nix/github-token.conf".source = config.age.secrets.github_token.path;
 
   # Environment variables
   environment.variables = {
@@ -65,8 +86,7 @@
 
   security.sudo.extraConfig = lib.concatStringsSep "\n" [
     "${user.username} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild"
-  ]
-  ;
+  ];
 
   # User-level launchd agent for Ollama
   # TEMPORARILY DISABLED: Ollama 0.13.0 has build failures on macOS

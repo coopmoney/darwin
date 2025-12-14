@@ -90,10 +90,13 @@ in
       oil.enable = true;
       telescope.enable = true;
       luasnip.enable = true;
+      web-devicons.enable = true;
 
       lsp = {
         enable = true;
         servers = {
+          # Explicitly disable Ansible LSP (package removed in pinned nixpkgs)
+          ansiblels.enable = false;
           vtsls.enable = true;
           gopls.enable = true;
           basedpyright.enable = true;

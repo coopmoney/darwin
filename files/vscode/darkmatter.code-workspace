@@ -17,16 +17,16 @@
     //   "path": "./docs"
     // },
     {
-      "name": "darkmatter/nix",
-      "path": "./nix"
-    },
+    //   "name": "darkmatter/nix",
+    //   "path": "./nix"
+    // },
     {
       "name": "darkmatter/infra",
       "path": "./infra"
     },
     {
-      "name": "stack-panel/nix",
-      "path": "~/Developer/stack-panel/nix"
+      "name": "stackpanel/nix",
+      "path": "../Developer/stackpanel/nix"
     }
   ],
   "settings": {}

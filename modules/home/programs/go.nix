@@ -4,13 +4,10 @@
 {
   programs.go = {
     enable = true;
-    goPath = "go";
-    goBin = "go/bin";
-  };
-
-  home.sessionVariables = {
-    GOPATH = "${config.home.homeDirectory}/go";
-    GOBIN = "${config.home.homeDirectory}/go/bin";
+    env = {
+      GOPATH = "${config.home.homeDirectory}/go";
+      GOBIN = "${config.home.homeDirectory}/go/bin";
+    };
   };
 
   home.sessionPath = [

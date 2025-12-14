@@ -23,8 +23,8 @@ in
           # Host-specific configuration
           ../hosts/macbook-pro
 
-          # Determinate Nix
-          inputs.determinate.darwinModules.default
+          # Secrets (agenix)
+          inputs.agenix.darwinModules.default
 
           # Home Manager integration
           inputs.home-manager.darwinModules.home-manager
@@ -41,7 +41,7 @@ in
               users.${users.coopermaruyama.username} = {
                 imports = [
                   ../hosts/macbook-pro/home.nix
-                  inputs.catppuccin.homeModules.catppuccin
+                  inputs.catppuccin.homeManagerModules.catppuccin
                 ];
               };
             };
@@ -60,7 +60,7 @@ in
         modules = [
           ../modules/darwin
           ../hosts/coopers-mac-studio
-          inputs.determinate.darwinModules.default
+          inputs.agenix.darwinModules.default
           inputs.home-manager.darwinModules.home-manager
           {
             home-manager = {
@@ -75,7 +75,7 @@ in
               users.${users.coopermaruyama.username} = {
                 imports = [
                   ../hosts/coopers-mac-studio/home.nix
-                  inputs.catppuccin.homeModules.catppuccin
+                  inputs.catppuccin.homeManagerModules.catppuccin
                 ];
               };
             };

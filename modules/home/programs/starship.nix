@@ -11,7 +11,7 @@
     settings = {
 			format = lib.concatStrings [
 				"[░▒▓](fg:surface2)"
-				"[ $os](bg:gray fg:white)"
+				"[ $os $hostname](bg:gray fg:white)"
 				"[](bg:black fg:gray)"
 				"$directory"
 				"[](bg:white fg:black)"
@@ -59,6 +59,17 @@
           Debian = "󰣚";
           Redhat = "󱄛";
           RedHatEnterprise = "󱄛";
+        };
+      };
+
+      hostname = {
+        disabled = false;
+        style = "bg:gray fg:white";
+        format = " [$hostname]($style)";
+        ssh_only = true;
+        aliases = {
+          "coopers-macbook-pro" = "mbp";
+          "coopers-mac-studio" = "studio";
         };
       };
 
