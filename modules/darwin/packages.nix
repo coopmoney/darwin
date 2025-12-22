@@ -29,6 +29,7 @@
     go
     goose-cli
     htop
+    helix
     inputs.flox.packages.${pkgs.system}.default
 		inputs.fh.packages.${pkgs.system}.default
     ipmitool

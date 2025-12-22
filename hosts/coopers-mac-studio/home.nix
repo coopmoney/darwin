@@ -14,6 +14,13 @@
     stateVersion = "24.05";
   };
 
+  home.packages = with pkgs; [
+    # Add Mac Studio-specific user packages here
+    sonarr
+    radarr
+    bazarr
+  ];
+
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 

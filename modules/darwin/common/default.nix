@@ -41,6 +41,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  documentation.enable = true;
+
   # System-wide packages
   environment.systemPackages = with pkgs; [
     # Core utilities
