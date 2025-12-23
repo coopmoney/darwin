@@ -149,6 +149,16 @@
       printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh"}}\x9c'
 
       [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+      # If a GitHub token is stored in Keychain (service: github-token), expose
+      # it for tools that rely on $GITHUB_TOKEN.
+      if command -v github-token >/dev/null 2>&1; then
+        _gh_token="$(github-token 2>/dev/null || true)"
+        if [ -n "$_gh_token" ]; then
+          export GITHUB_TOKEN="$_gh_token"
+        fi
+        unset _gh_token
+      fi
     '';
 
     enableCompletion = true;
