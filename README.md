@@ -1,5 +1,8 @@
 # Darwin Nix Configuration
 
+
+Managed by nixmac
+
 This repository contains my personal nix-darwin and home-manager configurations for macOS, managed through Nix Flakes. The structure is inspired by [AlexNabokikh/nix-config](https://github.com/AlexNabokikh/nix-config) and designed to be modular and easily extensible.
 
 ## Structure
