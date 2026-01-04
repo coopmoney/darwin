@@ -12,7 +12,7 @@
     bashInteractive
     bat
     betterdisplay
-    biome
+    oxlint
     bun
     chamber
     claude-code

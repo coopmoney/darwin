@@ -42,8 +42,6 @@
       # Navigation
       ".." = "cd ..";
       "..." = "cd ../..";
-      "...." = "cd ../../..";
-      "....." = "cd ../../../..";
       "-" = "cd -";
       dev = "cd ~/Developer";
       cdr = ''cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)"'';

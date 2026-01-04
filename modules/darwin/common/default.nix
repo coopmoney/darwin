@@ -19,21 +19,20 @@
   };
 
   # Nix configuration
-  nix = {
-    enable = false; # Let Determinate handle this
-    # settings = {
-    #   experimental-features = [ "nix-command" "flakes" ];
-    # };
-  };
+	nix.enable = false;
 
   # Determinate Nix settings
   # Only include keys permitted by the Determinate module.
+	# XXX This is where /etc/nix/nix.custom.conf is generated
   determinate-nix.customSettings = {
     eval-cores = 0;
     extra-experimental-features = [
       "build-time-fetch-tree"
       "parallel-eval"
     ];
+		builders = "determinate://native-linux";
+		extra-platforms = "x86_64-linux";
+		trusted-users = "coopermaruyama cooper root";
     # Note: ssl-cert-file is managed by the installer/system and is not allowed here.
     # If needed, set it in /etc/nix/nix.conf (our bootstrap does this) rather than via customSettings.
   };
@@ -63,7 +62,7 @@
     go
     nodejs
     kubectl
-    biome
+    oxlint
     aws-vault
     terraform
     gh

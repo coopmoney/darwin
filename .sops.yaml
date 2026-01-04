@@ -1,0 +1,6 @@
+creation_rules:
+  - path_regex: .*(secret|\.enc\.).*
+    unencrypted_comment_regex: '^\s?(safe|plaintext)'
+    age:
+      - age1unp2wxu3h5t5up5zsnqurwac69v84vtuy8lllpdwf03gddc6xfws00nu2a
+

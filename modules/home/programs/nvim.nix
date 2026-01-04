@@ -31,7 +31,7 @@ in
     curl # ollama temporarily disabled due to build failures
 
     # JavaScript / TypeScript
-    biome
+    oxlint
     nodejs_22
     nodePackages.typescript
     nodePackages.typescript-language-server
