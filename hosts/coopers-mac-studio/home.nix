@@ -3,65 +3,10 @@
 
 {
   imports = [
-    # Common home-manager modules
-    ../../modules/home
+    # Common home-manager base
+    ../common/home.nix
   ];
 
-  # Home Manager basic configuration
-  home = {
-    username = user.username;
-    homeDirectory = lib.mkForce user.homeDirectory;
-    stateVersion = "24.05";
-  };
-
-  home.packages = with pkgs; [
-    # Add Mac Studio-specific user packages here
-    sonarr
-    radarr
-    bazarr
-  ];
-
-  # Let Home Manager manage itself
-  programs.home-manager.enable = true;
-
-  # Wallpaper configuration for multiple monitors
-  home.file."Pictures/wallpaper-primary.png".source = ./black-hole.png;
-  home.file."Pictures/wallpaper-secondary.png".source = ./saturn.jpg;
-  home.file."Pictures/wallpaper-tertiary.jpg".source = ./wallpaper-tertiary.jpg;
-
-  # Set wallpapers on activation
-  home.activation.setWallpaper = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    WALLPAPER_PRIMARY="${config.home.homeDirectory}/Pictures/wallpaper-primary.png"
-    WALLPAPER_SECONDARY="${config.home.homeDirectory}/Pictures/wallpaper-secondary.png"
-    WALLPAPER_TERTIARY="${config.home.homeDirectory}/Pictures/wallpaper-tertiary.jpg"
-
-    if [ ! -f "$WALLPAPER_PRIMARY" ] && [ ! -f "$WALLPAPER_SECONDARY" ] && [ ! -f "$WALLPAPER_TERTIARY" ]; then
-      echo "No wallpaper files found."
-    else
-      $DRY_RUN_CMD /usr/bin/osascript << EOF
-        tell application "System Events"
-          set desktopCount to count of desktops
-          repeat with desktopNumber from 1 to desktopCount
-            tell desktop desktopNumber
-              if desktopNumber is 1 then
-                if (do shell script "test -f '$WALLPAPER_PRIMARY' && echo 'exists' || echo 'missing'") is "exists" then
-                  set picture to "$WALLPAPER_PRIMARY"
-                end if
-              else if desktopNumber is 2 then
-                if (do shell script "test -f '$WALLPAPER_SECONDARY' && echo 'exists' || echo 'missing'") is "exists" then
-                  set picture to "$WALLPAPER_SECONDARY"
-                end if
-              else if desktopNumber is 3 then
-                if (do shell script "test -f '$WALLPAPER_TERTIARY' && echo 'exists' || echo 'missing'") is "exists" then
-                  set picture to "$WALLPAPER_TERTIARY"
-                end if
-              end if
-            end tell
-          end repeat
-        end tell
-EOF
-      echo "Wallpapers configured for all displays"
-    fi
-  '';
+  # Machine-specific home configuration
+  # Add any Mac Studio-specific settings here
 }
-

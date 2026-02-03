@@ -1,4 +1,4 @@
-# MacBook Pro - Darwin system configuration
+# Mac Pro - Darwin system configuration
 { config, pkgs, lib, inputs, hostname, user, hostConfig, ... }:
 
 {
@@ -12,6 +12,6 @@
 
   # Machine-specific packages
   environment.systemPackages = [
-    # Add MacBook Pro-specific packages here
+    # Add Mac Pro-specific packages here
   ];
 }

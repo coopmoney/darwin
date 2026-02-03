@@ -31,6 +31,7 @@
           agents = {
             "Coopers-MacBook-Pro" = self.darwinConfigurations."Coopers-MacBook-Pro".system;
             "Coopers-Mac-Studio" = self.darwinConfigurations."Coopers-Mac-Studio".system;
+            "Coopers-Mac-Pro" = self.darwinConfigurations."Coopers-Mac-Pro".system;
           };
         };
       };
@@ -48,4 +49,3 @@
     };
   };
 }
-

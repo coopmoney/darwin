@@ -7,20 +7,31 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "language_models": {
+    "ollama": {
+      "api_url": "http://100.111.97.14:11434",
+    },
+  },
+  "agent_servers": {
+    "opencode": {
+      "type": "registry",
+    },
+  },
   "centered_layout": {
     "right_padding": 0.15,
-    "left_padding": 0.15
+    "left_padding": 0.15,
   },
   "agent": {
+    "always_allow_tool_actions": true,
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-opus-4-5"
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-thinking-latest",
     },
-    "model_parameters": []
+    "model_parameters": [],
   },
-  "buffer_font_weight": 300.0,
+  "buffer_font_weight": 200.0,
   "buffer_line_height": {
-    "custom": 1.8000000715255737
+    "custom": 1.6180000305175781,
   },
   "ui_font_weight": 350.0,
   "ui_font_family": "Geist Mono",
@@ -29,53 +40,166 @@
     "font_size": 11.0,
     "font_family": "MonaspiceNe Nerd Font",
     "line_height": {
-      "custom": 1.5
+      "custom": 1.4,
     },
     "cursor_shape": "bar",
-    "blinking": "on"
+    "blinking": "on",
   },
   "project_panel": {
-    "hide_gitignore": true
+    "hide_gitignore": true,
   },
   "git": {
     "inline_blame": {
-      "enabled": true
-    }
+      "enabled": true,
+    },
   },
   "base_keymap": "VSCode",
   "preview_tabs": {
-    "enable_preview_from_file_finder": true
+    "enable_preview_from_file_finder": true,
   },
   "tabs": {
-    "file_icons": false
+    "file_icons": false,
   },
   "use_smartcase_search": true,
   "sticky_scroll": {
-    "enabled": false
+    "enabled": false,
   },
   "minimap": {
-    "show": "never"
+    "show": "never",
   },
   "confirm_quit": true,
-  "buffer_font_fallbacks": [
-    "monospace"
-  ],
-  "buffer_font_family": "MonaspiceNe Nerd Font Mono",
+  "buffer_font_fallbacks": ["Geist Mono"],
+  "buffer_font_family": "Monaspace Neon Var",
   "file_types": {
-    "jsonc": [
-      "*.json"
-    ]
+    "jsonc": ["*.json"],
   },
   "show_edit_predictions": true,
-  "wrap_guides": [
-    80
-  ],
+  "wrap_guides": [80],
   "tab_size": 2,
-  "ui_font_size": 15.0,
+  "ui_font_size": 14.0,
   "buffer_font_size": 11.0,
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Apathetic Ocean"
-  }
+    "dark": "Apathetic Ocean",
+  },
+  "experimental.theme_overrides": {},
+  "ssh_connections": [
+    {
+      "host": "coopers-macbook-pro.local",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/Users/coopermaruyama/darkmatter/stackpanel.old"],
+        },
+      ],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/Users/coopermaruyama/darkmatter/stackpanel"],
+        },
+      ],
+      "port_forwards": [
+        {
+          "local_port": 3000,
+          "remote_port": 3000,
+        },
+        {
+          "local_port": 3001,
+          "remote_port": 3001,
+        },
+        {
+          "local_port": 3002,
+          "remote_port": 3002,
+        },
+        {
+          "local_port": 4000,
+          "remote_port": 4000,
+        },
+        {
+          "local_port": 9876,
+          "remote_port": 9876,
+        },
+      ],
+    },
+    {
+      "host": "coopers-mac-studio.local",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/Users/coopermaruyama/darkmatter/nixmac"],
+        },
+        {
+          "paths": ["/Users/coopermaruyama/darkmatter/stackpanel"],
+        },
+        {
+          "paths": ["/Users/coopermaruyama/darkmatter/apollo"],
+        },
+      ],
+      "port_forwards": [
+        {
+          "local_port": 3000,
+          "remote_port": 3000,
+        },
+        {
+          "local_port": 3001,
+          "remote_port": 3001,
+        },
+        {
+          "local_port": 3002,
+          "remote_port": 3002,
+        },
+        {
+          "local_port": 4000,
+          "remote_port": 4000,
+        },
+        {
+          "local_port": 9876,
+          "remote_port": 9876,
+        },
+      ],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "coopers-mac-studio",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "coopers-mac-studio.local",
+      "username": "coopermaruyama",
+      "args": [],
+      "projects": [],
+    },
+  ],
 }

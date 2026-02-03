@@ -13,3 +13,4 @@ cache
 karabiner/automatic_backups
 keys.txt
 *.mdb
+raycast/extensions/*

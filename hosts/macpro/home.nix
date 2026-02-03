@@ -1,4 +1,4 @@
-# MacBook Pro - Home Manager configuration
+# Mac Pro - Home Manager configuration
 { config, pkgs, lib, inputs, hostname, user, ... }:
 
 {
@@ -8,5 +8,5 @@
   ];
 
   # Machine-specific home configuration
-  # Add any MacBook Pro-specific settings here
+  # Add any Mac Pro-specific settings here
 }

@@ -67,7 +67,6 @@
     terraform
     gh
     direnv
-    # inputs.flox.packages.${pkgs.system}.default
 
     # Terminal enhancements
     ripgrep
